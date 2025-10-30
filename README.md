@@ -122,27 +122,27 @@ npm install -D ino-icon-maker
 
 ### iOS Icons
 
-| Size | Scale | Usage | Dimensions |
-|------|-------|-------|------------|
-| 20pt | @2x, @3x | Notification | 40×40, 60×60 |
-| 29pt | @2x, @3x | Settings | 58×58, 87×87 |
-| 40pt | @2x, @3x | Spotlight | 80×80, 120×120 |
-| 60pt | @2x, @3x | App Icon | 120×120, 180×180 |
-| 76pt | @2x | iPad | 152×152 |
-| 83.5pt | @2x | iPad Pro | 167×167 |
-| 1024pt | @1x | App Store | 1024×1024 |
+| Size   | Scale    | Usage        | Dimensions       |
+| ------ | -------- | ------------ | ---------------- |
+| 20pt   | @2x, @3x | Notification | 40×40, 60×60     |
+| 29pt   | @2x, @3x | Settings     | 58×58, 87×87     |
+| 40pt   | @2x, @3x | Spotlight    | 80×80, 120×120   |
+| 60pt   | @2x, @3x | App Icon     | 120×120, 180×180 |
+| 76pt   | @2x      | iPad         | 152×152          |
+| 83.5pt | @2x      | iPad Pro     | 167×167          |
+| 1024pt | @1x      | App Store    | 1024×1024        |
 
 ### Android Icons
 
-| Density | Scale | Dimensions |
-|---------|-------|------------|
-| ldpi | 0.75x | 36×36 |
-| mdpi | 1.0x | 48×48 |
-| hdpi | 1.5x | 72×72 |
-| xhdpi | 2.0x | 96×96 |
-| xxhdpi | 3.0x | 144×144 |
-| xxxhdpi | 4.0x | 192×192 |
-| Play Store | - | 512×512 |
+| Density    | Scale | Dimensions |
+| ---------- | ----- | ---------- |
+| ldpi       | 0.75x | 36×36      |
+| mdpi       | 1.0x  | 48×48      |
+| hdpi       | 1.5x  | 72×72      |
+| xhdpi      | 2.0x  | 96×96      |
+| xxhdpi     | 3.0x  | 144×144    |
+| xxxhdpi    | 4.0x  | 192×192    |
+| Play Store | -     | 512×512    |
 
 ---
 
@@ -170,11 +170,11 @@ ino-icon -v
 import { quickGenerate } from "ino-icon-maker";
 
 await quickGenerate({
-  input: "./icon.png",
-  output: "./output",
-  platform: "all", // 'ios' | 'android' | 'all'
-  zip: true,
-  force: false
+	input: "./icon.png",
+	output: "./output",
+	platform: "all", // 'ios' | 'android' | 'all'
+	zip: true,
+	force: false,
 });
 ```
 
@@ -197,13 +197,13 @@ curl -F "file=@icon.png" \
 
 ## 🎨 Supported Formats
 
-| Format | Best For | Transparency | Compression |
-|--------|----------|--------------|-------------|
-| **PNG** | Icons, UI | ✅ Yes | Good |
-| **JPEG** | Photos | ❌ No | Excellent |
-| **WebP** | Modern web | ✅ Yes | Excellent |
-| **AVIF** | Next-gen | ✅ Yes | Superior |
-| **TIFF** | Professional | ✅ Yes | Lossless |
+| Format   | Best For     | Transparency | Compression |
+| -------- | ------------ | ------------ | ----------- |
+| **PNG**  | Icons, UI    | ✅ Yes       | Good        |
+| **JPEG** | Photos       | ❌ No        | Excellent   |
+| **WebP** | Modern web   | ✅ Yes       | Excellent   |
+| **AVIF** | Next-gen     | ✅ Yes       | Superior    |
+| **TIFF** | Professional | ✅ Yes       | Lossless    |
 
 **Recommendation:** Use PNG (1024×1024 or larger) for best results
 
@@ -215,9 +215,9 @@ curl -F "file=@icon.png" \
 
 ```json
 {
-  "scripts": {
-    "icons": "ino-icon-maker generate -i assets/icon.png -o assets/icons -p all -z"
-  }
+	"scripts": {
+		"icons": "ino-icon-maker generate -i assets/icon.png -o assets/icons -p all -z"
+	}
 }
 ```
 
@@ -272,6 +272,7 @@ icons:
 ## 🏗️ Output Structure
 
 ### iOS Output
+
 ```
 AppIcon.appiconset/
 ├── Icon-App-20x20@2x.png
@@ -283,6 +284,7 @@ AppIcon.appiconset/
 ```
 
 ### Android Output
+
 ```
 android-icons/
 ├── mipmap-ldpi/
@@ -301,14 +303,14 @@ android-icons/
 
 ## 📚 Documentation
 
-| Guide | Description |
-|-------|-------------|
-| [📖 Quick Start](./docs/guides/QUICK_START.md) | Get started in 5 minutes |
-| [💡 All Examples](./docs/examples/ALL_EXAMPLES.md) | 200+ code examples |
-| [📱 React Native](./docs/examples/REACT_NATIVE.md) | Complete integration |
-| [🎨 Flutter](./docs/examples/FLUTTER.md) | Complete integration |
-| [🤖 CI/CD](./docs/examples/CI_CD.md) | Automation examples |
-| [🏗️ Architecture](./docs/architecture/ARCHITECTURE.md) | Technical design |
+| Guide                                                  | Description              |
+| ------------------------------------------------------ | ------------------------ |
+| [📖 Quick Start](./docs/guides/QUICK_START.md)         | Get started in 5 minutes |
+| [💡 All Examples](./docs/examples/ALL_EXAMPLES.md)     | 200+ code examples       |
+| [📱 React Native](./docs/examples/REACT_NATIVE.md)     | Complete integration     |
+| [🎨 Flutter](./docs/examples/FLUTTER.md)               | Complete integration     |
+| [🤖 CI/CD](./docs/examples/CI_CD.md)                   | Automation examples      |
+| [🏗️ Architecture](./docs/architecture/ARCHITECTURE.md) | Technical design         |
 
 ---
 

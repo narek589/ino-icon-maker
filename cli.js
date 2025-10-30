@@ -309,13 +309,9 @@ async function generateWithProgress(options) {
 			const platformEmoji = result.platform === "ios" ? "🍎" : "🤖";
 			const platformName = result.platform === "ios" ? "IOS" : "ANDROID";
 			const dirName = path.basename(result.outputDir);
-			
-			console.log(
-				chalk.cyan(`  ${platformEmoji}  ${platformName}`)
-			);
-			console.log(
-				chalk.gray(`     Location: `) + chalk.white(dirName)
-			);
+
+			console.log(chalk.cyan(`  ${platformEmoji}  ${platformName}`));
+			console.log(chalk.gray(`     Location: `) + chalk.white(dirName));
 			console.log(
 				chalk.gray(`     Icons:    `) +
 					chalk.white(`${result.files.length} files`)
@@ -325,20 +321,21 @@ async function generateWithProgress(options) {
 
 		// Build completion box content
 		let boxContent = chalk.bold.green("✅  Generation Complete!\n\n");
-		
+
 		// Add output directories
 		const outputPaths = results.map(r => {
 			const dirName = path.basename(r.outputDir);
 			return chalk.white(dirName);
 		});
 		boxContent += chalk.gray("Output:   ") + outputPaths.join("\n          ");
-		
+
 		// Add quick access commands
 		boxContent += chalk.gray("\n\nQuick access:\n");
 		for (const result of results) {
 			const platformLabel = result.platform === "ios" ? "iOS" : "Android";
 			const dirName = path.basename(result.outputDir);
-			boxContent += chalk.gray(`${platformLabel}: `) + chalk.white(`open ${dirName}\n`);
+			boxContent +=
+				chalk.gray(`${platformLabel}: `) + chalk.white(`open ${dirName}\n`);
 		}
 
 		console.log(
