@@ -4,10 +4,40 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![GitHub Repository](https://img.shields.io/badge/GitHub-narek589%2Fino--icon--maker-blue?logo=github)](https://github.com/narek589/ino-icon-maker)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)](https://nodejs.org/)
+[![GitHub Stars](https://img.shields.io/github/stars/narek589/ino-icon-maker?style=social)](https://github.com/narek589/ino-icon-maker)
+[![npm Downloads](https://img.shields.io/npm/dm/ino-icon-maker.svg)](https://www.npmjs.com/package/ino-icon-maker)
 
 > Generate complete iOS and Android app icon sets from a single source image in seconds
 
 **📝 Note:** Commands `ino-icon` and `iim` only work after global install. Use `npx ino-icon-maker` for instant use without installation.
+
+---
+
+## 🔗 Important Links
+
+| Resource                 | Link                                                      |
+| ------------------------ | --------------------------------------------------------- |
+| **📦 npm Package**       | https://www.npmjs.com/package/ino-icon-maker              |
+| **💻 GitHub Repository** | https://github.com/narek589/ino-icon-maker                |
+| **📚 Documentation**     | https://github.com/narek589/ino-icon-maker/tree/main/docs |
+| **🐛 Issues**            | https://github.com/narek589/ino-icon-maker/issues         |
+| **💬 Discussions**       | https://github.com/narek589/ino-icon-maker/discussions    |
+
+---
+
+## 📚 Documentation
+
+📖 **[Complete Documentation](./docs/README.md)** | 🚀 **[Quick Start](./docs/guides/QUICK_START.md)** | 💡 **[All Examples](./docs/examples/ALL_EXAMPLES.md)** | 🔄 **[Git Workflow](./docs/guides/GIT_WORKFLOW.md)**
+
+### Quick Links
+
+- 📘 [Installation Guide](./docs/guides/QUICK_START.md)
+- 📱 [React Native Integration](./docs/examples/REACT_NATIVE.md)
+- 🎨 [Flutter Integration](./docs/examples/FLUTTER.md)
+- 🤖 [CI/CD Examples](./docs/examples/CI_CD.md)
+- 🏗️ [Architecture](./docs/architecture/ARCHITECTURE.md)
+- 🔧 [Refactoring Details](./docs/architecture/REFACTORING_DETAILS.md)
+- 🤝 [Contributing](./docs/CONTRIBUTING.md)
 
 ## ✨ Features
 
@@ -278,10 +308,12 @@ Built with [Sharp](https://sharp.pixelplumbing.com/) for high-performance image 
 
 ## 🔗 Links
 
-- [📦 npm Package](https://www.npmjs.com/package/ino-icon-maker)
-- [💻 GitHub Repository](https://github.com/narek589/ino-icon-maker)
-- [🐛 Report Issues](https://github.com/narek589/ino-icon-maker/issues)
-- [📖 Documentation](https://github.com/narek589/ino-icon-maker#readme)
+- [📦 npm Package](https://www.npmjs.com/package/ino-icon-maker) - Install from npm
+- [💻 GitHub Repository](https://github.com/narek589/ino-icon-maker) - Source code & stars
+- [📚 Complete Documentation](https://github.com/narek589/ino-icon-maker/tree/main/docs) - Guides & examples
+- [🐛 Report Issues](https://github.com/narek589/ino-icon-maker/issues) - Bug reports
+- [💬 Discussions](https://github.com/narek589/ino-icon-maker/discussions) - Q&A and community
+- [🔄 Changelog](https://github.com/narek589/ino-icon-maker/blob/main/docs/CHANGELOG.md) - Version history
 
 ## 🤝 Contributing
 

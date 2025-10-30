@@ -61,10 +61,6 @@ Our PR template helps ensure:
 - Documentation updates
 - Adherence to coding standards
 
-## 💰 Funding
-
-The `FUNDING.yml` file allows contributors to support the project through various platforms. Currently commented out - uncomment and add your preferred funding methods.
-
 ## 📚 Related Documentation
 
 - [CONTRIBUTING.md](../CONTRIBUTING.md) - Contribution guidelines

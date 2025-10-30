@@ -1,6 +1,6 @@
 {
 	"name": "ino-icon-maker",
-	"version": "1.0.5",
+	"version": "1.0.6",
 	"description": "🚀 Generate iOS and Android app icons from a single image. Supports JPEG, PNG, WebP formats.",
 	"main": "index.js",
 	"type": "module",
@@ -35,12 +35,17 @@
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/narek589/ino-icon-maker.git"
+		"url": "git+https://github.com/narek589/ino-icon-maker.git"
 	},
 	"bugs": {
-		"url": "https://github.com/narek589/ino-icon-maker/issues"
+		"url": "https://github.com/narek589/ino-icon-maker/issues",
+		"email": "n.hambarcumyan@inorain.com"
 	},
 	"homepage": "https://github.com/narek589/ino-icon-maker#readme",
+	"funding": {
+		"type": "individual",
+		"url": "https://github.com/narek589/ino-icon-maker?sponsor=1"
+	},
 	"engines": {
 		"node": ">=18.0.0"
 	},
