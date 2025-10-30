@@ -11,19 +11,20 @@ How we transformed monolithic code into clean, SOLID architecture.
 ```javascript
 // Everything in one file
 class IconGenerator {
-  async generateIcons(input, output, platform) {
-    // Mixed concerns:
-    // - Image processing
-    // - File operations  
-    // - iOS code
-    // - Android code
-    // - ZIP creation
-    // All tightly coupled!
-  }
+	async generateIcons(input, output, platform) {
+		// Mixed concerns:
+		// - Image processing
+		// - File operations
+		// - iOS code
+		// - Android code
+		// - ZIP creation
+		// All tightly coupled!
+	}
 }
 ```
 
 **Problems:**
+
 - Hard to test
 - Difficult to extend
 - Tight coupling
@@ -47,6 +48,7 @@ lib/
 ```
 
 **Benefits:**
+
 - Easy to test
 - Simple to extend
 - Loose coupling
@@ -60,12 +62,12 @@ lib/
 
 Each class has ONE reason to change.
 
-| Class | Responsibility |
-|-------|----------------|
-| `ImageProcessor` | Image operations only |
-| `FileManager` | File system only |
-| `ArchiveManager` | ZIP creation only |
-| `IOSGenerator` | iOS icon generation |
+| Class              | Responsibility          |
+| ------------------ | ----------------------- |
+| `ImageProcessor`   | Image operations only   |
+| `FileManager`      | File system only        |
+| `ArchiveManager`   | ZIP creation only       |
+| `IOSGenerator`     | iOS icon generation     |
 | `AndroidGenerator` | Android icon generation |
 
 ### 2️⃣ Open/Closed Principle (OCP)
@@ -75,9 +77,9 @@ Open for extension, closed for modification.
 ```javascript
 // Adding a new platform? Just extend!
 class WindowsGenerator extends PlatformGenerator {
-  async generateIcons() {
-    // Windows-specific code
-  }
+	async generateIcons() {
+		// Windows-specific code
+	}
 }
 
 // No need to modify existing code
@@ -88,11 +90,11 @@ class WindowsGenerator extends PlatformGenerator {
 All platform generators are interchangeable.
 
 ```javascript
-const platforms = ['ios', 'android', 'windows'];
+const platforms = ["ios", "android", "windows"];
 
 for (const platform of platforms) {
-  const generator = factory.createGenerator(platform);
-  await generator.generate(); // Works for all!
+	const generator = factory.createGenerator(platform);
+	await generator.generate(); // Works for all!
 }
 ```
 
@@ -121,12 +123,12 @@ Depend on abstractions, not implementations.
 
 ```javascript
 class IOSGenerator extends PlatformGenerator {
-  constructor(...args) {
-    super(...args);
-    // Inject dependencies (abstractions)
-    this.imageProcessor = new ImageProcessor();
-    this.fileManager = new FileManager();
-  }
+	constructor(...args) {
+		super(...args);
+		// Inject dependencies (abstractions)
+		this.imageProcessor = new ImageProcessor();
+		this.fileManager = new FileManager();
+	}
 }
 ```
 
@@ -135,19 +137,19 @@ class IOSGenerator extends PlatformGenerator {
 ## ⚡ Performance Improvements
 
 ### Parallel Processing
+
 ```javascript
 // ❌ Before: Sequential (slow)
 for (const size of sizes) {
-  await generateIcon(size); // One at a time
+	await generateIcon(size); // One at a time
 }
 
 // ✅ After: Parallel (10x faster)
-await Promise.all(
-  sizes.map(size => generateIcon(size))
-);
+await Promise.all(sizes.map(size => generateIcon(size)));
 ```
 
 ### Thread Safety
+
 ```javascript
 // ❌ Before: Reusing Sharp instance
 const image = sharp(input);
@@ -165,34 +167,37 @@ await image.clone().resize(200, 200); // Correct!
 ## 📐 Design Patterns
 
 ### Factory Pattern
+
 ```javascript
 class IconGeneratorFactory {
-  static createGenerator(platform) {
-    switch (platform) {
-      case 'ios':
-        return new IOSGenerator();
-      case 'android':
-        return new AndroidGenerator();
-      default:
-        throw new Error(`Unknown platform: ${platform}`);
-    }
-  }
+	static createGenerator(platform) {
+		switch (platform) {
+			case "ios":
+				return new IOSGenerator();
+			case "android":
+				return new AndroidGenerator();
+			default:
+				throw new Error(`Unknown platform: ${platform}`);
+		}
+	}
 }
 ```
 
 ### Template Method
+
 ```javascript
 class PlatformGenerator {
-  async generate() {
-    await this.prepare();
-    await this.generateIcons();    // Subclass implements
-    await this.generateMetadata();  // Subclass implements
-    await this.finalize();
-  }
+	async generate() {
+		await this.prepare();
+		await this.generateIcons(); // Subclass implements
+		await this.generateMetadata(); // Subclass implements
+		await this.finalize();
+	}
 }
 ```
 
 ### Dependency Injection
+
 ```javascript
 // Dependencies injected, not created internally
 constructor(imageProcessor, fileManager, archiveManager) {
@@ -207,26 +212,28 @@ constructor(imageProcessor, fileManager, archiveManager) {
 ## 🧪 Testing Strategy
 
 ### Before: Impossible to Test
+
 ```javascript
 // Everything coupled, can't test in isolation
 class IconGenerator {
-  async generate() {
-    const sharp = require('sharp'); // Hard dependency
-    const fs = require('fs');        // Hard dependency
-    // Can't mock or test independently
-  }
+	async generate() {
+		const sharp = require("sharp"); // Hard dependency
+		const fs = require("fs"); // Hard dependency
+		// Can't mock or test independently
+	}
 }
 ```
 
 ### After: Easy to Test
+
 ```javascript
 // Each component isolated
-describe('ImageProcessor', () => {
-  it('should resize image correctly', async () => {
-    const processor = new ImageProcessor();
-    const result = await processor.resizeImage(input, 512);
-    expect(result.width).toBe(512);
-  });
+describe("ImageProcessor", () => {
+	it("should resize image correctly", async () => {
+		const processor = new ImageProcessor();
+		const result = await processor.resizeImage(input, 512);
+		expect(result.width).toBe(512);
+	});
 });
 ```
 
@@ -234,13 +241,13 @@ describe('ImageProcessor', () => {
 
 ## 📈 Metrics
 
-| Metric | Before | After | Improvement |
-|--------|--------|-------|-------------|
-| **Lines per file** | 500+ | <200 | 60% reduction |
-| **Cyclomatic complexity** | 25+ | <10 | 60% reduction |
-| **Testability** | ❌ Hard | ✅ Easy | Infinite |
-| **Extensibility** | ❌ Hard | ✅ Easy | Infinite |
-| **Performance** | 1x | 10x | 900% faster |
+| Metric                    | Before  | After   | Improvement   |
+| ------------------------- | ------- | ------- | ------------- |
+| **Lines per file**        | 500+    | <200    | 60% reduction |
+| **Cyclomatic complexity** | 25+     | <10     | 60% reduction |
+| **Testability**           | ❌ Hard | ✅ Easy | Infinite      |
+| **Extensibility**         | ❌ Hard | ✅ Easy | Infinite      |
+| **Performance**           | 1x      | 10x     | 900% faster   |
 
 ---
 
@@ -260,12 +267,12 @@ No breaking changes! Old API still works:
 
 ```javascript
 // Old API (still works)
-import { generateIcons } from 'ino-icon-maker';
+import { generateIcons } from "ino-icon-maker";
 await generateIcons(input, output, options);
 
 // New API (recommended)
-import { quickGenerate } from 'ino-icon-maker';
-await quickGenerate({ input, output, platform: 'all' });
+import { quickGenerate } from "ino-icon-maker";
+await quickGenerate({ input, output, platform: "all" });
 ```
 
 ---

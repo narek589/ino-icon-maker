@@ -36,9 +36,9 @@ npm install -D ino-icon-maker
 
 ```json
 {
-  "scripts": {
-    "icons": "ino-icon-maker generate -i assets/icon.png -o output -p all"
-  }
+	"scripts": {
+		"icons": "ino-icon-maker generate -i assets/icon.png -o output -p all"
+	}
 }
 ```
 
@@ -107,21 +107,21 @@ ino-icon --help
 import { quickGenerate } from "ino-icon-maker";
 
 await quickGenerate({
-  input: "./icon.png",
-  output: "./output",
-  platform: "all",
-  zip: true,
-  force: false
+	input: "./icon.png",
+	output: "./output",
+	platform: "all",
+	zip: true,
+	force: false,
 });
 ```
 
 ### Advanced Usage
 
 ```javascript
-import { 
-  generateIconsForPlatform,
-  validateImageFile,
-  getSupportedPlatforms 
+import {
+	generateIconsForPlatform,
+	validateImageFile,
+	getSupportedPlatforms,
 } from "ino-icon-maker";
 
 // Validate image
@@ -131,12 +131,9 @@ const isValid = await validateImageFile("./icon.png");
 const platforms = getSupportedPlatforms(); // ['ios', 'android']
 
 // Generate
-const result = await generateIconsForPlatform(
-  "ios",
-  "./icon.png",
-  "./output",
-  { zip: true }
-);
+const result = await generateIconsForPlatform("ios", "./icon.png", "./output", {
+	zip: true,
+});
 
 console.log(result.files); // Array of generated files
 ```
@@ -165,31 +162,34 @@ curl -F "file=@icon.png" \
 ### Input Image
 
 ✅ **DO:**
+
 - Use 1024×1024 or larger
 - Square aspect ratio (1:1)
 - PNG format with transparency
 - High-quality source
 
 ❌ **DON'T:**
+
 - Use low-resolution images
 - Use non-square images
 - Include padding/margins
 
 ### File Formats
 
-| Format | When to Use |
-|--------|-------------|
-| **PNG** | Icons with transparency (recommended) |
-| **AVIF** | Next-gen format, best compression |
-| **WebP** | Modern web images |
-| **JPEG** | Photos without transparency |
-| **TIFF** | Professional/print quality |
+| Format   | When to Use                           |
+| -------- | ------------------------------------- |
+| **PNG**  | Icons with transparency (recommended) |
+| **AVIF** | Next-gen format, best compression     |
+| **WebP** | Modern web images                     |
+| **JPEG** | Photos without transparency           |
+| **TIFF** | Professional/print quality            |
 
 ---
 
 ## 📂 Output Examples
 
 ### iOS Structure
+
 ```
 output/
 └── AppIcon.appiconset/
@@ -200,6 +200,7 @@ output/
 ```
 
 ### Android Structure
+
 ```
 output/
 └── android-icons/

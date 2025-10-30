@@ -36,6 +36,7 @@ git push origin feature/my-feature
 ### What We Accept
 
 ✅ **YES:**
+
 - Bug fixes
 - New features
 - Performance improvements
@@ -44,6 +45,7 @@ git push origin feature/my-feature
 - Code refactoring
 
 ❌ **NO:**
+
 - Breaking changes without discussion
 - Code style changes only
 - Large PRs without prior discussion
@@ -84,18 +86,22 @@ chore: bump dependencies
 
 ```markdown
 ## Description
+
 Brief description of changes
 
 ## Type of Change
+
 - [ ] Bug fix
 - [ ] New feature
 - [ ] Breaking change
 - [ ] Documentation update
 
 ## Testing
+
 How was this tested?
 
 ## Checklist
+
 - [ ] Tests pass
 - [ ] Documentation updated
 - [ ] Follows code style
@@ -121,6 +127,7 @@ npm test -- --watch
 ## 📝 Code Style
 
 ### Formatting
+
 - Use tabs for indentation
 - 2 spaces for continuation
 - Single quotes for strings
@@ -128,6 +135,7 @@ npm test -- --watch
 - ES6+ features encouraged
 
 ### Naming
+
 ```javascript
 // Classes: PascalCase
 class ImageProcessor {}
@@ -144,6 +152,7 @@ _validateInput() {}
 ```
 
 ### Comments
+
 ```javascript
 /**
  * Resize image to specified dimensions
@@ -190,6 +199,7 @@ Clear description
 
 **To Reproduce**
 Steps to reproduce:
+
 1. Run command...
 2. With file...
 3. See error...
@@ -198,6 +208,7 @@ Steps to reproduce:
 What should happen
 
 **Environment:**
+
 - OS: [e.g. macOS 13]
 - Node: [e.g. 18.0.0]
 - Version: [e.g. 1.0.11]

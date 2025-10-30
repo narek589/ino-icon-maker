@@ -301,74 +301,53 @@ async function generateWithProgress(options) {
 			)
 		);
 
-		// Show results for each platform
-		console.log(chalk.bold("\n📦 Generated Files\n"));
-
+		// Show platform-specific results
+		console.log();
 		for (const result of results) {
 			if (!result.success) continue;
 
 			const platformEmoji = result.platform === "ios" ? "🍎" : "🤖";
+			const platformName = result.platform === "ios" ? "IOS" : "ANDROID";
+			const dirName = path.basename(result.outputDir);
+			
 			console.log(
-				chalk.bold.cyan(`  ${platformEmoji}  ${result.platform.toUpperCase()}`)
+				chalk.cyan(`  ${platformEmoji}  ${platformName}`)
 			);
 			console.log(
-				chalk.gray(`     Location: `) + clickablePath(result.outputDir)
+				chalk.gray(`     Location: `) + chalk.white(dirName)
 			);
 			console.log(
 				chalk.gray(`     Icons:    `) +
 					chalk.white(`${result.files.length} files`)
 			);
-			if (result.zipPath) {
-				console.log(
-					chalk.gray(`     Archive:  `) + clickablePath(result.zipPath)
-				);
-			}
 			console.log();
 		}
 
-		// Show success message with clickable paths
-		const outputDirs = results
-			.map(r => clickablePath(r.outputDir))
-			.join("\n           ");
-		const zipPaths = results
-			.filter(r => r.zipPath)
-			.map(r => clickablePath(r.zipPath));
-
-		// Build quick access commands based on number of platforms
-		let quickAccessHint = "";
-		if (results.length === 1) {
-			quickAccessHint = chalk.gray(
-				`\n  Quick access: ${chalk.white(`open ${results[0].outputDir}`)}`
-			);
-		} else {
-			// Multiple platforms - show both commands
-			const commands = results
-				.map((r, idx) => {
-					const platformLabel = r.platform === "ios" ? "iOS" : "Android";
-					return `${chalk.gray(`${platformLabel}:`)} ${chalk.white(
-						`open ${r.outputDir}`
-					)}`;
-				})
-				.join("\n  ");
-			quickAccessHint = chalk.gray(`\n  Quick access:\n  ${commands}`);
+		// Build completion box content
+		let boxContent = chalk.bold.green("✅  Generation Complete!\n\n");
+		
+		// Add output directories
+		const outputPaths = results.map(r => {
+			const dirName = path.basename(r.outputDir);
+			return chalk.white(dirName);
+		});
+		boxContent += chalk.gray("Output:   ") + outputPaths.join("\n          ");
+		
+		// Add quick access commands
+		boxContent += chalk.gray("\n\nQuick access:\n");
+		for (const result of results) {
+			const platformLabel = result.platform === "ios" ? "iOS" : "Android";
+			const dirName = path.basename(result.outputDir);
+			boxContent += chalk.gray(`${platformLabel}: `) + chalk.white(`open ${dirName}\n`);
 		}
 
 		console.log(
-			boxen(
-				chalk.bold.green("✅  Generation Complete!\n\n") +
-					chalk.gray("Output:   ") +
-					outputDirs +
-					(zipPaths.length > 0
-						? "\n" + chalk.gray("Archives: ") + zipPaths.join("\n           ")
-						: "") +
-					quickAccessHint,
-				{
-					padding: 1,
-					margin: 1,
-					borderStyle: "round",
-					borderColor: "green",
-				}
-			)
+			boxen(boxContent.trimEnd(), {
+				padding: 1,
+				margin: 1,
+				borderStyle: "round",
+				borderColor: "green",
+			})
 		);
 
 		process.exit(0);

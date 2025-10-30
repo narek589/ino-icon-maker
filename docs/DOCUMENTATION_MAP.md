@@ -39,15 +39,19 @@ Visual guide to all documentation.
 ## 🎯 Start Here
 
 ### New Users
+
 **Start →** [Quick Start](./guides/QUICK_START.md)
 
-### Developers  
+### Developers
+
 **Start →** [Examples](./examples/ALL_EXAMPLES.md)
 
 ### Contributors
+
 **Start →** [Contributing](./CONTRIBUTING.md)
 
 ### Architects
+
 **Start →** [Architecture](./architecture/ARCHITECTURE.md)
 
 ---
@@ -55,24 +59,29 @@ Visual guide to all documentation.
 ## 📖 By Topic
 
 ### Getting Started
+
 - [Quick Start](./guides/QUICK_START.md) - Install and generate first icons
 - [All Examples](./examples/ALL_EXAMPLES.md) - Code snippets
 
 ### Framework Integration
+
 - [React Native](./examples/REACT_NATIVE.md) - RN project setup
 - [Flutter](./examples/FLUTTER.md) - Flutter project setup
 - [CI/CD](./examples/CI_CD.md) - GitHub Actions, GitLab CI, etc.
 
 ### Technical
+
 - [Architecture](./architecture/ARCHITECTURE.md) - System design
 - [Refactoring](./architecture/REFACTORING_DETAILS.md) - SOLID principles
 
 ### Community
+
 - [Contributing](./CONTRIBUTING.md) - How to contribute
 - [Code of Conduct](./CODE_OF_CONDUCT.md) - Community standards
 - [Security](./SECURITY.md) - Report vulnerabilities
 
 ### Reference
+
 - [Changelog](./CHANGELOG.md) - Version history
 - [Git Workflow](./guides/GIT_WORKFLOW.md) - Git guide
 
