@@ -2,6 +2,8 @@
 
 [![npm version](https://img.shields.io/npm/v/ino-icon-maker.svg)](https://www.npmjs.com/package/ino-icon-maker)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![GitHub Repository](https://img.shields.io/badge/GitHub-narek589%2Fino--icon--maker-blue?logo=github)](https://github.com/narek589/ino-icon-maker)
+[![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)](https://nodejs.org/)
 
 > Generate complete iOS and Android app icon sets from a single source image in seconds
 
@@ -276,10 +278,21 @@ Built with [Sharp](https://sharp.pixelplumbing.com/) for high-performance image 
 
 ## 🔗 Links
 
-- [npm Package](https://www.npmjs.com/package/ino-icon-maker)
-- [GitHub](https://github.com/InoRain/ino-icon-maker)
-- [Issues](https://github.com/InoRain/ino-icon-maker/issues)
+- [📦 npm Package](https://www.npmjs.com/package/ino-icon-maker)
+- [💻 GitHub Repository](https://github.com/narek589/ino-icon-maker)
+- [🐛 Report Issues](https://github.com/narek589/ino-icon-maker/issues)
+- [📖 Documentation](https://github.com/narek589/ino-icon-maker#readme)
 
----
+## 🤝 Contributing
 
-If this package helps you, please ⭐ star the repo!
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## ⭐ Support
+
+If this package helps you, please ⭐ star the [repository](https://github.com/narek589/ino-icon-maker)!

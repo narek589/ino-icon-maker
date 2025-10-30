@@ -35,12 +35,12 @@
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/InoRain/ino-icon-maker.git"
+		"url": "https://github.com/narek589/ino-icon-maker.git"
 	},
 	"bugs": {
-		"url": "https://github.com/InoRain/ino-icon-maker/issues"
+		"url": "https://github.com/narek589/ino-icon-maker/issues"
 	},
-	"homepage": "https://github.com/InoRain/ino-icon-maker#readme",
+	"homepage": "https://github.com/narek589/ino-icon-maker#readme",
 	"engines": {
 		"node": ">=18.0.0"
 	},
