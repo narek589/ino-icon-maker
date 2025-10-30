@@ -1,0 +1,14 @@
+node_modules/
+*.log
+npm-debug.log*
+.DS_Store
+test/output/
+test/fixtures/*.png
+coverage/
+.env
+dist/
+tmp/
+*.zip
+output/
+AppIcon.appiconset/
+

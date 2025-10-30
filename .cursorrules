@@ -1,0 +1,148 @@
+# Cursor Rules for Multi-Platform Icon Generator
+
+## Project Overview
+
+Multi-platform mobile app icon generator supporting iOS and Android.
+Built with SOLID principles for maximum extensibility and maintainability.
+
+## Architecture Principles
+
+### SOLID
+
+This codebase strictly follows SOLID principles:
+
+- **S**ingle Responsibility: Each class has one reason to change
+- **O**pen/Closed: Open for extension, closed for modification
+- **L**iskov Substitution: Platform generators are substitutable
+- **I**nterface Segregation: Minimal, focused interfaces
+- **D**ependency Inversion: Depend on abstractions, not concretions
+
+### Design Patterns
+
+- **Factory Pattern**: `IconGeneratorFactory` for platform creation
+- **Template Method**: `PlatformGenerator` defines algorithm structure
+- **Strategy Pattern**: Interchangeable platform generators
+- **Dependency Injection**: All dependencies injected via constructor
+
+## Code Organization
+
+### Core Utilities (`lib/core/`)
+
+- `ImageProcessor.js` - Image processing operations
+- `FileManager.js` - File system operations
+- `ArchiveManager.js` - ZIP archive creation
+
+These classes are platform-agnostic and reusable.
+
+### Platform Generators (`lib/platforms/`)
+
+- `PlatformGenerator.js` - Abstract base class (DO NOT INSTANTIATE)
+- `IOSGenerator.js` - iOS implementation
+- `AndroidGenerator.js` - Android implementation
+
+When adding a new platform, extend `PlatformGenerator`.
+
+### Configuration (`lib/config/`)
+
+- `ios-config.js` - iOS icon sizes and metadata
+- `android-config.js` - Android icon sizes and metadata
+
+Platform-specific configuration kept separate from logic.
+
+### Factory (`lib/IconGeneratorFactory.js`)
+
+Central point for platform registration and creation.
+
+### Wrapper (`lib/generator.js`)
+
+Backward-compatible wrapper maintaining v1.0 API.
+
+## Coding Guidelines
+
+### When Adding a New Platform
+
+1. Create config file in `lib/config/`
+2. Create generator class extending `PlatformGenerator`
+3. Implement `generateIcons()` and `generateMetadata()`
+4. Register in `IconGeneratorFactory.registerDefaultPlatforms()`
+5. Update tests
+
+### When Modifying Core Utilities
+
+- Ensure changes don't break platform-independence
+- Update all affected platforms
+- Add unit tests for new functionality
+
+### When Adding Features
+
+- Check if it belongs in core utilities or platform-specific
+- Use dependency injection
+- Follow existing patterns
+- Document in ARCHITECTURE.md
+
+## Testing Strategy
+
+- **Unit Tests**: Test core utilities in isolation
+- **Integration Tests**: Test generators with mocked dependencies
+- **E2E Tests**: Test complete workflows
+
+## Documentation
+
+- Keep ARCHITECTURE.md updated with architectural decisions
+- Update README.md for user-facing changes
+- Add JSDoc comments for all public methods
+
+## Performance
+
+- Use `Promise.all()` for parallel operations
+- Clone Sharp images for concurrent processing
+- Clean up temporary files in finally blocks
+- Use efficient file I/O patterns
+
+## Error Handling
+
+- Validate inputs early
+- Provide clear, actionable error messages
+- Clean up resources on errors
+- Log errors with context
+
+## Dependencies
+
+- **sharp** - High-performance image processing
+- **archiver** - ZIP creation
+- Keep dependencies minimal and well-justified
+
+## Code Style
+
+- Use ES6+ features (async/await, classes, etc.)
+- Follow existing naming conventions
+- Keep functions small and focused
+- Comment complex logic
+
+## Breaking Changes
+
+- Avoid breaking changes in public API
+- Use semantic versioning
+- Provide migration guides
+- Deprecate before removing
+
+## Platform-Specific Notes
+
+### iOS
+
+- Output: `AppIcon.appiconset/` with `Contents.json`
+- 18 icons + metadata file
+- Uses pt sizes with scale factors (@2x, @3x)
+
+### Android
+
+- Output: Multiple `mipmap-*/` directories
+- 13 icons (standard + round)
+- Uses density buckets (ldpi to xxxhdpi)
+
+## Resources
+
+- [ARCHITECTURE.md](ARCHITECTURE.md) - Detailed architecture docs
+- [README.md](README.md) - User guide
+- [MIGRATION.md](MIGRATION.md) - Migration guide
+- [REFACTORING_SUMMARY.md](REFACTORING_SUMMARY.md) - Refactoring overview
