@@ -102,7 +102,7 @@ program
 			"Generate iOS and Android app icon sets from a single source image"
 		)
 	)
-	.version("1.0.4");
+	.version(pkg.version, "-v, --version", "Show version number");
 
 program
 	.command("generate")
