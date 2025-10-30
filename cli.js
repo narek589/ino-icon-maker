@@ -27,8 +27,10 @@ import {
 	getSupportedPlatforms,
 	getAllPlatformsInfo,
 } from "./lib/generator.js";
+import { ArchiveManager } from "./lib/core/ArchiveManager.js";
+import archiver from "archiver";
 import fs from "fs/promises";
-import { existsSync } from "fs";
+import { existsSync, createWriteStream } from "fs";
 import { pathToFileURL } from "url";
 import { createRequire } from "module";
 
@@ -631,8 +633,10 @@ function startServer(port = 3000) {
 			version: pkg.version,
 			supportedPlatforms: getSupportedPlatforms(),
 			supportedFormats: ["jpeg", "jpg", "png", "webp"],
+			defaultPlatform: "all",
 			endpoints: {
-				generate: 'POST /generate (multipart/form-data with "file" field)',
+				generate:
+					'POST /generate?platform=all|ios|android (multipart/form-data with "file" field, default: all)',
 				platforms: "GET /platforms",
 			},
 		});
@@ -658,8 +662,8 @@ function startServer(port = 3000) {
 				});
 			}
 
-			// Get platform from query parameter or form data (default: ios)
-			const platform = req.query.platform || req.body.platform || "ios";
+			// Get platform from query parameter or form data (default: all)
+			const platform = req.query.platform || req.body.platform || "all";
 
 			console.log(
 				`\n📥 Received upload: ${req.file.originalname} (${
@@ -727,12 +731,13 @@ function startServer(port = 3000) {
 			// Clean up uploaded file
 			await fs.unlink(req.file.path);
 
-			// Send ZIP file if single platform, otherwise send JSON with multiple results
+			// Send ZIP file for single or multiple platforms
 			if (
 				results.length === 1 &&
 				results[0].zipPath &&
 				existsSync(results[0].zipPath)
 			) {
+				// Single platform: send the existing ZIP
 				const zipName = `${results[0].platform}-icons.zip`;
 				res.download(results[0].zipPath, zipName, async err => {
 					// Clean up temp directory after download
@@ -748,12 +753,66 @@ function startServer(port = 3000) {
 						console.error("Download error:", err);
 					}
 				});
+			} else if (results.length > 1) {
+				// Multiple platforms: create combined ZIP
+				try {
+					const combinedZipPath = path.join(tempOutputDir, "ios-icons.zip");
+
+					// Create ZIP with archiver
+					const output = createWriteStream(combinedZipPath);
+					const archive = archiver("zip", { zlib: { level: 9 } });
+
+					// Handle archive events
+					await new Promise((resolve, reject) => {
+						output.on("close", () => resolve());
+						archive.on("error", err => reject(err));
+
+						// Pipe archive to file
+						archive.pipe(output);
+
+						// Add all platform directories to the ZIP
+						for (const result of results) {
+							if (result.outputDir && existsSync(result.outputDir)) {
+								const dirName = path.basename(result.outputDir);
+								archive.directory(result.outputDir, dirName);
+							}
+						}
+
+						// Finalize the archive
+						archive.finalize();
+					});
+
+					console.log(`✅ Created combined ZIP: ${combinedZipPath}`);
+
+					// Send the combined ZIP
+					res.download(combinedZipPath, "ios-icons.zip", async err => {
+						// Clean up temp directory after download
+						if (tempOutputDir) {
+							try {
+								await fs.rm(tempOutputDir, { recursive: true });
+							} catch (cleanupErr) {
+								console.error("Failed to clean up temp directory:", cleanupErr);
+							}
+						}
+
+						if (err) {
+							console.error("Download error:", err);
+						}
+					});
+				} catch (zipError) {
+					console.error("Failed to create combined ZIP:", zipError);
+					// Fallback to JSON response
+					res.json({
+						success: true,
+						results,
+						message: "Icons generated but failed to create combined ZIP",
+					});
+				}
 			} else {
-				// Multiple platforms: return JSON response
-				res.json({
-					success: true,
-					results,
-					message: "Icons generated successfully for multiple platforms",
+				// No results
+				res.status(500).json({
+					success: false,
+					error: "Icon generation failed",
 				});
 			}
 		} catch (error) {
