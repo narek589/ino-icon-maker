@@ -5,6 +5,23 @@
 Multi-platform mobile app icon generator supporting iOS and Android.
 Built with SOLID principles for maximum extensibility and maintainability.
 
+## Documentation Rules
+
+**IMPORTANT**: All markdown documentation files MUST be created inside the `docs/` folder only.
+
+- ✅ **DO**: Create/edit markdown files in `docs/` and its subfolders
+
+  - `docs/examples/*.md`
+  - `docs/guides/*.md`
+  - `docs/architecture/*.md`
+  - `docs/*.md`
+
+- ❌ **DON'T**: Create markdown files in the root directory
+  - Exception: `README.md` (main project readme only)
+  - Exception: `LICENSE` (not markdown)
+
+**Why?**: Keep root clean, all documentation organized in one place.
+
 ## Architecture Principles
 
 ### SOLID

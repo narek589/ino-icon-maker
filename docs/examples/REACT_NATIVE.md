@@ -446,7 +446,7 @@ npx react-native run-android
 
 ```bash
 # Install as dev dependency
-npm install --save-dev ino-icon-maker
+npm install -D ino-icon-maker
 ```
 
 ### Wrong app name in script

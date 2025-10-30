@@ -1,45 +1,30 @@
 # 📚 Ino Icon Maker Documentation
 
-Welcome to the comprehensive documentation for Ino Icon Maker!
+Simple and clear documentation for generating iOS and Android app icons.
 
 ## 📖 Table of Contents
 
-### Getting Started
+### 🚀 Getting Started
 
-- [Installation Guide](./guides/INSTALLATION.md) - How to install and set up
-- [Quick Start](./guides/QUICK_START.md) - Get started in 5 minutes
-- [All Examples](./examples/ALL_EXAMPLES.md) - Complete examples for all use cases
+- **[Quick Start](./guides/QUICK_START.md)** - Get started in 5 minutes
+- **[All Examples](./examples/ALL_EXAMPLES.md)** - 200+ code examples
 
-### Guides
+### 📱 Framework Integration
 
-- [CLI Guide](./guides/CLI_GUIDE.md) - Command-line interface reference
-- [Library API Guide](./guides/LIBRARY_API.md) - Using as a Node.js library
-- [HTTP API Guide](./guides/HTTP_API.md) - Using the HTTP server
-- [Git Workflow](./guides/GIT_WORKFLOW.md) - Version control and collaboration
+- **[React Native](./examples/REACT_NATIVE.md)** - Complete integration guide
+- **[Flutter](./examples/FLUTTER.md)** - Complete integration guide
+- **[CI/CD](./examples/CI_CD.md)** - Automation for all platforms
 
-### Examples
+### 🏗️ Architecture
 
-- [NPX Examples](./examples/NPX_EXAMPLES.md) - No installation required
-- [React Native Examples](./examples/REACT_NATIVE.md) - Integration with React Native
-- [Flutter Examples](./examples/FLUTTER.md) - Integration with Flutter
-- [CI/CD Examples](./examples/CI_CD.md) - Automation pipelines
+- **[System Architecture](./architecture/ARCHITECTURE.md)** - Technical design
+- **[Refactoring Details](./architecture/REFACTORING_DETAILS.md)** - SOLID principles
 
-### Architecture
+### 🔗 Additional
 
-- [System Architecture](./architecture/ARCHITECTURE.md) - Technical design
-- [Refactoring Details](./architecture/REFACTORING_DETAILS.md) - Code improvements
-- [Platform Configuration](./architecture/PLATFORM_CONFIG.md) - Platform-specific setup
-
-### Contributing
-
-- [Contributing Guide](./CONTRIBUTING.md) - How to contribute
-- [Code of Conduct](./CODE_OF_CONDUCT.md) - Community standards
-- [Development Setup](./guides/DEVELOPMENT.md) - For contributors
-
-### Reference
-
+- [Git Workflow](./guides/GIT_WORKFLOW.md) - Version control guide
 - [Security Policy](./SECURITY.md) - Report vulnerabilities
-- [Changelog](./CHANGELOG.md) - Version history
+- [Contributing](./CONTRIBUTING.md) - How to contribute
 - [License](../LICENSE) - MIT License
 
 ## 🔗 Quick Links
@@ -52,18 +37,19 @@ Welcome to the comprehensive documentation for Ino Icon Maker!
 ## 🚀 Quick Start
 
 ```bash
-# Option 1: NPX (No install required)
+# Option 1: NPX (No install required) ⭐
 npx ino-icon-maker generate -i icon.png -o ./output -p all -z
 
 # Option 2: Global install
 npm install -g ino-icon-maker
 ino-icon generate -i icon.png -o ./output -p all
 
-# Option 3: As library
-npm install ino-icon-maker
+# Option 3: Project dependency
+npm install -D ino-icon-maker
 ```
 
 ```javascript
+// Use as library
 import { quickGenerate } from "ino-icon-maker";
 
 await quickGenerate({
@@ -80,50 +66,40 @@ await quickGenerate({
 docs/
 ├── README.md (this file)
 ├── examples/
-│   ├── ALL_EXAMPLES.md
-│   ├── NPX_EXAMPLES.md
-│   ├── REACT_NATIVE.md
-│   ├── FLUTTER.md
-│   └── CI_CD.md
+│   ├── ALL_EXAMPLES.md      # 200+ code examples
+│   ├── REACT_NATIVE.md      # React Native integration
+│   ├── FLUTTER.md           # Flutter integration
+│   └── CI_CD.md             # CI/CD automation
 ├── guides/
-│   ├── INSTALLATION.md
-│   ├── QUICK_START.md
-│   ├── CLI_GUIDE.md
-│   ├── LIBRARY_API.md
-│   ├── HTTP_API.md
-│   ├── GIT_WORKFLOW.md
-│   └── DEVELOPMENT.md
+│   ├── QUICK_START.md       # 5-minute start guide
+│   └── GIT_WORKFLOW.md      # Git guide
 ├── architecture/
-│   ├── ARCHITECTURE.md
-│   ├── REFACTORING_DETAILS.md
-│   └── PLATFORM_CONFIG.md
-├── CONTRIBUTING.md
-├── CODE_OF_CONDUCT.md
-├── SECURITY.md
-└── CHANGELOG.md
+│   ├── ARCHITECTURE.md      # System design
+│   └── REFACTORING_DETAILS.md  # SOLID principles
+├── SECURITY.md              # Security policy
+├── CONTRIBUTING.md          # Contribution guide
+├── CODE_OF_CONDUCT.md       # Community rules
+└── CHANGELOG.md             # Version history
 ```
 
 ## 🎯 Popular Topics
 
 ### I want to...
 
-**Generate icons without installing anything**
-→ [NPX Examples](./examples/NPX_EXAMPLES.md)
+**Generate icons quickly**
+→ [Quick Start](./guides/QUICK_START.md)
 
-**Use it in my React Native app**
+**See all examples**
+→ [All Examples](./examples/ALL_EXAMPLES.md)
+
+**Use with React Native**
 → [React Native Guide](./examples/REACT_NATIVE.md)
 
-**Use it in my Flutter app**
+**Use with Flutter**
 → [Flutter Guide](./examples/FLUTTER.md)
 
-**Automate icon generation in CI/CD**
+**Automate with CI/CD**
 → [CI/CD Examples](./examples/CI_CD.md)
-
-**Use it as a library in Node.js**
-→ [Library API Guide](./guides/LIBRARY_API.md)
-
-**Contribute to the project**
-→ [Contributing Guide](./CONTRIBUTING.md)
 
 **Understand the architecture**
 → [Architecture Guide](./architecture/ARCHITECTURE.md)

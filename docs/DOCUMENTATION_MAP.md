@@ -102,11 +102,10 @@ ino-icon-maker/
 
 ### 💻 Usage
 
-| Document                               | Description        | For             |
-| -------------------------------------- | ------------------ | --------------- |
-| [CLI Guide](./guides/CLI_GUIDE.md)     | Command-line usage | CLI users       |
-| [Library API](./guides/LIBRARY_API.md) | Programmatic usage | Developers      |
-| [HTTP API](./guides/HTTP_API.md)       | Server mode        | Web integration |
+| Document                                   | Description           | For        |
+| ------------------------------------------ | --------------------- | ---------- |
+| [Quick Start](./guides/QUICK_START.md)     | Get started in 5 mins | Everyone   |
+| [All Examples](./examples/ALL_EXAMPLES.md) | All use cases         | Developers |
 
 ### 🔗 Integration
 
@@ -122,7 +121,6 @@ ino-icon-maker/
 | ---------------------------------------------------- | ---------------- | ------------ |
 | [Architecture](./architecture/ARCHITECTURE.md)       | System design    | Contributors |
 | [Refactoring](./architecture/REFACTORING_DETAILS.md) | SOLID principles | Developers   |
-| [Platform Config](./architecture/PLATFORM_CONFIG.md) | Add platforms    | Extenders    |
 
 ### 🤝 Community
 
@@ -142,17 +140,14 @@ ino-icon-maker/
 **Generate icons quickly**
 → [Quick Start](./guides/QUICK_START.md)
 
-**See all options**
-→ [CLI Guide](./guides/CLI_GUIDE.md)
+**See all examples**
+→ [All Examples](./examples/ALL_EXAMPLES.md)
 
 **Use in React Native**
 → [React Native Guide](./examples/REACT_NATIVE.md)
 
 **Use in Flutter**
 → [Flutter Guide](./examples/FLUTTER.md)
-
-**Use as Node.js library**
-→ [Library API Guide](./guides/LIBRARY_API.md)
 
 **Automate in CI/CD**
 → [CI/CD Examples](./examples/CI_CD.md)
@@ -163,14 +158,8 @@ ino-icon-maker/
 **Learn SOLID principles**
 → [Refactoring Details](./architecture/REFACTORING_DETAILS.md)
 
-**Contribute to project**
-→ [Contributing Guide](./CONTRIBUTING.md)
-
 **Use Git properly**
 → [Git Workflow](./guides/GIT_WORKFLOW.md)
-
-**Add new platform**
-→ [Platform Config](./architecture/PLATFORM_CONFIG.md)
 
 ---
 

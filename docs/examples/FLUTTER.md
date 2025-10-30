@@ -102,6 +102,13 @@ rm -rf temp
 
 ## 🤖 Automated Approach
 
+### Install ino-icon-maker
+
+```bash
+# Install as dev dependency
+npm install -D ino-icon-maker
+```
+
 ### Create Dart Script
 
 **tool/generate_icons.dart:**

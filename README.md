@@ -27,17 +27,14 @@
 
 ## 📚 Documentation
 
-📖 **[Complete Documentation](./docs/README.md)** | 🚀 **[Quick Start](./docs/guides/QUICK_START.md)** | 💡 **[All Examples](./docs/examples/ALL_EXAMPLES.md)** | 🔄 **[Git Workflow](./docs/guides/GIT_WORKFLOW.md)**
+📖 **[Complete Documentation](./docs/README.md)** | 🚀 **[Quick Start](./docs/guides/QUICK_START.md)** | 💡 **[All Examples](./docs/examples/ALL_EXAMPLES.md)**
 
 ### Quick Links
 
-- 📘 [Installation Guide](./docs/guides/QUICK_START.md)
 - 📱 [React Native Integration](./docs/examples/REACT_NATIVE.md)
 - 🎨 [Flutter Integration](./docs/examples/FLUTTER.md)
 - 🤖 [CI/CD Examples](./docs/examples/CI_CD.md)
 - 🏗️ [Architecture](./docs/architecture/ARCHITECTURE.md)
-- 🔧 [Refactoring Details](./docs/architecture/REFACTORING_DETAILS.md)
-- 🤝 [Contributing](./docs/CONTRIBUTING.md)
 
 ## ✨ Features
 

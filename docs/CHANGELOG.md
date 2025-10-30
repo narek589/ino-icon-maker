@@ -5,6 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.7] - 2025-10-30
+
+### Changed
+
+- Cleaned up root directory - removed duplicate markdown files
+- All documentation now organized in `docs/` folder only
+- Updated to use `npm install -D` for dev dependencies
+- Simplified documentation structure (removed 404 links)
+- Added `.cursorrules` to enforce documentation organization
+
+### Removed
+
+- Duplicate files from root: ARCHITECTURE.md, CHANGELOG.md, CODE_OF_CONDUCT.md, CONTRIBUTING.md, SECURITY.md
+- Old documentation files: COMMANDS.md, EXAMPLES.md, GETTING_STARTED_WITH_GITHUB.md, REPOSITORY_IMPROVEMENTS.md
+
+### Documentation
+
+- Simplified `docs/README.md` - removed non-existent guide links
+- Kept only essential documentation: Quick Start, Examples, Framework Integration, Architecture
+- All markdown files now in `docs/` folder (except root README.md)
+
 ## [1.0.6] - 2025-10-30
 
 ### Added

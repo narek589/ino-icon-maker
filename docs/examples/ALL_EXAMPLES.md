@@ -47,7 +47,7 @@ iim generate -i icon.png -o ./output -p ios
 
 ```bash
 # Install in project
-npm install ino-icon-maker
+npm install -D ino-icon-maker
 
 # Add to package.json scripts
 {
@@ -66,8 +66,8 @@ npm run icons
 ### Method 4: Library Import
 
 ```bash
-# Install in project
-npm install ino-icon-maker
+# Install as dev dependency
+npm install -D ino-icon-maker
 ```
 
 ```javascript
