@@ -21,7 +21,6 @@
 | **💻 GitHub Repository** | https://github.com/narek589/ino-icon-maker                |
 | **📚 Documentation**     | https://github.com/narek589/ino-icon-maker/tree/main/docs |
 | **🐛 Issues**            | https://github.com/narek589/ino-icon-maker/issues         |
-| **💬 Discussions**       | https://github.com/narek589/ino-icon-maker/discussions    |
 
 ---
 
@@ -226,13 +225,15 @@ curl -F "file=@icon.png" \
 
 ### Flutter
 
-```json
-{
-	"scripts": {
-		"icons:ios": "npx ino-icon-maker generate -i assets/icon.png -o ios/Runner/Assets.xcassets -p ios",
-		"icons:android": "npx ino-icon-maker generate -i assets/icon.png -o android/app/src/main/res -p android"
-	}
-}
+```makefile
+# Create a Makefile in your Flutter project root
+icons:
+	npx ino-icon-maker generate -i assets/icon.png -o temp -p all
+	cp -r temp/AppIcon.appiconset ios/Runner/Assets.xcassets/
+	cp -r temp/android-icons/* android/app/src/main/res/
+	rm -rf temp
+
+# Then run: make icons
 ```
 
 ### CI/CD
@@ -280,47 +281,17 @@ output/
 - ✅ **Easy to Use** - Clear output, helpful commands
 - ✅ **Fast** - Parallel processing for speed
 
-## 🐛 Troubleshooting
+## 🤝 Contributing
 
-### Sharp Installation Issues
-
-```bash
-npm cache clean --force
-npm install -g ino-icon-maker --force
-```
-
-### Permission Errors (Mac/Linux)
-
-```bash
-sudo npm install -g ino-icon-maker
-```
+Contributions are welcome! See [CONTRIBUTING.md](./docs/CONTRIBUTING.md) for guidelines.
 
 ## 📄 License
 
-MIT © Narek Hambarcumyan
+MIT © [Narek Hambarcumyan](https://github.com/narek589)
 
-## 🙏 Credits
+---
 
 Built with [Sharp](https://sharp.pixelplumbing.com/) for high-performance image processing.
-
-## 🔗 Links
-
-- [📦 npm Package](https://www.npmjs.com/package/ino-icon-maker) - Install from npm
-- [💻 GitHub Repository](https://github.com/narek589/ino-icon-maker) - Source code & stars
-- [📚 Complete Documentation](https://github.com/narek589/ino-icon-maker/tree/main/docs) - Guides & examples
-- [🐛 Report Issues](https://github.com/narek589/ino-icon-maker/issues) - Bug reports
-- [💬 Discussions](https://github.com/narek589/ino-icon-maker/discussions) - Q&A and community
-- [🔄 Changelog](https://github.com/narek589/ino-icon-maker/blob/main/docs/CHANGELOG.md) - Version history
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
 
 ## ⭐ Support
 

@@ -14,26 +14,41 @@ Complete guide for using Ino Icon Maker with Flutter projects.
 
 ## 🚀 Quick Setup
 
-### Method 1: NPM Script
+### Method 1: Direct Command (Simplest)
 
-Add to your `package.json`:
+```bash
+# Navigate to your Flutter project
+cd /path/to/your-flutter-project
 
-```json
-{
-	"scripts": {
-		"icons": "npx ino-icon-maker generate -i assets/icon.png -o temp -p all && npm run icons:install && npm run icons:cleanup",
-		"icons:install": "npm run icons:ios && npm run icons:android",
-		"icons:ios": "cp -r temp/AppIcon.appiconset ios/Runner/Assets.xcassets/AppIcon.appiconset",
-		"icons:android": "cp -r temp/android-icons/* android/app/src/main/res/",
-		"icons:cleanup": "rm -rf temp"
-	}
-}
+# Generate and install icons in one command
+npx ino-icon-maker generate -i assets/icon.png -o temp -p all && \
+cp -r temp/AppIcon.appiconset ios/Runner/Assets.xcassets/ && \
+cp -r temp/android-icons/* android/app/src/main/res/ && \
+rm -rf temp
+
+echo "✅ Icons installed!"
+```
+
+### Method 2: Makefile (Recommended)
+
+Create a `Makefile` in your project root:
+
+```makefile
+.PHONY: icons
+
+icons:
+	@echo "🎨 Generating icons..."
+	@npx ino-icon-maker generate -i assets/icon.png -o temp -p all
+	@cp -r temp/AppIcon.appiconset ios/Runner/Assets.xcassets/
+	@cp -r temp/android-icons/* android/app/src/main/res/
+	@rm -rf temp
+	@echo "✅ Icons installed!"
 ```
 
 Then run:
 
 ```bash
-npm run icons
+make icons
 ```
 
 ---
@@ -359,7 +374,19 @@ make icons-prod
 
 ## 🎯 Integration with flutter_launcher_icons
 
-You can use both tools together!
+You can use `ino-icon-maker` as an alternative to `flutter_launcher_icons`!
+
+### Using ino-icon-maker (Recommended)
+
+```bash
+# Simple, fast, works every time
+npx ino-icon-maker generate -i assets/icon.png -o temp -p all
+cp -r temp/AppIcon.appiconset ios/Runner/Assets.xcassets/
+cp -r temp/android-icons/* android/app/src/main/res/
+rm -rf temp
+```
+
+**Or** use flutter_launcher_icons:
 
 ### pubspec.yaml
 
@@ -371,21 +398,12 @@ flutter_icons:
   android: true
   ios: true
   image_path: "assets/icon.png"
-  # adaptive_icon_foreground: "assets/foreground.png"
-  # adaptive_icon_background: "#FFFFFF"
 ```
 
-### Generate with ino-icon-maker first
+Then run:
 
 ```bash
-# Generate standard icons
-npx ino-icon-maker generate -i assets/icon.png -o temp -p all
-
-# Copy to project
-cp -r temp/AppIcon.appiconset ios/Runner/Assets.xcassets/
-cp -r temp/android-icons/* android/app/src/main/res/
-
-# Then run flutter_launcher_icons if needed
+flutter pub get
 flutter pub run flutter_launcher_icons
 ```
 
@@ -451,35 +469,34 @@ ls -la android/app/src/main/res/
 
 ### 1. Create Icon
 
+Create your app icon (1024×1024 PNG):
+
 ```
-assets/icon.png (1024×1024)
+assets/icon.png
 ```
 
-### 2. Install ino-icon-maker
+### 2. Create Makefile
+
+Create `Makefile` in project root:
+
+```makefile
+.PHONY: icons
+
+icons:
+	@npx ino-icon-maker generate -i assets/icon.png -o temp -p all
+	@cp -r temp/AppIcon.appiconset ios/Runner/Assets.xcassets/
+	@cp -r temp/android-icons/* android/app/src/main/res/
+	@rm -rf temp
+	@echo "✅ Icons installed!"
+```
+
+### 3. Generate
 
 ```bash
-npm install --save-dev ino-icon-maker
+make icons
 ```
 
-### 3. Add Scripts
-
-```json
-{
-	"scripts": {
-		"icons": "npx ino-icon-maker generate -i assets/icon.png -o temp -p all && npm run icons:copy && npm run icons:cleanup",
-		"icons:copy": "cp -r temp/AppIcon.appiconset ios/Runner/Assets.xcassets/ && cp -r temp/android-icons/* android/app/src/main/res/",
-		"icons:cleanup": "rm -rf temp"
-	}
-}
-```
-
-### 4. Generate
-
-```bash
-npm run icons
-```
-
-### 5. Test
+### 4. Test
 
 ```bash
 flutter clean

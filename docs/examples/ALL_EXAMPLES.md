@@ -731,23 +731,24 @@ docker run -v $(pwd)/output:/app/output icon-generator
 
 ### Flutter
 
-```yaml
-# pubspec.yaml
-flutter_icons:
-  android: true
-  ios: true
-  image_path: "assets/icon.png"
+```makefile
+# Create Makefile in Flutter project root
+icons:
+	npx ino-icon-maker generate -i assets/icon.png -o temp -p all
+	cp -r temp/AppIcon.appiconset ios/Runner/Assets.xcassets/
+	cp -r temp/android-icons/* android/app/src/main/res/
+	rm -rf temp
+
+# Then run: make icons
 ```
 
-```json
-// package.json
-{
-	"scripts": {
-		"icons": "ino-icon-maker generate -i assets/icon.png -o output -p all",
-		"icons:install": "npm run icons && npm run icons:copy",
-		"icons:copy": "cp -r output/AppIcon.appiconset ios/Runner/Assets.xcassets/ && cp -r output/android-icons/* android/app/src/main/res/"
-	}
-}
+Or use direct command:
+
+```bash
+npx ino-icon-maker generate -i assets/icon.png -o temp -p all && \
+cp -r temp/AppIcon.appiconset ios/Runner/Assets.xcassets/ && \
+cp -r temp/android-icons/* android/app/src/main/res/ && \
+rm -rf temp
 ```
 
 ### GitHub Actions

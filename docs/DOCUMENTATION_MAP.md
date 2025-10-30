@@ -259,7 +259,6 @@ Start Contributing!
 - **Repository**: https://github.com/narek589/ino-icon-maker
 - **npm Package**: https://www.npmjs.com/package/ino-icon-maker
 - **Issues**: https://github.com/narek589/ino-icon-maker/issues
-- **Discussions**: https://github.com/narek589/ino-icon-maker/discussions
 
 ---
 
@@ -292,9 +291,8 @@ Start Contributing!
 
 Found something missing? Have suggestions?
 
-1. [Open an issue](https://github.com/narek589/ino-icon-maker/issues/new/choose)
-2. [Start a discussion](https://github.com/narek589/ino-icon-maker/discussions)
-3. Submit a PR to improve docs
+1. [Open an issue](https://github.com/narek589/ino-icon-maker/issues/new)
+2. Submit a PR to improve docs
 
 ---
 

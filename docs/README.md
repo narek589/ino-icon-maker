@@ -32,7 +32,6 @@ Simple and clear documentation for generating iOS and Android app icons.
 - **npm Package**: https://www.npmjs.com/package/ino-icon-maker
 - **GitHub Repository**: https://github.com/narek589/ino-icon-maker
 - **Report Issues**: https://github.com/narek589/ino-icon-maker/issues
-- **Discussions**: https://github.com/narek589/ino-icon-maker/discussions
 
 ## 🚀 Quick Start
 
@@ -109,8 +108,7 @@ docs/
 1. Check the [Examples](./examples/ALL_EXAMPLES.md)
 2. Read the [Guides](./guides/QUICK_START.md)
 3. Search [Issues](https://github.com/narek589/ino-icon-maker/issues)
-4. Ask in [Discussions](https://github.com/narek589/ino-icon-maker/discussions)
-5. Open a [New Issue](https://github.com/narek589/ino-icon-maker/issues/new/choose)
+4. Open a [New Issue](https://github.com/narek589/ino-icon-maker/issues/new)
 
 ---
 
