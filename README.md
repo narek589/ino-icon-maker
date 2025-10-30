@@ -38,7 +38,7 @@
 ## ✨ Features
 
 - 🎯 **iOS & Android** - Generate all required icons for both platforms
-- 🖼️ **Multiple Formats** - JPEG, PNG, WebP support
+- 🖼️ **Multiple Formats** - JPEG, PNG, WebP, AVIF, TIFF support
 - ⚡ **Fast** - Parallel processing (10x faster)
 - 📦 **ZIP Export** - Optional archive creation
 - 🔥 **3 Ways to Use** - CLI, Library, or HTTP API
@@ -204,12 +204,14 @@ curl -F "file=@icon.png" \
 - **PNG** - Best for icons (supports transparency)
 - **JPEG/JPG** - Universal support
 - **WebP** - Modern, efficient
+- **AVIF** - Next-gen format, superior compression
+- **TIFF** - Professional/high-quality source
 
 **Recommendations:**
 
 - Use 1024×1024 or larger
 - Square aspect ratio (1:1)
-- PNG preferred for transparency
+- PNG or AVIF preferred for transparency
 
 ## 🛠️ Use in Your Project
 

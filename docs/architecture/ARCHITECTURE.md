@@ -42,7 +42,7 @@ A **professional, automated, multi-platform icon generator** that:
 - ✅ Generates all required sizes automatically
 - ✅ Follows platform-specific guidelines
 - ✅ Maintains high image quality
-- ✅ Supports multiple formats (JPEG, PNG, WebP)
+- ✅ Supports multiple formats (JPEG, PNG, WebP, AVIF, TIFF)
 - ✅ Works as CLI, library, or API
 - ✅ Built for extensibility and maintenance
 

@@ -1,10 +1,11 @@
 {
 	"name": "ino-icon-maker",
 	"version": "1.0.10",
-	"description": "🚀 Generate iOS and Android app icons from a single image. Supports JPEG, PNG, WebP formats.",
+	"description": "🚀 Generate iOS and Android app icons from a single image. Supports JPEG, PNG, WebP, AVIF, TIFF formats.",
 	"main": "index.js",
 	"type": "module",
 	"bin": {
+		"ino-icon-maker": "./cli.js",
 		"ino-icon": "./cli.js",
 		"iim": "./cli.js"
 	},

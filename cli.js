@@ -606,12 +606,14 @@ function startServer(port = 3000) {
 			fileSize: MAX_FILE_SIZE,
 		},
 		fileFilter: (req, file, cb) => {
-			// Only these 4 formats are supported
+			// Supported image formats
 			const allowedMimes = [
 				"image/jpeg",
 				"image/jpg",
 				"image/png",
 				"image/webp",
+				"image/avif",
+				"image/tiff",
 			];
 
 			if (allowedMimes.includes(file.mimetype)) {
@@ -619,7 +621,7 @@ function startServer(port = 3000) {
 			} else {
 				cb(
 					new Error(
-						"Invalid file type. Supported formats: JPEG, JPG, PNG, WebP only"
+						"Invalid file type. Supported formats: JPEG, PNG, WebP, AVIF, TIFF"
 					)
 				);
 			}
@@ -632,7 +634,7 @@ function startServer(port = 3000) {
 			service: "ino-icon-maker",
 			version: pkg.version,
 			supportedPlatforms: getSupportedPlatforms(),
-			supportedFormats: ["jpeg", "jpg", "png", "webp"],
+			supportedFormats: ["jpeg", "jpg", "png", "webp", "avif", "tiff"],
 			defaultPlatform: "all",
 			endpoints: {
 				generate:
@@ -864,7 +866,7 @@ function startServer(port = 3000) {
 					chalk.yellow(getSupportedPlatforms().join(", ")) +
 					"\n" +
 					chalk.white("Formats:   ") +
-					chalk.yellow("JPEG, PNG, WebP") +
+					chalk.yellow("JPEG, PNG, WebP, AVIF, TIFF") +
 					"\n\n" +
 					chalk.bold("Endpoints:\n") +
 					chalk.gray("  GET  /platforms\n") +

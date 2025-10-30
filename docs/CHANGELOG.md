@@ -5,6 +5,47 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.11] - 2025-10-30
+
+### Added
+
+- **AVIF format support** - Next-generation image format with superior compression
+- **TIFF format support** - Professional/high-quality source images
+- Support for 6 image formats total: JPEG, PNG, WebP, AVIF, TIFF
+
+### Changed
+
+- Updated all documentation to reflect new supported formats
+- Enhanced format validation in ImageProcessor
+- Updated HTTP API to accept AVIF and TIFF uploads
+
+## [1.0.10] - 2025-10-30
+
+### Added
+
+- Version flag: `-v` and `--version` to show current version number
+
+### Changed
+
+- Updated CLI to display version from package.json dynamically
+
+## [1.0.9] - 2025-10-30
+
+### Added
+
+- HTTP API now creates combined ZIP for `platform=all` requests
+- Default platform changed to `all` for HTTP API
+
+### Fixed
+
+- Fixed HTTP API returning JSON instead of ZIP for `platform=all`
+- Combined ZIP creation for multiple platforms now works correctly
+
+### Changed
+
+- Output filename for combined platforms: `ios-icons.zip`
+- API documentation updated to show default platform behavior
+
 ## [1.0.7] - 2025-10-30
 
 ### Changed
