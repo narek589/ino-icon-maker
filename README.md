@@ -106,11 +106,13 @@ Lanczos3 resampling
 
 ```bash
 # 1️⃣ NPX (No install required) - Recommended
-npx ino-icon-maker generate -i icon.png -o ./output -p all -z
+npx ino-icon-maker generate -i icon.png -p all -z
+# Output: ./icons/
 
 # 2️⃣ Global Install
 npm install -g ino-icon-maker
-ino-icon generate -i icon.png -o ./output -p all
+ino-icon generate -i icon.png -p all
+# Output: ./icons/
 
 # 3️⃣ Project Dependency
 npm install -D ino-icon-maker
@@ -151,14 +153,17 @@ npm install -D ino-icon-maker
 ### CLI
 
 ```bash
+# Both platforms (default output: ./icons/)
+ino-icon generate -i icon.png -p all
+
 # iOS only
-ino-icon generate -i icon.png -o ./output -p ios
+ino-icon generate -i icon.png -p ios
 
 # Android only
-ino-icon generate -i icon.png -o ./output -p android
+ino-icon generate -i icon.png -p android
 
-# Both platforms + ZIP
-ino-icon generate -i icon.png -o ./output -p all -z
+# Custom output directory + ZIP
+ino-icon generate -i icon.png -o ./build/assets -p all -z
 
 # Check version
 ino-icon -v

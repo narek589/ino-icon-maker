@@ -21,9 +21,9 @@ For frequent use with short commands.
 ```bash
 npm install -g ino-icon-maker
 
-# Then use anywhere
-ino-icon generate -i icon.png -o ./output -p all
-iim generate -i icon.png -o ./output -p all  # Short alias
+# Then use anywhere (output defaults to ./icons/)
+ino-icon generate -i icon.png -p all
+iim generate -i icon.png -p all  # Short alias
 ```
 
 ### Option 3: Project Dependency
@@ -46,27 +46,35 @@ npm install -D ino-icon-maker
 
 ## 📱 Generate Icons
 
-### All Platforms
+### All Platforms (Default output: ./icons/)
 
 ```bash
-ino-icon generate -i icon.png -o ./output -p all -z
+ino-icon generate -i icon.png -p all -z
 ```
 
 ### iOS Only
 
 ```bash
-ino-icon generate -i icon.png -o ./output -p ios
+ino-icon generate -i icon.png -p ios
 ```
 
-**Output:** `./output/AppIcon.appiconset/` (18 icons + Contents.json)
+**Output:** `./icons/AppIcon.appiconset/` (18 icons + Contents.json)
 
 ### Android Only
 
 ```bash
-ino-icon generate -i icon.png -o ./output -p android
+ino-icon generate -i icon.png -p android
 ```
 
-**Output:** `./output/android-icons/` (13 icons in mipmap folders)
+**Output:** `./icons/android-icons/` (13 icons in mipmap folders)
+
+### Custom Output Directory
+
+```bash
+ino-icon generate -i icon.png -o ./build/assets -p all
+```
+
+**Output:** `./build/assets/` (both iOS and Android)
 
 ---
 
@@ -74,12 +82,12 @@ ino-icon generate -i icon.png -o ./output -p android
 
 ```bash
 # Generate icons
-ino-icon generate -i <input> -o <output> -p <platform>
+ino-icon generate -i <input> [-o <output>] [-p <platform>]
 
 # Options:
 #   -i, --input    Source image (required)
-#   -o, --out      Output directory (required)
-#   -p, --platform ios|android|all (default: ios)
+#   -o, --out      Output directory (default: icons)
+#   -p, --platform ios|android|all (default: all)
 #   -z, --zip      Create ZIP archive
 #   -f, --force    Overwrite existing files
 

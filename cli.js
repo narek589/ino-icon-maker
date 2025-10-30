@@ -111,7 +111,7 @@ program
 		"-i, --input <path>",
 		"Path to source image (preferably 512x512 or larger)"
 	)
-	.requiredOption("-o, --out <dir>", "Output directory")
+	.option("-o, --out <dir>", "Output directory (default: icons)", "icons")
 	.option(
 		"-p, --platform <platform>",
 		"Target platform (ios, android, all)",
