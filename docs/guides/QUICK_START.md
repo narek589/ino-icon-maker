@@ -1,339 +1,226 @@
 # ⚡ Quick Start Guide
 
-Get started with Ino Icon Maker in 5 minutes!
+Get started with Ino Icon Maker in 2 minutes.
 
-## 🎯 Choose Your Method
+---
 
-### Option 1: NPX (Recommended for First-Time Users)
+## 🚀 Installation Options
 
-No installation required! Run directly:
+### Option 1: NPX (Recommended)
+
+No installation needed! Perfect for one-time use.
 
 ```bash
 npx ino-icon-maker generate -i icon.png -o ./output -p all -z
 ```
 
-**What this does:**
+### Option 2: Global Install
 
-- Reads `icon.png` from current directory
-- Generates iOS and Android icons
-- Saves to `./output` directory
-- Creates ZIP archives
-
-### Option 2: Global Install (For Regular Use)
-
-Install once, use everywhere:
+For frequent use with short commands.
 
 ```bash
-# Install globally
 npm install -g ino-icon-maker
 
-# Use short commands
+# Then use anywhere
 ino-icon generate -i icon.png -o ./output -p all
-
-# Or even shorter
-iim generate -i icon.png -o ./output -p all
+iim generate -i icon.png -o ./output -p all  # Short alias
 ```
 
-### Option 3: Project Dependency (For Teams)
+### Option 3: Project Dependency
 
-Add to your project:
+For team projects and automation.
 
 ```bash
-# Install in project
-npm install ino-icon-maker
+npm install -D ino-icon-maker
+```
 
-# Add script to package.json
+```json
 {
   "scripts": {
     "icons": "ino-icon-maker generate -i assets/icon.png -o output -p all"
   }
 }
-
-# Run
-npm run icons
 ```
 
 ---
 
-## 📱 Platform-Specific Quick Start
+## 📱 Generate Icons
+
+### All Platforms
+
+```bash
+ino-icon generate -i icon.png -o ./output -p all -z
+```
 
 ### iOS Only
 
 ```bash
-npx ino-icon-maker generate -i icon.png -o ./output -p ios
+ino-icon generate -i icon.png -o ./output -p ios
 ```
 
-**Output:** `./output/AppIcon.appiconset/`
-
-- 18 icon files (all sizes for iPhone, iPad, Apple Watch)
-- `Contents.json` metadata file
+**Output:** `./output/AppIcon.appiconset/` (18 icons + Contents.json)
 
 ### Android Only
 
 ```bash
-npx ino-icon-maker generate -i icon.png -o ./output -p android
+ino-icon generate -i icon.png -o ./output -p android
 ```
 
-**Output:** Multiple `mipmap-*` directories
-
-- 13 icon files (all density buckets)
-- Standard and round launcher icons
-
-### Both Platforms
-
-```bash
-npx ino-icon-maker generate -i icon.png -o ./output -p all
-```
-
-**Output:** Both iOS and Android icons
+**Output:** `./output/android-icons/` (13 icons in mipmap folders)
 
 ---
 
-## 💻 Interactive Mode
-
-Don't remember the commands? Use interactive mode:
+## 📖 CLI Commands
 
 ```bash
-npx ino-icon-maker generate
-```
-
-Follow the prompts:
-
-1. 📂 Select your source image
-2. 📁 Choose output directory
-3. 📱 Select platform (iOS/Android/All)
-4. 📦 Enable ZIP export? (Yes/No)
-
----
-
-## 🎨 Recommended Icon Specifications
-
-### Source Image Requirements
-
-✅ **Format**: PNG (preferred), JPEG, or WebP  
-✅ **Size**: 1024×1024 or larger  
-✅ **Aspect Ratio**: 1:1 (square)  
-✅ **Background**: Transparent (PNG) or solid color
-
-### Good Example
-
-```
-✓ icon.png
-  - 1024×1024 pixels
-  - PNG format
-  - Transparent background
-  - Centered content
-```
-
-### What to Avoid
-
-```
-✗ Small image (512×512 or less) - may look pixelated when upscaled
-✗ Non-square (800×600) - will be cropped
-✗ Low quality JPEG - compression artifacts
-✗ Text too small - hard to read at small sizes
-```
-
----
-
-## 🚀 Quick Examples
-
-### Example 1: React Native Project
-
-```bash
-# Navigate to your project
-cd /path/to/my-react-native-app
-
 # Generate icons
-npx ino-icon-maker generate \
-  -i assets/app-icon.png \
-  -o temp \
-  -p all
+ino-icon generate -i <input> -o <output> -p <platform>
 
-# Copy to project folders
-cp -r temp/AppIcon.appiconset ios/YourApp/Images.xcassets/
-cp -r temp/android-icons/* android/app/src/main/res/
+# Options:
+#   -i, --input    Source image (required)
+#   -o, --out      Output directory (required)
+#   -p, --platform ios|android|all (default: ios)
+#   -z, --zip      Create ZIP archive
+#   -f, --force    Overwrite existing files
 
-# Clean up
-rm -rf temp
-```
+# Show icon information
+ino-icon info --platform all
 
-### Example 2: Flutter Project
+# List supported platforms
+ino-icon platforms
 
-```bash
-# Navigate to your project
-cd /path/to/my-flutter-app
+# Start HTTP server
+ino-icon serve --port 3000
 
-# Generate icons
-npx ino-icon-maker generate \
-  -i assets/icon.png \
-  -o output \
-  -p all
+# Show version
+ino-icon -v
 
-# Copy to platform folders
-cp -r output/AppIcon.appiconset ios/Runner/Assets.xcassets/
-cp -r output/android-icons/* android/app/src/main/res/
-```
-
-### Example 3: Multiple Apps
-
-```bash
-# App 1
-npx ino-icon-maker generate -i app1-icon.png -o ./app1/icons -p all
-
-# App 2
-npx ino-icon-maker generate -i app2-icon.png -o ./app2/icons -p all
-
-# App 3
-npx ino-icon-maker generate -i app3-icon.png -o ./app3/icons -p all
+# Help
+ino-icon --help
 ```
 
 ---
 
-## 📦 Output Structure
+## 💻 Use as Library
 
-### iOS Output
+```javascript
+import { quickGenerate } from "ino-icon-maker";
 
+await quickGenerate({
+  input: "./icon.png",
+  output: "./output",
+  platform: "all",
+  zip: true,
+  force: false
+});
+```
+
+### Advanced Usage
+
+```javascript
+import { 
+  generateIconsForPlatform,
+  validateImageFile,
+  getSupportedPlatforms 
+} from "ino-icon-maker";
+
+// Validate image
+const isValid = await validateImageFile("./icon.png");
+
+// Get platforms
+const platforms = getSupportedPlatforms(); // ['ios', 'android']
+
+// Generate
+const result = await generateIconsForPlatform(
+  "ios",
+  "./icon.png",
+  "./output",
+  { zip: true }
+);
+
+console.log(result.files); // Array of generated files
+```
+
+---
+
+## 🌐 HTTP API
+
+```bash
+# Start server
+ino-icon serve --port 3000
+
+# Generate icons (defaults to both platforms)
+curl -F "file=@icon.png" http://localhost:3000/generate -o icons.zip
+
+# Specific platform
+curl -F "file=@icon.png" \
+  "http://localhost:3000/generate?platform=ios" \
+  -o ios-icons.zip
+```
+
+---
+
+## 🎨 Best Practices
+
+### Input Image
+
+✅ **DO:**
+- Use 1024×1024 or larger
+- Square aspect ratio (1:1)
+- PNG format with transparency
+- High-quality source
+
+❌ **DON'T:**
+- Use low-resolution images
+- Use non-square images
+- Include padding/margins
+
+### File Formats
+
+| Format | When to Use |
+|--------|-------------|
+| **PNG** | Icons with transparency (recommended) |
+| **AVIF** | Next-gen format, best compression |
+| **WebP** | Modern web images |
+| **JPEG** | Photos without transparency |
+| **TIFF** | Professional/print quality |
+
+---
+
+## 📂 Output Examples
+
+### iOS Structure
 ```
 output/
 └── AppIcon.appiconset/
-    ├── Icon-App-20x20@2x.png      # 40×40
-    ├── Icon-App-20x20@3x.png      # 60×60
-    ├── Icon-App-29x29@2x.png      # 58×58
-    ├── Icon-App-29x29@3x.png      # 87×87
-    ├── Icon-App-40x40@2x.png      # 80×80
-    ├── Icon-App-40x40@3x.png      # 120×120
-    ├── Icon-App-60x60@2x.png      # 120×120
-    ├── Icon-App-60x60@3x.png      # 180×180
-    ├── Icon-App-76x76@2x.png      # 152×152
-    ├── Icon-App-83.5x83.5@2x.png  # 167×167
-    ├── Icon-App-1024x1024@1x.png  # 1024×1024 (App Store)
-    └── Contents.json              # Metadata
+    ├── Icon-App-20x20@2x.png
+    ├── Icon-App-60x60@3x.png
+    ├── Icon-App-1024x1024@1x.png
+    └── Contents.json
 ```
 
-### Android Output
-
+### Android Structure
 ```
 output/
-├── mipmap-ldpi/
-│   ├── ic_launcher.png (36×36)
-│   └── ic_launcher_round.png
-├── mipmap-mdpi/
-│   ├── ic_launcher.png (48×48)
-│   └── ic_launcher_round.png
-├── mipmap-hdpi/
-│   ├── ic_launcher.png (72×72)
-│   └── ic_launcher_round.png
-├── mipmap-xhdpi/
-│   ├── ic_launcher.png (96×96)
-│   └── ic_launcher_round.png
-├── mipmap-xxhdpi/
-│   ├── ic_launcher.png (144×144)
-│   └── ic_launcher_round.png
-└── mipmap-xxxhdpi/
-    ├── ic_launcher.png (192×192)
-    └── ic_launcher_round.png
+└── android-icons/
+    ├── mipmap-ldpi/
+    ├── mipmap-mdpi/
+    ├── mipmap-hdpi/
+    ├── mipmap-xhdpi/
+    ├── mipmap-xxhdpi/
+    ├── mipmap-xxxhdpi/
+    └── playstore/
 ```
 
 ---
 
-## ❓ Common Questions
+## 🔄 What's Next?
 
-### Q: Do I need to install anything?
-
-**A:** No! Use `npx ino-icon-maker` to run without installing.
-
-### Q: What image formats are supported?
-
-**A:** PNG (best), JPEG, and WebP.
-
-### Q: What size should my source image be?
-
-**A:** Minimum 1024×1024, but larger is better (won't be upscaled).
-
-### Q: Can I generate just iOS or just Android?
-
-**A:** Yes! Use `-p ios` or `-p android` flag.
-
-### Q: Where are the generated files?
-
-**A:** In the output directory you specified with `-o` flag.
-
-### Q: Can I create ZIP archives?
-
-**A:** Yes! Add `-z` or `--zip` flag.
-
-### Q: How do I overwrite existing files?
-
-**A:** Add `-f` or `--force` flag.
+- **[React Native Integration](../examples/REACT_NATIVE.md)**
+- **[Flutter Integration](../examples/FLUTTER.md)**
+- **[CI/CD Automation](../examples/CI_CD.md)**
+- **[All Examples](../examples/ALL_EXAMPLES.md)**
 
 ---
 
-## 🆘 Troubleshooting
-
-### "Command not found: ino-icon"
-
-**Solution:** You haven't installed globally. Either:
-
-- Use `npx ino-icon-maker` instead
-- Install globally: `npm install -g ino-icon-maker`
-
-### "Invalid image file"
-
-**Solution:**
-
-- Check image exists at specified path
-- Verify it's PNG, JPEG, or WebP format
-- Ensure file is not corrupted
-
-### "ENOENT: no such file or directory"
-
-**Solution:**
-
-- Check input path is correct
-- Use absolute paths or ensure you're in right directory
-- Check file permissions
-
-### "Sharp installation failed"
-
-**Solution:**
-
-```bash
-npm cache clean --force
-npm install -g ino-icon-maker --force
-```
-
----
-
-## ✨ Next Steps
-
-Now that you've generated your first icons:
-
-1. **Integrate with your app**
-
-   - [React Native Guide](../examples/REACT_NATIVE.md)
-   - [Flutter Guide](../examples/FLUTTER.md)
-
-2. **Automate the process**
-
-   - [CI/CD Examples](../examples/CI_CD.md)
-
-3. **Use as a library**
-
-   - [Library API Guide](./LIBRARY_API.md)
-
-4. **Learn advanced features**
-   - [All Examples](../examples/ALL_EXAMPLES.md)
-
----
-
-## 🔗 Resources
-
-- **GitHub**: https://github.com/narek589/ino-icon-maker
-- **npm**: https://www.npmjs.com/package/ino-icon-maker
-- **Issues**: https://github.com/narek589/ino-icon-maker/issues
-- **Documentation**: https://github.com/narek589/ino-icon-maker/tree/main/docs
-
----
-
-**Happy icon generating!** 🎨
+**Questions?** Check [All Examples](../examples/ALL_EXAMPLES.md) or [open an issue](https://github.com/narek589/ino-icon-maker/issues)
