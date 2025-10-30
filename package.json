@@ -14,7 +14,8 @@
 		"generate": "node cli.js generate",
 		"info": "node cli.js info",
 		"platforms": "node cli.js platforms",
-		"test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+		"test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+		"release": "npm version patch && npm publish"
 	},
 	"keywords": [
 		"ino-icon-maker",
