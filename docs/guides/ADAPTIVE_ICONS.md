@@ -233,7 +233,7 @@ You had to manually design with padding
 ❌ Risk of clipping if logo too large
 ```
 
-**v1.1.4+ Automatic (Fixed):**
+**v1.1.5+ Automatic (Fixed):**
 
 ```
 ✅ Foreground resized to 66dp safe zone
@@ -381,19 +381,19 @@ await generator.generate("./foreground.png", "./output", {
 - [Material Design Icons](https://m3.material.io/styles/icons/overview)
 - [Quick Start Guide](./QUICK_START.md)
 - [Complete Examples](../examples/ALL_EXAMPLES.md)
-- [Android Adaptive Icon Fix Details](../ANDROID_ADAPTIVE_ICON_FIX.md) - v1.1.4 safe zone fix
+- [Android Adaptive Icon Fix Details](../ANDROID_ADAPTIVE_ICON_FIX.md) - v1.1.5 safe zone fix
 
 ---
 
-## 🐛 Important: v1.1.4 Fix
+## 🐛 Important: v1.1.5 Fix
 
-**If you generated adaptive icons before v1.1.4**, your foreground images may have been using incorrect safe zone calculations. The fix in v1.1.4 corrects:
+**If you generated adaptive icons before v1.1.5**, your foreground images may have been using incorrect safe zone calculations. The fix in v1.1.5 corrects:
 
 - ✅ Safe zone now correctly 66dp (was incorrectly calculated before)
 - ✅ Padding now correctly 18dp on each side (was 21dp)
 - ✅ Follows official Android specification
 
-**Recommendation:** Regenerate your adaptive icons with v1.1.4+ for proper safe zone compliance.
+**Recommendation:** Regenerate your adaptive icons with v1.1.5+ for proper safe zone compliance.
 
 See [Android Adaptive Icon Fix Details](../ANDROID_ADAPTIVE_ICON_FIX.md) for technical details.
 
