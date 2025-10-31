@@ -734,36 +734,76 @@ function startServer(port = 3000) {
 			} else if (results.length > 1) {
 				// Multiple platforms: create combined ZIP
 				try {
-					const combinedZipPath = path.join(tempOutputDir, "ios-icons.zip");
+					const combinedZipPath = path.join(tempOutputDir, "all-icons.zip");
+
+					console.log(`📦 Creating combined ZIP at ${combinedZipPath}...`);
 
 					// Create ZIP with archiver
 					const output = createWriteStream(combinedZipPath);
 					const archive = archiver("zip", { zlib: { level: 9 } });
 
-					// Handle archive events
-					await new Promise((resolve, reject) => {
-						output.on("close", () => resolve());
-						archive.on("error", err => reject(err));
+					// Setup promise to wait for archive completion
+					const archivePromise = new Promise((resolve, reject) => {
+						output.on("close", () => {
+							console.log(
+								`✅ Archive finalized, ${archive.pointer()} total bytes`
+							);
+							resolve();
+						});
 
-						// Pipe archive to file
-						archive.pipe(output);
+						output.on("end", () => {
+							console.log("📦 Output stream ended");
+						});
 
-						// Add all platform directories to the ZIP
-						for (const result of results) {
-							if (result.outputDir && existsSync(result.outputDir)) {
-								const dirName = path.basename(result.outputDir);
-								archive.directory(result.outputDir, dirName);
+						output.on("error", err => {
+							console.error("❌ Output stream error:", err);
+							reject(err);
+						});
+
+						archive.on("error", err => {
+							console.error("❌ Archive error:", err);
+							reject(err);
+						});
+
+						archive.on("warning", err => {
+							if (err.code === "ENOENT") {
+								console.warn("⚠️  Archive warning:", err);
+							} else {
+								console.error("❌ Archive warning (critical):", err);
+								reject(err);
 							}
-						}
-
-						// Finalize the archive
-						archive.finalize();
+						});
 					});
+
+					// Pipe archive to file
+					archive.pipe(output);
+
+					// Add all platform directories to the ZIP
+					for (const result of results) {
+						if (
+							result.success &&
+							result.outputDir &&
+							existsSync(result.outputDir)
+						) {
+							const dirName = path.basename(result.outputDir);
+							console.log(
+								`📦 Adding ${dirName} (${result.platform}) to combined ZIP...`
+							);
+							archive.directory(result.outputDir, dirName);
+						}
+					}
+
+					// Finalize the archive (must be called AFTER adding all content)
+					console.log("📦 Finalizing archive...");
+					archive.finalize();
+
+					// Wait for archive to complete
+					await archivePromise;
 
 					console.log(`✅ Created combined ZIP: ${combinedZipPath}`);
 
 					// Send the combined ZIP
-					res.download(combinedZipPath, "ios-icons.zip", async err => {
+					res.download(combinedZipPath, "all-icons.zip", async err => {
 						// Clean up temp directory after download
 						if (tempOutputDir) {
 							try {
