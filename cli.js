@@ -122,7 +122,7 @@ program
 	)
 	.option(
 		"-bg, --background <path>",
-		"Background layer for Android adaptive icons (image or hex color like #FF5722)"
+		"Background layer for adaptive icons (image file or hex color like #FF5722, defaults to #111111)"
 	)
 	.option(
 		"-m, --monochrome <path>",
@@ -215,14 +215,14 @@ async function generateWithProgress(options) {
 		monochrome,
 	} = options;
 
-	// Check if using adaptive icon mode
-	const adaptiveMode = foreground && background;
+	// Check if using adaptive icon mode (foreground is required, background defaults to #111111)
+	const adaptiveMode = !!foreground;
 
 	// Validate that either input OR adaptive layers are provided
 	if (!input && !adaptiveMode) {
 		console.error(
 			chalk.red(
-				"❌ Error: Either --input (-i) or adaptive icon layers (--foreground + --background) are required\n"
+				"❌ Error: Either --input (-i) or --foreground (-fg) for adaptive mode are required\n"
 			)
 		);
 		process.exit(1);
@@ -278,15 +278,29 @@ async function generateWithProgress(options) {
 			process.exit(1);
 		}
 
-		// Check if background is a file or hex color
-		const isHexColor = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(background);
-		if (!isHexColor && !existsSync(background)) {
-			validateSpinner.fail(
-				chalk.red(
-					`Background must be a valid image file or hex color (e.g., #FF5722): ${background}`
-				)
-			);
-			process.exit(1);
+		// Background is optional (defaults to #111111)
+		// If provided, check if it's a file or hex color
+		if (background) {
+			const isHexColor = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(background);
+			if (!isHexColor && !existsSync(background)) {
+				validateSpinner.fail(
+					chalk.red(
+						`Background must be a valid image file or hex color (e.g., #FF5722): ${background}`
+					)
+				);
+				process.exit(1);
+			}
+
+			// Validate background if it's an image
+			if (!isHexColor) {
+				const bgValid = await validateImageFile(background);
+				if (!bgValid) {
+					validateSpinner.fail(
+						chalk.red("Background layer is not a valid image format")
+					);
+					process.exit(1);
+				}
+			}
 		}
 
 		if (monochrome && !existsSync(monochrome)) {
@@ -303,17 +317,6 @@ async function generateWithProgress(options) {
 				chalk.red("Foreground layer is not a valid image format")
 			);
 			process.exit(1);
-		}
-
-		// Validate background if it's an image
-		if (!isHexColor) {
-			const bgValid = await validateImageFile(background);
-			if (!bgValid) {
-				validateSpinner.fail(
-					chalk.red("Background layer is not a valid image format")
-				);
-				process.exit(1);
-			}
 		}
 
 		// Validate monochrome if provided
@@ -349,7 +352,10 @@ async function generateWithProgress(options) {
 		console.log(
 			chalk.gray("  Foreground:      ") + clickablePath(foreground, "white")
 		);
-		console.log(chalk.gray("  Background:      ") + chalk.white(background));
+		console.log(
+			chalk.gray("  Background:      ") +
+				chalk.white(background || "#111111 (default)")
+		);
 		if (monochrome) {
 			console.log(
 				chalk.gray("  Monochrome:      ") + clickablePath(monochrome, "white")
@@ -394,7 +400,7 @@ async function generateWithProgress(options) {
 		if (adaptiveMode) {
 			genOptions.adaptiveIcon = {
 				foreground,
-				background,
+				background: background || null, // null will default to #111111
 				monochrome,
 			};
 		}
