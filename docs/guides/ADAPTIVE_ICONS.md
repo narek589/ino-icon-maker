@@ -1,506 +1,357 @@
-# Android Adaptive Icons Guide
+# 🎨 Adaptive Icons Guide
 
-## Overview
-
-Android 8.0 (API level 26) introduced **adaptive icons**, which allow your app icon to display in different shapes across different device models. Adaptive icons are composed of separate foreground and background layers, giving device manufacturers and users more flexibility in customization.
-
-**ino-icon-maker** now supports generating adaptive icons with separate foreground, background, and monochrome layers, while maintaining backward compatibility with older Android versions.
-
-## What Are Adaptive Icons?
-
-Adaptive icons consist of two layers:
-
-1. **Foreground Layer** - The main icon artwork (108x108dp)
-2. **Background Layer** - The background artwork or solid color (108x108dp)
-3. **Monochrome Layer** (Optional) - Themed icon for Android 13+ (108x108dp)
-
-The system masks these layers into various shapes (circle, squircle, rounded square, square) depending on the device manufacturer.
-
-### Safe Zone
-
-The **safe zone** is a 66x66dp circle in the center of the 108x108dp canvas. All important visual elements should be within this safe zone to ensure they're visible across all mask shapes.
-
-```
-┌─────────────────────────────┐
-│       108x108dp Canvas      │
-│                             │
-│   ┌─────────────────┐       │
-│   │   66x66dp       │       │
-│   │   Safe Zone     │       │
-│   └─────────────────┘       │
-│                             │
-└─────────────────────────────┘
-```
-
-## Benefits of Adaptive Icons
-
-- **Device Consistency**: Icons conform to the device's icon shape
-- **Visual Effects**: Support for parallax effects and animations
-- **Themed Icons**: Android 13+ supports monochrome themed icons
-- **Future-Proof**: New shapes can be added without updating your app
-
-## Preparing Your Layers
-
-### Design Guidelines
-
-**Foreground Layer**:
-
-- Size: 108x108dp (432x432px @ xxhdpi)
-- Keep important elements within the 66x66dp safe zone
-- Use transparency for the masked effect
-- PNG format with alpha channel recommended
-
-**Background Layer**:
-
-- Size: 108x108dp (432x432px @ xxhdpi)
-- Can be an image file or solid color (hex code)
-- Should complement the foreground
-- No transparency required (fully opaque layer)
-
-**Monochrome Layer** (Optional):
-
-- Size: 108x108dp (432x432px @ xxhdpi)
-- Single-color silhouette for themed icons
-- Used in Android 13+ for system theming
-- Defaults to foreground layer if not provided
-
-### Design Tools
-
-**Figma/Sketch**:
-
-1. Create a 108x108dp artboard
-2. Add a 66x66dp circle guide in the center
-3. Design foreground within the safe zone
-4. Design background to fill entire canvas
-5. Export as PNG @4x (432x432px)
-
-**Photoshop**:
-
-1. Create 432x432px canvas (xxhdpi)
-2. Add circular guide (264px diameter, centered)
-3. Keep key elements within the guide
-4. Export layers separately as PNG
-
-## Usage
-
-### CLI Mode
-
-#### Basic Adaptive Icons
-
-```bash
-# Generate Android adaptive icons
-ino-icon generate \
-  --platform android \
-  --foreground ./layers/foreground.png \
-  --background ./layers/background.png \
-  --out ./icons \
-  --zip
-```
-
-#### With Solid Color Background
-
-```bash
-# Use hex color for background
-ino-icon generate \
-  --platform android \
-  --foreground ./foreground.png \
-  --background '#FF5722' \
-  --out ./icons
-```
-
-#### With Monochrome Layer
-
-```bash
-# Include monochrome layer for themed icons
-ino-icon generate \
-  --platform android \
-  --foreground ./foreground.png \
-  --background ./background.png \
-  --monochrome ./monochrome.png \
-  --out ./icons
-```
-
-#### Using Short Flags
-
-```bash
-ino-icon generate \
-  -p android \
-  -fg ./fg.png \
-  -bg ./bg.png \
-  -m ./mono.png \
-  -o ./icons \
-  -z
-```
-
-### HTTP API Mode
-
-#### Basic Adaptive Icons
-
-```bash
-# Upload foreground and background images
-curl -X POST http://localhost:3000/generate?platform=android \
-  -F "foreground=@./layers/foreground.png" \
-  -F "background=@./layers/background.png" \
-  -o android-adaptive-icons.zip
-```
-
-#### With Solid Color Background
-
-```bash
-# Use backgroundColor query parameter
-curl -X POST "http://localhost:3000/generate?platform=android&backgroundColor=%23FF5722" \
-  -F "foreground=@./foreground.png" \
-  -o android-icons.zip
-```
-
-#### With All Three Layers
-
-```bash
-# Include monochrome layer
-curl -X POST http://localhost:3000/generate?platform=android \
-  -F "foreground=@./fg.png" \
-  -F "background=@./bg.png" \
-  -F "monochrome=@./mono.png" \
-  -o complete-icons.zip
-```
-
-### JavaScript/Node.js API
-
-#### Using quickGenerate
-
-```javascript
-import { quickGenerate } from "ino-icon-maker";
-
-// Generate Android adaptive icons
-await quickGenerate({
-	output: "./icons",
-	platform: "android",
-	adaptiveIcon: {
-		foreground: "./layers/foreground.png",
-		background: "./layers/background.png",
-		monochrome: "./layers/monochrome.png",
-	},
-	zip: true,
-});
-```
-
-#### With Solid Color Background
-
-```javascript
-await quickGenerate({
-	output: "./icons",
-	platform: "android",
-	adaptiveIcon: {
-		foreground: "./fg.png",
-		background: "#FF5722", // Hex color
-	},
-});
-```
-
-#### Generate Both iOS and Android
-
-```javascript
-// Generate iOS (legacy) + Android (adaptive)
-await quickGenerate({
-	input: "./icon.png", // Used for iOS
-	output: "./icons",
-	platform: "all",
-	adaptiveIcon: {
-		foreground: "./android-fg.png",
-		background: "./android-bg.png",
-	},
-});
-```
-
-#### Using Direct API
-
-```javascript
-import { generateIconsForPlatform } from "ino-icon-maker";
-
-const result = await generateIconsForPlatform(
-	"android",
-	null, // No single input file
-	"./output",
-	{
-		force: true,
-		zip: true,
-		adaptiveIcon: {
-			foreground: "./foreground.png",
-			background: "#4CAF50",
-			monochrome: "./monochrome.png",
-		},
-	}
-);
-
-console.log(`Generated ${result.files.length} icons`);
-console.log(`Output: ${result.outputDir}`);
-console.log(`ZIP: ${result.zipPath}`);
-```
-
-## Output Structure
-
-When generating adaptive icons, the following structure is created:
-
-```
-android-icons/
-├── mipmap-anydpi-v26/
-│   ├── ic_launcher.xml
-│   └── ic_launcher_round.xml
-├── mipmap-ldpi/
-│   ├── ic_launcher_foreground.png (81x81px)
-│   ├── ic_launcher_background.png (81x81px)
-│   ├── ic_launcher_monochrome.png (81x81px)
-│   ├── ic_launcher.png (36x36px - legacy)
-│   └── ic_launcher_round.png (36x36px - legacy)
-├── mipmap-mdpi/
-│   ├── ic_launcher_foreground.png (108x108px)
-│   ├── ic_launcher_background.png (108x108px)
-│   ├── ic_launcher_monochrome.png (108x108px)
-│   ├── ic_launcher.png (48x48px - legacy)
-│   └── ic_launcher_round.png (48x48px - legacy)
-├── mipmap-hdpi/
-│   ├── ic_launcher_foreground.png (162x162px)
-│   ├── ic_launcher_background.png (162x162px)
-│   ├── ic_launcher_monochrome.png (162x162px)
-│   ├── ic_launcher.png (72x72px - legacy)
-│   └── ic_launcher_round.png (72x72px - legacy)
-├── mipmap-xhdpi/
-│   ├── ic_launcher_foreground.png (216x216px)
-│   ├── ic_launcher_background.png (216x216px)
-│   ├── ic_launcher_monochrome.png (216x216px)
-│   ├── ic_launcher.png (96x96px - legacy)
-│   └── ic_launcher_round.png (96x96px - legacy)
-├── mipmap-xxhdpi/
-│   ├── ic_launcher_foreground.png (324x324px)
-│   ├── ic_launcher_background.png (324x324px)
-│   ├── ic_launcher_monochrome.png (324x324px)
-│   ├── ic_launcher.png (144x144px - legacy)
-│   └── ic_launcher_round.png (144x144px - legacy)
-├── mipmap-xxxhdpi/
-│   ├── ic_launcher_foreground.png (432x432px)
-│   ├── ic_launcher_background.png (432x432px)
-│   ├── ic_launcher_monochrome.png (432x432px)
-│   ├── ic_launcher.png (192x192px - legacy)
-│   └── ic_launcher_round.png (192x192px - legacy)
-└── playstore/
-    └── ic_launcher_playstore.png (512x512px)
-```
-
-### XML Files
-
-**mipmap-anydpi-v26/ic_launcher.xml**:
-
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
-    <background android:drawable="@mipmap/ic_launcher_background"/>
-    <foreground android:drawable="@mipmap/ic_launcher_foreground"/>
-    <monochrome android:drawable="@mipmap/ic_launcher_monochrome"/>
-</adaptive-icon>
-```
-
-**mipmap-anydpi-v26/ic_launcher_round.xml**: Same structure as above
-
-## Integration with Android Project
-
-### Update AndroidManifest.xml
-
-No changes needed! The manifest already references `@mipmap/ic_launcher`:
-
-```xml
-<application
-    android:icon="@mipmap/ic_launcher"
-    android:roundIcon="@mipmap/ic_launcher_round"
-    android:label="@string/app_name">
-    ...
-</application>
-```
-
-### Copy Icons to Your Project
-
-1. **Copy the generated `android-icons/` folder to your project**:
-
-   ```bash
-   cp -r android-icons/* android/app/src/main/res/
-   ```
-
-2. **For React Native**:
-
-   ```bash
-   cp -r android-icons/* android/app/src/main/res/
-   ```
-
-3. **For Flutter**:
-   ```bash
-   cp -r android-icons/* android/app/src/main/res/
-   ```
-
-### Verify Installation
-
-Android Studio will automatically recognize the adaptive icon resources. You can preview them in:
-
-- **Android Studio**: Right-click on `mipmap-anydpi-v26/ic_launcher.xml` → "Preview"
-- **Device**: Install the app and check the launcher
-
-## Backward Compatibility
-
-The generator automatically creates legacy icons for devices running Android 7.1 (API 25) and below:
-
-- **Android 8.0+ (API 26+)**: Uses adaptive icon with foreground/background layers
-- **Android 7.1 and below (API 25-)**: Uses legacy PNG icons (foreground composited over background)
-
-This ensures your app looks great on all Android versions!
-
-## Best Practices
-
-### Do's
-
-✅ Keep important elements within the 66x66dp safe zone  
-✅ Use transparent backgrounds on foreground layer  
-✅ Test on multiple device shapes (circle, squircle, square)  
-✅ Use high-resolution source images (432x432px or larger)  
-✅ Provide monochrome layer for Android 13+ themed icons  
-✅ Use solid colors for simple, clean backgrounds
-
-### Don'ts
-
-❌ Don't place text near edges (may be clipped)  
-❌ Don't use complex gradients that span outside safe zone  
-❌ Don't use transparent backgrounds on background layer  
-❌ Don't forget to test on different Android versions  
-❌ Don't use photos as foreground (doesn't scale well)
-
-## Common Issues
-
-### Issue: Icon appears clipped on some devices
-
-**Solution**: Ensure your key visual elements are within the 66x66dp safe zone. The outer 21dp on each side may be masked.
-
-### Issue: Background color not displaying correctly
-
-**Solution**:
-
-- If using hex color, ensure it starts with `#` (e.g., `#FF5722`)
-- If using an image, ensure it's fully opaque (no transparency)
-
-### Issue: Monochrome icon not appearing in Android 13
-
-**Solution**:
-
-- Provide a proper monochrome layer (single-color silhouette)
-- Ensure the layer is high contrast (black on transparent or white on transparent)
-
-### Issue: Legacy icons look different from adaptive icons
-
-**Solution**: This is expected! Legacy icons are created by compositing foreground over background. Design with this in mind, or provide a separate legacy icon.
-
-## Testing Your Icons
-
-### Android Studio
-
-1. Copy icons to your project's `res/` directory
-2. Right-click `ic_launcher.xml` → "Preview"
-3. Check all shapes: Circle, Squircle, Rounded Square, Square
-
-### Physical Device
-
-1. Install your app on multiple devices
-2. Check launcher icons across different manufacturers
-3. Test on Android 8.0+ and older versions
-
-### Online Tools
-
-- [Adaptive Icon Preview](https://adapticon.tooo.io/) - Preview your adaptive icon
-- [Android Asset Studio](https://romannurik.github.io/AndroidAssetStudio/) - Google's official tool
-
-## Examples
-
-### Example 1: Material Design Icon
-
-```bash
-# Foreground: Transparent PNG with material icon
-# Background: Brand color
-ino-icon generate \
-  -p android \
-  -fg ./material-icon-fg.png \
-  -bg '#2196F3' \
-  -m ./material-icon-mono.png \
-  -o ./icons \
-  -z
-```
-
-### Example 2: Logo with Gradient Background
-
-```bash
-# Foreground: Logo as PNG
-# Background: Gradient image
-ino-icon generate \
-  -p android \
-  -fg ./logo.png \
-  -bg ./gradient-bg.png \
-  -o ./icons
-```
-
-### Example 3: Full Project (iOS + Android)
-
-```bash
-# Generate both platforms
-# iOS uses single image, Android uses adaptive
-ino-icon generate \
-  -i ./icon-ios.png \
-  -p all \
-  -fg ./android-fg.png \
-  -bg '#FF5722' \
-  -o ./all-icons \
-  -z
-```
-
-## Resources
-
-- [Android Adaptive Icons Documentation](https://developer.android.com/develop/ui/views/launch/icon_design_adaptive)
-- [Material Design Icon Guidelines](https://m3.material.io/styles/icons/overview)
-- [Android Asset Studio](https://romannurik.github.io/AndroidAssetStudio/)
-
-## Migration from Legacy Icons
-
-If you're currently using legacy single-image icons:
-
-### Before (Legacy Mode):
-
-```bash
-ino-icon generate -i ./icon.png -p android -o ./icons
-```
-
-### After (Adaptive Mode):
-
-```bash
-# Prepare separate foreground and background layers first
-ino-icon generate \
-  -fg ./foreground.png \
-  -bg ./background.png \
-  -p android \
-  -o ./icons
-```
-
-**Note**: Legacy icons are still supported! Adaptive icons are optional but recommended for modern Android apps.
-
-## FAQ
-
-**Q: Do I need to provide a monochrome layer?**  
-A: No, it's optional. If not provided, the foreground layer will be used as the monochrome layer.
-
-**Q: Can I use gradients in the background?**  
-A: Yes! You can use any image as the background layer, including gradients.
-
-**Q: Will my icon work on older Android versions?**  
-A: Yes! The generator creates legacy icons automatically for backward compatibility.
-
-**Q: How do I know if my safe zone is correct?**  
-A: Use Android Studio's preview tool or online validators to check all mask shapes.
-
-**Q: Can I use the same image for foreground and background?**  
-A: Technically yes, but it's not recommended. Separate layers give better results.
+Complete guide to Android Adaptive Icons and the new unified layer-based workflow (v1.1.0+).
 
 ---
 
-Need help? Check out our [Quick Start Guide](./QUICK_START.md) or open an issue on [GitHub](https://github.com/yourusername/ino-icon-maker/issues).
+## 📖 Table of Contents
+
+- [What are Adaptive Icons?](#what-are-adaptive-icons)
+- [Unified Layer-Based Workflow (v1.1.0)](#unified-layer-based-workflow-v110)
+- [CLI Usage](#cli-usage)
+- [HTTP API Usage](#http-api-usage)
+- [Design Guidelines](#design-guidelines)
+- [Best Practices](#best-practices)
+
+---
+
+## 🤔 What are Adaptive Icons?
+
+Introduced in Android 8.0 (API 26), adaptive icons consist of:
+
+1. **Foreground layer**: Your app's logo/icon
+2. **Background layer**: Solid color or image
+3. **Safe zone**: 20% padding (66dp of 108dp canvas)
+
+**Why use them?**
+- System applies different masks (circle, squircle, rounded square)
+- Supports visual effects (parallax, pulsing)
+- Modern, consistent look across launchers
+
+**Safe Zone Diagram:**
+```
+┌──────────────────────────┐
+│  ← 20% padding →         │ 108dp total canvas
+│  ┌──────────────┐        │
+│  │              │        │ 72dp safe zone (icon)
+│  │   Your Icon  │        │ 36dp bleeding edge
+│  │              │        │
+│  └──────────────┘        │
+│         ↑ 20% padding    │
+└──────────────────────────┘
+```
+
+---
+
+## 🆕 Unified Layer-Based Workflow (v1.1.0)
+
+**New in v1.1.0:** Both iOS and Android now support foreground/background layers!
+
+### How It Works
+
+**For Android:**
+- Generates native adaptive icons (separate foreground/background layers)
+- Foreground automatically gets 20% padding (safe zone)
+- Background fills entire space
+
+**For iOS:**
+- Creates composite image from layers
+- Background fills entire space
+- Foreground centered with 20% padding (zoomed out)
+- Composite used to generate standard iOS icons
+
+**Default Background:** If no background specified, uses `#111111` (dark gray)
+
+---
+
+## 🖥️ CLI Usage
+
+### Android Adaptive Icons
+
+```bash
+# Foreground + background color
+ino-icon generate -p android \
+  -fg ./foreground.png \
+  --bg-color "#FF5722"
+
+# Foreground + background image
+ino-icon generate -p android \
+  -fg ./foreground.png \
+  -bg ./background.png
+
+# Foreground only (default #111111)
+ino-icon generate -p android -fg ./foreground.png
+
+# With custom output
+ino-icon generate -p android \
+  -fg ./fg.png \
+  -bg ./bg.png \
+  -o ./android/app/src/main/res/
+```
+
+**Output Structure:**
+```
+android/
+└── app/
+    └── src/
+        └── main/
+            └── res/
+                ├── mipmap-ldpi/
+                ├── mipmap-mdpi/
+                ├── mipmap-hdpi/
+                ├── mipmap-xhdpi/
+                ├── mipmap-xxhdpi/
+                ├── mipmap-xxxhdpi/
+                └── mipmap-anydpi-v26/
+                    ├── ic_launcher.xml
+                    └── ic_launcher_round.xml
+```
+
+---
+
+## 🌐 HTTP API Usage
+
+### Start Server
+```bash
+ino-icon serve -p 3000
+```
+
+### Android Only (Adaptive)
+
+```bash
+# Foreground only (default #111111)
+curl -F "foreground=@fg.png" \
+  http://localhost:3000/generate?platform=android -o android.zip
+
+# With background color
+curl -F "foreground=@fg.png" \
+  "http://localhost:3000/generate?platform=android&backgroundColor=%23FF5722" -o android.zip
+
+# With background image
+curl -F "foreground=@fg.png" -F "background=@bg.png" \
+  http://localhost:3000/generate?platform=android -o android.zip
+```
+
+### Both Platforms (iOS + Android)
+
+```bash
+# Foreground only (default #111111)
+curl -F "foreground=@fg.png" \
+  http://localhost:3000/generate?platform=all -o all-icons.zip
+
+# With background color
+curl -F "foreground=@fg.png" \
+  "http://localhost:3000/generate?platform=all&backgroundColor=%23FF5722" -o all-icons.zip
+
+# With background image
+curl -F "foreground=@fg.png" -F "background=@bg.png" \
+  http://localhost:3000/generate?platform=all -o all-icons.zip
+```
+
+**What you get:**
+- **iOS**: Composite icons (background + padded foreground) in `AppIcon.appiconset/`
+- **Android**: Native adaptive icons with separate layers in `mipmap-*/`
+
+### iOS Only (Layer-Based)
+
+```bash
+# Foreground only (default #111111)
+curl -F "foreground=@fg.png" \
+  http://localhost:3000/generate?platform=ios -o ios.zip
+
+# With background
+curl -F "foreground=@fg.png" -F "background=@bg.png" \
+  http://localhost:3000/generate?platform=ios -o ios.zip
+```
+
+---
+
+## 🎨 Design Guidelines
+
+### Image Requirements
+
+**Foreground Layer:**
+- Format: PNG with transparency
+- Recommended: 1024x1024px minimum
+- Content: Keep within safe zone (66% of canvas)
+- Best: Simple, recognizable shapes
+
+**Background Layer:**
+- Format: PNG or solid color
+- Recommended: 1024x1024px if image
+- Content: Fills entire space (no transparency needed)
+- Best: Solid colors or simple gradients
+
+### Safe Zone Rules
+
+The **safe zone is the center 66%** of the canvas:
+- Total canvas: 108dp × 108dp
+- Safe zone: 72dp × 72dp (center)
+- Visible: At least 66% always shown
+- Masked: Outer 36dp may be clipped
+
+**Visual Representation:**
+```
+┌─────────────────────────────┐
+│ ← Unsafe (may be clipped) → │
+│  ┌───────────────────────┐  │
+│  │                       │  │
+│  │    Safe Zone 72dp     │  │
+│  │  (Always visible)     │  │
+│  │                       │  │
+│  └───────────────────────┘  │
+│ ← Unsafe (may be clipped) → │
+└─────────────────────────────┘
+```
+
+### Padding Applied Automatically
+
+**v1.1.0 automatically adds 20% padding** to foreground layers:
+- ✅ Your foreground is zoomed out (safe from clipping)
+- ✅ Background fills entire space
+- ✅ No manual padding needed!
+
+**Before v1.1.0:**
+```
+You had to manually design with padding
+❌ Risk of clipping if logo too large
+```
+
+**v1.1.0+ Automatic:**
+```
+✅ Foreground automatically zoomed out 20%
+✅ Safe zone guaranteed
+✅ Just design at 100%, we handle the rest!
+```
+
+---
+
+## ✅ Best Practices
+
+### 1. **Foreground Design**
+- Keep important elements within 66% center
+- Use transparency for irregular shapes
+- Avoid text or fine details on edges
+- Test with different launcher masks
+
+### 2. **Background Design**
+- Use solid colors for consistency
+- Avoid complex patterns (they may look busy when masked)
+- Consider contrast with foreground
+- Test light/dark modes
+
+### 3. **Color Recommendations**
+- **Brand colors**: Use your primary brand color for background
+- **Dark mode friendly**: Consider `#111111` or `#1a1a1a` for dark themes
+- **Contrast**: Ensure foreground is visible on background
+- **Accessibility**: Check WCAG contrast ratios
+
+### 4. **Testing**
+Test your icons on different launchers:
+- Google Pixel Launcher (circle)
+- Samsung One UI (squircle)
+- OnePlus Launcher (rounded square)
+- Custom launchers (various shapes)
+
+### 5. **Common Mistakes to Avoid**
+- ❌ Placing text/logos too close to edges
+- ❌ Using transparency in background (use solid color instead)
+- ❌ Making foreground too large (will be clipped)
+- ❌ Complex backgrounds (distracting when animated)
+
+---
+
+## 🧪 Testing Your Icons
+
+### Preview Different Masks
+
+Use Android Studio's Image Asset Studio to preview:
+1. Open Android Studio
+2. File → New → Image Asset
+3. Import your generated icons
+4. Preview with different masks
+
+### Test on Device
+
+```bash
+# Generate icons
+curl -F "foreground=@fg.png" -F "background=@bg.png" \
+  http://localhost:3000/generate?platform=android -o test.zip
+
+# Unzip to project
+unzip -o test.zip -d android/app/src/main/res/
+
+# Build and install
+cd android && ./gradlew installDebug
+```
+
+### Online Preview Tools
+- [Android Asset Studio](https://romannurik.github.io/AndroidAssetStudio/icons-launcher.html)
+- [Figma Android Icon Template](https://www.figma.com/community/file/894667932711550782)
+
+---
+
+## 📚 Examples
+
+### Example 1: Simple Logo + Solid Color
+```bash
+curl -F "foreground=@logo.png" \
+  "http://localhost:3000/generate?platform=android&backgroundColor=%23FF5722" \
+  -o icons.zip
+```
+
+### Example 2: Logo + Gradient Background
+```bash
+# Create gradient background first (use design tool)
+curl -F "foreground=@logo.png" -F "background=@gradient.png" \
+  http://localhost:3000/generate?platform=android -o icons.zip
+```
+
+### Example 3: Both Platforms with Layers
+```bash
+curl -F "foreground=@logo.png" -F "background=@brand-bg.png" \
+  http://localhost:3000/generate?platform=all -o all-icons.zip
+```
+
+### Example 4: Default Dark Background
+```bash
+# Uses #111111 automatically
+curl -F "foreground=@logo.png" \
+  http://localhost:3000/generate?platform=all -o icons.zip
+```
+
+---
+
+## 🔧 Programmatic Usage
+
+```javascript
+import { AndroidGenerator } from "ino-icon-maker/lib/platforms/AndroidGenerator.js";
+import { ImageProcessor } from "ino-icon-maker/lib/core/ImageProcessor.js";
+import { FileManager } from "ino-icon-maker/lib/core/FileManager.js";
+
+const imageProcessor = new ImageProcessor();
+const fileManager = new FileManager();
+const generator = new AndroidGenerator(imageProcessor, fileManager);
+
+await generator.generate("./foreground.png", "./output", {
+	force: true,
+	zip: true,
+	adaptiveIcon: {
+		foreground: "./foreground.png",
+		background: "#FF5722", // or "./background.png"
+	},
+});
+```
+
+---
+
+## 📖 More Resources
+
+- [Android Developer Guide](https://developer.android.com/develop/ui/views/launch/icon_design_adaptive)
+- [Material Design Icons](https://m3.material.io/styles/icons/overview)
+- [Quick Start Guide](./QUICK_START.md)
+- [Complete Examples](../examples/ALL_EXAMPLES.md)
+
+---
+
+**Questions?** Open an issue at [GitHub](https://github.com/narek589/ino-icon-maker/issues)

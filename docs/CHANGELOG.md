@@ -5,6 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2025-10-31
+
+### Added
+
+- **Unified Layer-Based Workflow** - Both iOS and Android now support foreground/background layers
+- **iOS Composite Generation** - iOS creates composite from layers (background + centered foreground with 20% padding)
+- **Android Adaptive Icons Enhanced** - Foreground gets 20% padding (safe zone) to prevent launcher clipping
+- **Default Background Color** - Automatically uses #111111 when no background is provided
+- **Smart Background Priority** - Background file → color param → default #111111
+- **`createCompositeFromLayers()` method** in ImageProcessor for iOS layer composition
+
+### Changed
+
+- **Breaking**: `file` parameter no longer fallback for Android background - use `foreground` + `background` exclusively
+- Foreground layers now use `contain` fit with 20% padding (zoomed out for safety)
+- Background layers use `cover` fit (fills entire space without distortion)
+- iOS icons now generated from composite when using layer-based workflow
+- HTTP API accepts `foreground` parameter for both iOS and Android
+
+### Fixed
+
+- Aspect ratio issue resolved - foreground has padding, background fills space
+- HTTP API body parsing middleware added (Express json/urlencoded)
+- Optional chaining for safer request parameter access
+- iOS and "all" platforms now work with curl using only foreground parameter
+
 ## [1.0.11] - 2025-10-30
 
 ### Added

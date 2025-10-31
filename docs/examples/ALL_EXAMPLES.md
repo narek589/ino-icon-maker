@@ -1,524 +1,145 @@
-# 📚 Complete Examples - All Variants
+# 📚 Complete Examples Guide
 
-This document provides comprehensive examples for every possible use case of Ino Icon Maker.
+Comprehensive examples for every use case of Ino Icon Maker.
 
 ## 📖 Table of Contents
 
 - [Installation Methods](#installation-methods)
 - [Basic Usage](#basic-usage)
-- [🆕 Adaptive Icons (Android 8.0+)](#adaptive-icons-android-80)
+- [Adaptive Icons (Android 8.0+)](#adaptive-icons)
 - [CLI Examples](#cli-examples)
-- [Library API Examples](#library-api-examples)
 - [HTTP API Examples](#http-api-examples)
-- [Platform-Specific Examples](#platform-specific-examples)
-- [Advanced Examples](#advanced-examples)
-- [Integration Examples](#integration-examples)
+- [Library API Examples](#library-api-examples)
 
 ---
 
 ## 🔧 Installation Methods
 
-### Method 1: NPX (No Installation)
-
+### NPX (No Installation)
 ```bash
-# Use directly without installing
-npx ino-icon-maker generate -i icon.png -o ./output -p ios
+npx ino-icon-maker generate -i icon.png -p all
 ```
 
-✅ **Pros**: No installation, always latest version  
-❌ **Cons**: Slower first run, downloads each time
-
-### Method 2: Global Installation
-
+### Global Installation
 ```bash
-# Install once
 npm install -g ino-icon-maker
-
-# Use anywhere
-ino-icon generate -i icon.png -o ./output -p ios
-
-# Or short alias
-iim generate -i icon.png -o ./output -p ios
+iim generate -i icon.png -p all
 ```
 
-✅ **Pros**: Fast, convenient commands  
-❌ **Cons**: Needs global install, version management
-
-### Method 3: Project Dependency
-
+### Project Dependency
 ```bash
-# Install in project
 npm install -D ino-icon-maker
+```
 
-# Add to package.json scripts
+```json
 {
   "scripts": {
-    "icons": "ino-icon-maker generate -i assets/icon.png -o output -p all"
+    "icons": "ino-icon-maker generate -i assets/icon.png -p all"
   }
 }
-
-# Run via npm
-npm run icons
 ```
-
-✅ **Pros**: Version locked, team consistency  
-❌ **Cons**: Per-project installation
-
-### Method 4: Library Import
-
-```bash
-# Install as dev dependency
-npm install -D ino-icon-maker
-```
-
-```javascript
-// Import and use programmatically
-import { quickGenerate } from "ino-icon-maker";
-
-await quickGenerate({
-	input: "./icon.png",
-	output: "./output",
-	platform: "all",
-});
-```
-
-✅ **Pros**: Programmatic control, flexible  
-❌ **Cons**: Requires code integration
 
 ---
 
 ## 🎯 Basic Usage
 
-### Generate iOS Icons
-
+### Generate for All Platforms
 ```bash
-# NPX
-npx ino-icon-maker generate -i icon.png -o ./output -p ios
+# CLI
+ino-icon generate -i icon.png
 
-# Global
-ino-icon generate -i icon.png -o ./output -p ios
-
-# Library
-import { quickGenerate } from "ino-icon-maker";
-await quickGenerate({
-	input: "./icon.png",
-	output: "./output",
-	platform: "ios",
-});
+# HTTP
+curl -F "file=@icon.png" http://localhost:3000/generate -o icons.zip
 ```
 
-**Output**: `./output/AppIcon.appiconset/` with 18 icons + Contents.json
-
-### Generate Android Icons
-
+### iOS Only
 ```bash
-# NPX
-npx ino-icon-maker generate -i icon.png -o ./output -p android
+# CLI
+ino-icon generate -i icon.png -p ios
 
-# Global
-ino-icon generate -i icon.png -o ./output -p android
-
-# Library
-await quickGenerate({
-	input: "./icon.png",
-	output: "./output",
-	platform: "android",
-});
+# HTTP
+curl -F "file=@icon.png" http://localhost:3000/generate?platform=ios -o ios.zip
 ```
 
-**Output**: `./output/mipmap-*/` folders with 13 icons
-
-### Generate Both Platforms
-
+### Android Only
 ```bash
-# NPX
-npx ino-icon-maker generate -i icon.png -o ./output -p all
+# CLI
+ino-icon generate -i icon.png -p android
 
-# Global
-ino-icon generate -i icon.png -o ./output -p all
-
-# Library
-await quickGenerate({
-	input: "./icon.png",
-	output: "./output",
-	platform: "all",
-});
+# HTTP
+curl -F "file=@icon.png" http://localhost:3000/generate?platform=android -o android.zip
 ```
-
-**Output**: Both iOS and Android icons
-
-### Generate with ZIP
-
-```bash
-# NPX
-npx ino-icon-maker generate -i icon.png -o ./output -p all -z
-
-# Global
-ino-icon generate -i icon.png -o ./output -p all -z
-
-# Library
-await quickGenerate({
-	input: "./icon.png",
-	output: "./output",
-	platform: "all",
-	zip: true,
-});
-```
-
-**Output**: Icons + ZIP archives
 
 ---
 
-## 🆕 Adaptive Icons (Android 8.0+)
+## 🆕 Adaptive Icons
 
-### Generate Adaptive Icons with Images
+### Unified Layer-Based Workflow (v1.1.0+)
 
-```bash
-# CLI - With image files for foreground and background
-ino-icon generate \
-  --platform android \
-  --foreground ./layers/foreground.png \
-  --background ./layers/background.png \
-  --monochrome ./layers/monochrome.png \
-  --out ./output \
-  --zip
-```
-
-**Output**: 50+ icons including adaptive layers + legacy compatibility
-
-### Generate with Solid Color Background
+**New in v1.1.0:** Both iOS and Android support foreground/background layers!
 
 ```bash
-# CLI - With hex color as background
-ino-icon generate \
-  -p android \
-  -fg ./foreground.png \
-  -bg '#FF5722' \
-  -o ./output
+# Only foreground (default #111111 background)
+curl -F "foreground=@fg.png" \
+  "http://localhost:3000/generate?platform=all" -o icons.zip
+
+# Foreground + background color
+curl -F "foreground=@fg.png" \
+  "http://localhost:3000/generate?platform=all&backgroundColor=%23FF5722" -o icons.zip
+
+# Foreground + background image
+curl -F "foreground=@fg.png" \
+  -F "background=@bg.png" \
+  "http://localhost:3000/generate?platform=all" -o icons.zip
 ```
 
-### Library API - Adaptive Icons
-
-```javascript
-import { quickGenerate } from "ino-icon-maker";
-
-// With image layers
-await quickGenerate({
-	output: "./output",
-	platform: "android",
-	adaptiveIcon: {
-		foreground: "./layers/foreground.png",
-		background: "./layers/background.png",
-		monochrome: "./layers/monochrome.png",
-	},
-	zip: true,
-});
-
-// With color background
-await quickGenerate({
-	output: "./output",
-	platform: "android",
-	adaptiveIcon: {
-		foreground: "./foreground.png",
-		background: "#4CAF50", // Hex color
-	},
-});
-```
-
-### HTTP API - Adaptive Icons
-
-```bash
-# With image files for all layers
-curl -X POST http://localhost:3000/generate?platform=android \
-  -F "foreground=@./layers/foreground.png" \
-  -F "background=@./layers/background.png" \
-  -F "monochrome=@./layers/monochrome.png" \
-  -o adaptive-icons.zip
-
-# With color background
-curl -X POST "http://localhost:3000/generate?platform=android&backgroundColor=%23FF5722" \
-  -F "foreground=@./foreground.png" \
-  -o adaptive-icons.zip
-```
-
-### Generate iOS + Android Adaptive
-
-```bash
-# CLI - iOS with standard input, Android with adaptive layers
-ino-icon generate \
-  -i ./icon-ios.png \
-  -p all \
-  -fg ./android-fg.png \
-  -bg '#2196F3' \
-  -o ./output \
-  -z
-```
-
-```javascript
-// Library API - Mixed mode
-await quickGenerate({
-	input: "./icon-ios.png", // Used for iOS
-	output: "./output",
-	platform: "all",
-	adaptiveIcon: {
-		// Used for Android
-		foreground: "./android-fg.png",
-		background: "./android-bg.png",
-	},
-});
-```
-
-**📖 [Complete Adaptive Icons Guide →](../guides/ADAPTIVE_ICONS.md)**
+**How it works:**
+- **iOS**: Creates composite (background + centered foreground with 20% padding)
+- **Android**: Generates adaptive icons with separate layers
+- **Default**: Uses #111111 if no background specified
+- **Safe Zone**: Foreground automatically gets 20% padding
 
 ---
 
-## 💻 CLI Examples
+## 🖥️ CLI Examples
 
 ### Interactive Mode
-
 ```bash
-# Start interactive wizard
 ino-icon generate
-
-# Follow prompts:
-# 1. Select input image
-# 2. Choose output directory
-# 3. Select platform (ios/android/all)
-# 4. Enable ZIP? (yes/no)
+# Follow prompts
 ```
 
-### Show Icon Information
-
+### With Options
 ```bash
-# Show all platform info
-ino-icon info
+# Custom output directory
+ino-icon generate -i icon.png -o custom/path
 
-# Show iOS only
-ino-icon info --platform ios
+# Force overwrite
+ino-icon generate -i icon.png -f
 
-# Show Android only
-ino-icon info --platform android
+# Specific platform
+ino-icon generate -i icon.png -p ios
 ```
 
-### List Supported Platforms
-
+### Serve HTTP API
 ```bash
+# Default port 3000
+ino-icon serve
+
+# Custom port
+ino-icon serve -p 8080
+```
+
+### Info Commands
+```bash
+# Show version
+ino-icon -v
+
+# List platforms
 ino-icon platforms
-# Output: ios, android
-```
 
-### Force Overwrite
-
-```bash
-# Overwrite existing files
-ino-icon generate -i icon.png -o ./output -p all -f
-
-# Or
-ino-icon generate -i icon.png -o ./output -p all --force
-```
-
-### Custom Output Names
-
-```bash
-# iOS - output to specific directory
-ino-icon generate -i icon.png -o ./ios/Assets.xcassets -p ios
-
-# Android - output to res directory
-ino-icon generate -i icon.png -o ./android/app/src/main/res -p android
-```
-
-### Multiple Source Formats
-
-```bash
-# PNG source
-ino-icon generate -i icon.png -o ./output -p all
-
-# JPEG source
-ino-icon generate -i icon.jpg -o ./output -p all
-
-# WebP source
-ino-icon generate -i icon.webp -o ./output -p all
-```
-
-### Help Commands
-
-```bash
-# General help
-ino-icon --help
-
-# Command-specific help
-ino-icon generate --help
-ino-icon info --help
-ino-icon serve --help
-
-# Version
-ino-icon --version
-```
-
----
-
-## 📚 Library API Examples
-
-### Simple API - Quick Generate
-
-```javascript
-import { quickGenerate } from "ino-icon-maker";
-
-// Minimal usage
-await quickGenerate({
-	input: "./icon.png",
-	output: "./output",
-	platform: "ios",
-});
-
-// With all options
-await quickGenerate({
-	input: "./assets/icon.png",
-	output: "./output",
-	platform: "all", // 'ios', 'android', or 'all'
-	zip: true, // Create ZIP archives
-	force: true, // Overwrite existing files
-});
-```
-
-### Advanced API - Platform-Specific
-
-```javascript
-import {
-	generateIconsForPlatform,
-	validateImageFile,
-	getSupportedPlatforms,
-} from "ino-icon-maker";
-
-// Validate image first
-const isValid = await validateImageFile("./icon.png");
-if (!isValid) {
-	console.error("Invalid image file");
-	process.exit(1);
-}
-
-// Get supported platforms
-const platforms = getSupportedPlatforms();
-console.log("Supported:", platforms); // ['ios', 'android']
-
-// Generate for specific platform
-const result = await generateIconsForPlatform("ios", "./icon.png", "./output", {
-	zip: true,
-	force: false,
-});
-
-console.log(result);
-// {
-//   success: true,
-//   platform: 'ios',
-//   outputDir: './output/AppIcon.appiconset',
-//   files: [...],
-//   zipPath: './output/ios-icons.zip'
-// }
-```
-
-### Error Handling
-
-```javascript
-import { quickGenerate } from "ino-icon-maker";
-
-try {
-	const result = await quickGenerate({
-		input: "./icon.png",
-		output: "./output",
-		platform: "all",
-	});
-
-	if (result.success) {
-		console.log("✅ Icons generated successfully!");
-		console.log(`Files: ${result.files.length}`);
-	}
-} catch (error) {
-	console.error("❌ Error:", error.message);
-	process.exit(1);
-}
-```
-
-### Progress Tracking
-
-```javascript
-import { generateIconsForPlatform } from "ino-icon-maker";
-
-console.log("Starting icon generation...");
-
-const result = await generateIconsForPlatform("ios", "./icon.png", "./output");
-
-console.log(`✓ Generated ${result.files.length} icons`);
-console.log(`✓ Output: ${result.outputDir}`);
-
-if (result.zipPath) {
-	console.log(`✓ ZIP: ${result.zipPath}`);
-}
-```
-
-### Batch Processing
-
-```javascript
-import { quickGenerate } from "ino-icon-maker";
-import { promises as fs } from "fs";
-
-const icons = [
-	{ input: "./icon1.png", output: "./output/app1" },
-	{ input: "./icon2.png", output: "./output/app2" },
-	{ input: "./icon3.png", output: "./output/app3" },
-];
-
-// Process sequentially
-for (const icon of icons) {
-	await quickGenerate({
-		input: icon.input,
-		output: icon.output,
-		platform: "all",
-	});
-	console.log(`✓ Processed ${icon.input}`);
-}
-
-// Or process in parallel
-await Promise.all(
-	icons.map(icon =>
-		quickGenerate({
-			input: icon.input,
-			output: icon.output,
-			platform: "all",
-		})
-	)
-);
-console.log("✓ All icons processed");
-```
-
-### Dynamic Configuration
-
-```javascript
-import { quickGenerate } from "ino-icon-maker";
-
-const config = {
-	development: {
-		input: "./assets/icon-dev.png",
-		output: "./output/dev",
-	},
-	staging: {
-		input: "./assets/icon-staging.png",
-		output: "./output/staging",
-	},
-	production: {
-		input: "./assets/icon-prod.png",
-		output: "./output/prod",
-	},
-};
-
-const env = process.env.NODE_ENV || "development";
-
-await quickGenerate({
-	input: config[env].input,
-	output: config[env].output,
-	platform: "all",
-	zip: env === "production",
-});
+# Show info
+ino-icon info
 ```
 
 ---
@@ -526,293 +147,100 @@ await quickGenerate({
 ## 🌐 HTTP API Examples
 
 ### Start Server
-
 ```bash
-# Default port (3000)
-ino-icon serve
-
-# Custom port
-ino-icon serve --port 8080
-
-# Or with NPX
-npx ino-icon-maker serve --port 3000
+ino-icon serve -p 3000
 ```
 
-### Generate Icons via HTTP
-
-#### Using cURL
-
+### Basic Generation
 ```bash
-# Generate iOS icons
-curl -F "file=@icon.png" \
-  "http://localhost:3000/generate?platform=ios" \
-  -o ios-icons.zip
+# All platforms
+curl -F "file=@icon.png" http://localhost:3000/generate -o icons.zip
 
-# Generate Android icons
-curl -F "file=@icon.png" \
-  "http://localhost:3000/generate?platform=android" \
-  -o android-icons.zip
+# iOS only
+curl -F "file=@icon.png" http://localhost:3000/generate?platform=ios -o ios.zip
 
-# Generate both platforms
-curl -F "file=@icon.png" \
-  "http://localhost:3000/generate?platform=all" \
-  -o all-icons.zip
+# Android only
+curl -F "file=@icon.png" http://localhost:3000/generate?platform=android -o android.zip
 ```
 
-#### Using JavaScript/Fetch
+### Adaptive Icons
+```bash
+# Default background (#111111)
+curl -F "foreground=@fg.png" \
+  http://localhost:3000/generate?platform=android -o android.zip
 
+# Custom background color
+curl -F "foreground=@fg.png" \
+  "http://localhost:3000/generate?platform=android&backgroundColor=%23FF5722" -o android.zip
+
+# Background image
+curl -F "foreground=@fg.png" -F "background=@bg.png" \
+  http://localhost:3000/generate?platform=android -o android.zip
+
+# Both platforms with layers
+curl -F "foreground=@fg.png" -F "background=@bg.png" \
+  http://localhost:3000/generate?platform=all -o all-icons.zip
+```
+
+### Query Available Platforms
+```bash
+curl http://localhost:3000/platforms
+```
+
+---
+
+## 📦 Library API Examples
+
+### Quick Generate
 ```javascript
-const formData = new FormData();
-formData.append("file", fileInput.files[0]);
+import { quickGenerate } from "ino-icon-maker";
 
-const response = await fetch("http://localhost:3000/generate?platform=all", {
-	method: "POST",
-	body: formData,
+await quickGenerate({
+	input: "./icon.png",
+	output: "./output",
+	platform: "all",
+	force: true,
+	zip: true,
+});
+```
+
+### Advanced Usage
+```javascript
+import { generate } from "ino-icon-maker";
+
+const results = await generate({
+	platforms: ["ios", "android"],
+	input: "./icon.png",
+	output: "./output",
+	force: true,
+	zip: true,
 });
 
-const blob = await response.blob();
-const url = window.URL.createObjectURL(blob);
-const a = document.createElement("a");
-a.href = url;
-a.download = "icons.zip";
-a.click();
+console.log(results);
+// {
+//   ios: { count: 19, path: './output/AppIcon.appiconset', zip: './output/AppIcon.zip' },
+//   android: { count: 33, path: './output', zip: './output/AndroidIcons.zip' }
+// }
 ```
 
-#### Using Axios
-
+### Adaptive Icons (Programmatic)
 ```javascript
-import axios from "axios";
-import FormData from "form-data";
-import fs from "fs";
+import { AndroidGenerator } from "ino-icon-maker/lib/platforms/AndroidGenerator.js";
+import { ImageProcessor } from "ino-icon-maker/lib/core/ImageProcessor.js";
+import { FileManager } from "ino-icon-maker/lib/core/FileManager.js";
 
-const form = new FormData();
-form.append("file", fs.createReadStream("./icon.png"));
+const imageProcessor = new ImageProcessor();
+const fileManager = new FileManager();
+const generator = new AndroidGenerator(imageProcessor, fileManager);
 
-const response = await axios.post(
-	"http://localhost:3000/generate?platform=ios",
-	form,
-	{
-		headers: form.getHeaders(),
-		responseType: "stream",
-	}
-);
-
-response.data.pipe(fs.createWriteStream("ios-icons.zip"));
-```
-
-#### Health Check
-
-```bash
-curl http://localhost:3000/health
-# Response: {"status": "ok"}
-```
-
----
-
-## 🎨 Platform-Specific Examples
-
-### iOS Development
-
-#### Standard iOS App
-
-```bash
-# Generate to Xcode project
-ino-icon generate \
-  -i assets/icon.png \
-  -o ios/YourApp/Assets.xcassets \
-  -p ios
-```
-
-**Project structure:**
-
-```
-ios/
-└── YourApp/
-    └── Assets.xcassets/
-        └── AppIcon.appiconset/
-            ├── Contents.json
-            ├── Icon-App-20x20@2x.png
-            └── ... (18 total icons)
-```
-
-#### React Native iOS
-
-```bash
-ino-icon generate \
-  -i assets/icon.png \
-  -o ios/YourApp/Images.xcassets \
-  -p ios
-```
-
-#### Flutter iOS
-
-```bash
-ino-icon generate \
-  -i assets/icon.png \
-  -o ios/Runner/Assets.xcassets \
-  -p ios
-```
-
-### Android Development
-
-#### Standard Android App
-
-```bash
-# Generate to res directory
-ino-icon generate \
-  -i assets/icon.png \
-  -o android/app/src/main/res \
-  -p android
-```
-
-**Project structure:**
-
-```
-android/app/src/main/res/
-├── mipmap-ldpi/
-│   ├── ic_launcher.png (36x36)
-│   └── ic_launcher_round.png
-├── mipmap-mdpi/
-│   ├── ic_launcher.png (48x48)
-│   └── ic_launcher_round.png
-├── mipmap-hdpi/
-│   ├── ic_launcher.png (72x72)
-│   └── ic_launcher_round.png
-├── mipmap-xhdpi/
-│   ├── ic_launcher.png (96x96)
-│   └── ic_launcher_round.png
-├── mipmap-xxhdpi/
-│   ├── ic_launcher.png (144x144)
-│   └── ic_launcher_round.png
-└── mipmap-xxxhdpi/
-    ├── ic_launcher.png (192x192)
-    └── ic_launcher_round.png
-```
-
-#### React Native Android
-
-```bash
-ino-icon generate \
-  -i assets/icon.png \
-  -o android/app/src/main/res \
-  -p android
-```
-
-#### Flutter Android
-
-```bash
-ino-icon generate \
-  -i assets/icon.png \
-  -o android/app/src/main/res \
-  -p android
-```
-
----
-
-## 🚀 Advanced Examples
-
-### Custom Build Script
-
-```javascript
-// build-icons.js
-import { quickGenerate } from "ino-icon-maker";
-import path from "path";
-
-async function buildIcons() {
-	const environments = ["dev", "staging", "prod"];
-
-	for (const env of environments) {
-		console.log(`\n🎨 Building ${env} icons...`);
-
-		await quickGenerate({
-			input: `./assets/icon-${env}.png`,
-			output: `./output/${env}`,
-			platform: "all",
-			zip: true,
-			force: true,
-		});
-
-		console.log(`✅ ${env} icons complete`);
-	}
-}
-
-buildIcons().catch(console.error);
-```
-
-```json
-// package.json
-{
-	"scripts": {
-		"build:icons": "node build-icons.js"
-	}
-}
-```
-
-### Monorepo Setup
-
-```javascript
-// scripts/generate-icons.js
-import { quickGenerate } from "ino-icon-maker";
-
-const apps = [
-	{
-		name: "mobile-app",
-		icon: "./assets/mobile-icon.png",
-		output: "./apps/mobile",
+await generator.generate("./foreground.png", "./output", {
+	force: true,
+	zip: true,
+	adaptiveIcon: {
+		foreground: "./foreground.png",
+		background: "#FF5722", // or path to background image
 	},
-	{
-		name: "tablet-app",
-		icon: "./assets/tablet-icon.png",
-		output: "./apps/tablet",
-	},
-];
-
-for (const app of apps) {
-	console.log(`Generating icons for ${app.name}...`);
-
-	await quickGenerate({
-		input: app.icon,
-		output: `${app.output}/assets/icons`,
-		platform: "all",
-		zip: false,
-	});
-}
-```
-
-### Pre-commit Hook
-
-```bash
-# .husky/pre-commit
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
-
-# Regenerate icons if source changed
-if git diff --cached --name-only | grep "assets/icon.png"; then
-  echo "🎨 Regenerating app icons..."
-  npm run icons
-  git add ios/ android/
-fi
-```
-
-### Docker Integration
-
-```dockerfile
-# Dockerfile
-FROM node:18-alpine
-
-RUN npm install -g ino-icon-maker
-
-WORKDIR /app
-
-COPY icon.png .
-
-CMD ["ino-icon", "generate", "-i", "icon.png", "-o", "/app/output", "-p", "all", "-z"]
-```
-
-```bash
-# Build and run
-docker build -t icon-generator .
-docker run -v $(pwd)/output:/app/output icon-generator
+});
 ```
 
 ---
@@ -820,107 +248,112 @@ docker run -v $(pwd)/output:/app/output icon-generator
 ## 🔗 Integration Examples
 
 ### React Native
-
 ```json
-// package.json
 {
-	"scripts": {
-		"icons": "ino-icon-maker generate -i assets/icon.png -o temp && npm run icons:ios && npm run icons:android",
-		"icons:ios": "cp -r temp/AppIcon.appiconset ios/YourApp/Images.xcassets/",
-		"icons:android": "cp -r temp/android-icons/* android/app/src/main/res/",
-		"posticons": "rm -rf temp"
-	}
+  "scripts": {
+    "generate-icons": "ino-icon-maker generate -i assets/icon.png -o ./output -p all"
+  }
 }
 ```
 
 ### Flutter
+```yaml
+# pubspec.yaml
+dev_dependencies:
+  flutter_launcher_icons: ^0.13.1
 
-```makefile
-# Create Makefile in Flutter project root
-icons:
-	npx ino-icon-maker generate -i assets/icon.png -o temp -p all
-	cp -r temp/AppIcon.appiconset ios/Runner/Assets.xcassets/
-	cp -r temp/android-icons/* android/app/src/main/res/
-	rm -rf temp
-
-# Then run: make icons
-```
-
-Or use direct command:
-
-```bash
-npx ino-icon-maker generate -i assets/icon.png -o temp -p all && \
-cp -r temp/AppIcon.appiconset ios/Runner/Assets.xcassets/ && \
-cp -r temp/android-icons/* android/app/src/main/res/ && \
-rm -rf temp
+flutter_launcher_icons:
+  # Use ino-icon-maker to generate, then configure paths
 ```
 
 ### GitHub Actions
-
 ```yaml
-# .github/workflows/icons.yml
 name: Generate Icons
-
-on:
-  push:
-    paths:
-      - "assets/icon.png"
-
+on: [push]
 jobs:
-  generate:
+  icons:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-
-      - name: Generate Icons
-        run: npx ino-icon-maker generate -i assets/icon.png -o output -p all -z
-
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: app-icons
-          path: output/
-```
-
-### GitLab CI
-
-```yaml
-# .gitlab-ci.yml
-generate-icons:
-  image: node:18
-  script:
-    - npx ino-icon-maker generate -i assets/icon.png -o output -p all -z
-  artifacts:
-    paths:
-      - output/
-  only:
-    changes:
-      - assets/icon.png
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      - run: npx ino-icon-maker generate -i icon.png -p all
 ```
 
 ---
 
-## 📝 Summary
+## 📝 Common Patterns
 
-This guide covered:
+### npm Scripts
+```json
+{
+  "scripts": {
+    "icons": "ino-icon-maker generate -i assets/icon.png -p all",
+    "icons:ios": "ino-icon-maker generate -i assets/icon.png -p ios",
+    "icons:android": "ino-icon-maker generate -i assets/icon.png -p android",
+    "icons:adaptive": "curl -F 'foreground=@fg.png' -F 'background=@bg.png' http://localhost:3000/generate?platform=all -o icons.zip",
+    "icons:serve": "ino-icon-maker serve -p 3000"
+  }
+}
+```
 
-✅ All installation methods  
-✅ Basic to advanced CLI usage  
-✅ Library API with error handling  
-✅ HTTP API integration  
-✅ Platform-specific configurations  
-✅ CI/CD automation  
-✅ Framework integrations
+### Build Scripts
+```bash
+#!/bin/bash
+# generate-icons.sh
 
-For more examples, see:
+# Generate standard icons
+ino-icon generate -i icon.png -o output -p all
 
-- [React Native Guide](./REACT_NATIVE.md)
-- [Flutter Guide](./FLUTTER.md)
-- [CI/CD Guide](./CI_CD.md)
+# Generate adaptive icons
+curl -F "foreground=@fg.png" \
+  -F "background=@bg.png" \
+  "http://localhost:3000/generate?platform=android" -o adaptive.zip
+
+# Unzip to project
+unzip -o adaptive.zip -d android/app/src/main/res/
+```
 
 ---
 
-**Need help?** [Open an issue](https://github.com/narek589/ino-icon-maker/issues)
+## 🆘 Troubleshooting
+
+### Server not responding
+```bash
+# Check if port is in use
+lsof -i :3000
+
+# Use different port
+ino-icon serve -p 8080
+```
+
+### Permission errors
+```bash
+# Add force flag
+ino-icon generate -i icon.png -f
+
+# Check directory permissions
+ls -la output/
+```
+
+### Image format issues
+```bash
+# Supported formats: JPEG, PNG, WebP, AVIF, TIFF
+file icon.png  # Verify format
+
+# Convert if needed
+convert icon.jpg icon.png
+```
+
+---
+
+## 📚 More Examples
+
+- **React Native**: See [REACT_NATIVE.md](./REACT_NATIVE.md)
+- **Flutter**: See [FLUTTER.md](./FLUTTER.md)
+- **CI/CD**: See [CI_CD.md](./CI_CD.md)
+- **Adaptive Icons**: See [ADAPTIVE_ICONS.md](../guides/ADAPTIVE_ICONS.md)
+- **Quick Start**: See [QUICK_START.md](../guides/QUICK_START.md)
+
+---
+
+**Need help?** Open an issue at [GitHub](https://github.com/narek589/ino-icon-maker/issues)

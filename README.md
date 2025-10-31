@@ -2,7 +2,7 @@
 
 # 🚀 Ino Icon Maker
 
-**Generate iOS and Android app icons from a single image in seconds**
+**Generate iOS and Android app icons with unified layer-based workflow**
 
 [![npm version](https://img.shields.io/npm/v/ino-icon-maker.svg)](https://www.npmjs.com/package/ino-icon-maker)
 [![npm downloads](https://img.shields.io/npm/dm/ino-icon-maker.svg)](https://www.npmjs.com/package/ino-icon-maker)
@@ -15,353 +15,333 @@
 
 ---
 
+## 🆕 What's New in v1.1.0
+
+🎉 **Unified Layer-Based Workflow** - Both iOS and Android now support foreground/background layers!
+
+- ✅ **iOS**: Auto-generates composite (background + centered foreground with 20% padding)
+- ✅ **Android**: Native adaptive icons with separate layers
+- ✅ **Default Background**: Uses `#111111` if not specified
+- ✅ **Auto Padding**: Foreground gets 20% safe zone automatically
+
+```bash
+# One command for both platforms with layers!
+curl -F "foreground=@fg.png" \
+  "http://localhost:3000/generate?platform=all&backgroundColor=%23FF5722" -o icons.zip
+```
+
+---
+
 ## 📱 Platform Support
 
-<table>
-<tr>
-<td width="50%" align="center">
+| Platform | Output | Count |
+|----------|--------|-------|
+| **iOS** | `AppIcon.appiconset/` | 19 icons + Contents.json |
+| **Android** | `mipmap-*/` folders | 33 icons (adaptive + legacy) |
+| **Both** | Combined ZIP | 52 icons total |
 
-### 🍎 iOS / iPadOS / watchOS
+**iOS Output:**
+- iPhone, iPad, Apple Watch sizes
+- App Store icon (1024×1024)
+- `Contents.json` included
 
-<img src="https://raw.githubusercontent.com/narek589/ino-icon-maker/main/assets/ios-preview.png" alt="iOS Icons" width="300" />
-
-**18 Icons Generated**
-
-✓ iPhone (all sizes)  
-✓ iPad (all sizes)  
-✓ Apple Watch  
-✓ App Store (1024×1024)  
-✓ `Contents.json` included
-
-</td>
-<td width="50%" align="center">
-
-### 🤖 Android
-
-<img src="https://raw.githubusercontent.com/narek589/ino-icon-maker/main/assets/android-preview.png" alt="Android Icons" width="300" />
-
-**13 Icons Generated** (Legacy)  
-**50+ Icons Generated** (Adaptive)
-
-✓ All densities (ldpi → xxxhdpi)  
-✓ Round icons included  
-✓ Play Store (512×512)  
-✓ **NEW:** Adaptive Icons (Android 8.0+)  
-✓ Foreground + Background layers  
-✓ Themed icons support  
-✓ Ready for `AndroidManifest.xml`
-
-</td>
-</tr>
-</table>
+**Android Output:**
+- All densities (ldpi → xxxhdpi)
+- Adaptive icons (API 26+)
+- Legacy icons (API 25-)
+- Round icons + Play Store
 
 ---
 
 ## ✨ Features
 
-<table>
-<tr>
-<td>
-
-🎯 **Dual Platform**  
-Generate iOS & Android icons simultaneously
-
-</td>
-<td>
-
-🖼️ **6 Formats**  
-JPEG, PNG, WebP, AVIF, TIFF
-
-</td>
-</tr>
-<tr>
-<td>
-
-⚡ **Lightning Fast**  
-Parallel processing (10x faster)
-
-</td>
-<td>
-
-📦 **ZIP Export**  
-Optional archive creation
-
-</td>
-</tr>
-<tr>
-<td>
-
-🔥 **3 Ways to Use**  
-CLI, Library, or HTTP API
-
-</td>
-<td>
-
-🎨 **High Quality**  
-Lanczos3 resampling
-
-</td>
-</tr>
-</table>
+| Feature | Description |
+|---------|-------------|
+| 🎯 **Dual Platform** | iOS & Android from single source |
+| 🎨 **Adaptive Icons** | Android 8.0+ with foreground/background layers |
+| 🖼️ **6 Formats** | JPEG, PNG, WebP, AVIF, TIFF |
+| ⚡ **Parallel Processing** | 10x faster generation |
+| 📦 **ZIP Export** | Optional archive creation |
+| 🔥 **3 Interfaces** | CLI, Library, HTTP API |
+| 🌈 **Smart Defaults** | Auto-padding, default backgrounds |
+| 📐 **Non-Square Support** | Auto-centers images |
 
 ---
 
 ## 🚀 Quick Start
 
-### Standard Icons (Single Image)
-
+### NPX (No Install)
 ```bash
-# 1️⃣ NPX (No install required) - Recommended
-npx ino-icon-maker generate -i icon.png -p all -z
-# Output: ./icons/
+npx ino-icon-maker generate -i icon.png
+```
 
-# 2️⃣ Global Install
+### Global Install
+```bash
 npm install -g ino-icon-maker
-ino-icon generate -i icon.png -p all
-# Output: ./icons/
+iim generate -i icon.png
+```
 
-# 3️⃣ Project Dependency
+### Project Dependency
+```bash
 npm install -D ino-icon-maker
 ```
 
-### 🆕 Adaptive Icons (Android 8.0+)
+---
 
-Generate modern Android adaptive icons with separate layers:
+## 📱 Basic Usage
 
+### Generate for All Platforms
 ```bash
-# With separate foreground and background images
-ino-icon generate \
-  --platform android \
-  --foreground ./foreground.png \
-  --background ./background.png \
-  --monochrome ./monochrome.png \
-  --out ./icons \
-  --zip
-
-# With solid color background (hex code)
-ino-icon generate \
-  -p android \
-  -fg ./foreground.png \
-  -bg '#FF5722' \
-  -o ./icons
+ino-icon generate -i icon.png
+# Output: ./icons/AppIcon.appiconset/ + android-icons/
 ```
 
-**📖 [Complete Adaptive Icons Guide →](./docs/guides/ADAPTIVE_ICONS.md)**
+### iOS Only
+```bash
+ino-icon generate -i icon.png -p ios
+```
+
+### Android Only
+```bash
+ino-icon generate -i icon.png -p android
+```
 
 ---
 
-## 📊 Icon Specifications
+## 🎨 Unified Layer-Based Workflow
 
-### iOS Icons
+### HTTP API (Recommended)
 
-| Size   | Scale    | Usage        | Dimensions       |
-| ------ | -------- | ------------ | ---------------- |
-| 20pt   | @2x, @3x | Notification | 40×40, 60×60     |
-| 29pt   | @2x, @3x | Settings     | 58×58, 87×87     |
-| 40pt   | @2x, @3x | Spotlight    | 80×80, 120×120   |
-| 60pt   | @2x, @3x | App Icon     | 120×120, 180×180 |
-| 76pt   | @2x      | iPad         | 152×152          |
-| 83.5pt | @2x      | iPad Pro     | 167×167          |
-| 1024pt | @1x      | App Store    | 1024×1024        |
+**Start Server:**
+```bash
+ino-icon serve
+```
 
-### Android Icons
+**Generate with Layers:**
+```bash
+# Foreground only (default #111111 background)
+curl -F "foreground=@fg.png" \
+  http://localhost:3000/generate?platform=all -o icons.zip
 
-| Density    | Scale | Dimensions |
-| ---------- | ----- | ---------- |
-| ldpi       | 0.75x | 36×36      |
-| mdpi       | 1.0x  | 48×48      |
-| hdpi       | 1.5x  | 72×72      |
-| xhdpi      | 2.0x  | 96×96      |
-| xxhdpi     | 3.0x  | 144×144    |
-| xxxhdpi    | 4.0x  | 192×192    |
-| Play Store | -     | 512×512    |
+# With background color
+curl -F "foreground=@fg.png" \
+  "http://localhost:3000/generate?platform=all&backgroundColor=%23FF5722" -o icons.zip
 
----
+# With background image
+curl -F "foreground=@fg.png" -F "background=@bg.png" \
+  http://localhost:3000/generate?platform=all -o icons.zip
+```
 
-## 💻 Usage Examples
+**What You Get:**
+- **iOS**: Composite icons (background + padded foreground)
+- **Android**: Adaptive icons with separate layers
+- **Auto-padding**: Foreground zoomed out 20% (safe zone)
+- **Smart defaults**: `#111111` background if not specified
 
-### CLI
+### CLI (Android Adaptive)
 
 ```bash
-# Both platforms (default output: ./icons/)
-ino-icon generate -i icon.png -p all
+# With colors
+ino-icon generate -p android -fg ./fg.png --bg-color "#FF5722"
+
+# With images
+ino-icon generate -p android -fg ./fg.png -bg ./bg.png
+```
+
+---
+
+## 🌐 HTTP API
+
+### Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/platforms` | List supported platforms |
+| `POST` | `/generate?platform=<ios\|android\|all>` | Generate icons |
+
+### Examples
+
+```bash
+# Start server
+ino-icon serve -p 3000
+
+# Generate for all platforms
+curl -F "file=@icon.png" http://localhost:3000/generate -o icons.zip
 
 # iOS only
-ino-icon generate -i icon.png -p ios
+curl -F "file=@icon.png" \
+  "http://localhost:3000/generate?platform=ios" -o ios.zip
 
 # Android only
-ino-icon generate -i icon.png -p android
+curl -F "file=@icon.png" \
+  "http://localhost:3000/generate?platform=android" -o android.zip
 
-# Custom output directory + ZIP
-ino-icon generate -i icon.png -o ./build/assets -p all -z
-
-# Check version
-ino-icon -v
+# Adaptive icons (both platforms)
+curl -F "foreground=@fg.png" -F "background=@bg.png" \
+  "http://localhost:3000/generate?platform=all" -o all-icons.zip
 ```
 
-### As Library
+---
 
+## 📦 Library Usage
+
+### Quick Generate
 ```javascript
 import { quickGenerate } from "ino-icon-maker";
 
 await quickGenerate({
 	input: "./icon.png",
-	output: "./output",
-	platform: "all", // 'ios' | 'android' | 'all'
+	platform: "all",
+	force: true,
 	zip: true,
-	force: false,
 });
 ```
 
-### HTTP API
+### Advanced
+```javascript
+import { generate } from "ino-icon-maker";
 
-```bash
-# Start server
-ino-icon serve --port 3000
+const results = await generate({
+	platforms: ["ios", "android"],
+	input: "./icon.png",
+	output: "./output",
+	force: true,
+});
 
-# Generate for both platforms (default)
-curl -F "file=@icon.png" http://localhost:3000/generate -o all-icons.zip
-
-# iOS only
-curl -F "file=@icon.png" \
-  "http://localhost:3000/generate?platform=ios" \
-  -o ios-icons.zip
-
-# Android only
-curl -F "file=@icon.png" \
-  "http://localhost:3000/generate?platform=android" \
-  -o android-icons.zip
-
-# Both platforms explicitly
-curl -F "file=@icon.png" \
-  "http://localhost:3000/generate?platform=all" \
-  -o all-icons.zip
+console.log(results);
+// { ios: { count: 19, ... }, android: { count: 33, ... } }
 ```
 
 ---
 
-## 🎨 Supported Formats
-
-| Format   | Best For     | Transparency | Compression |
-| -------- | ------------ | ------------ | ----------- |
-| **PNG**  | Icons, UI    | ✅ Yes       | Good        |
-| **JPEG** | Photos       | ❌ No        | Excellent   |
-| **WebP** | Modern web   | ✅ Yes       | Excellent   |
-| **AVIF** | Next-gen     | ✅ Yes       | Superior    |
-| **TIFF** | Professional | ✅ Yes       | Lossless    |
-
-**Recommendation:** Use PNG (1024×1024 or larger) for best results
-
----
-
-## 🛠️ Framework Integration
+## 🎯 Common Workflows
 
 ### React Native
-
 ```json
 {
-	"scripts": {
-		"icons": "ino-icon-maker generate -i assets/icon.png -o assets/icons -p all -z"
-	}
+  "scripts": {
+    "icons": "ino-icon-maker generate -i assets/icon.png -p all"
+  }
 }
 ```
 
 ### Flutter
-
-```makefile
-# Makefile
-icons:
-	npx ino-icon-maker generate -i assets/icon.png -o temp -p all
-	cp -r temp/AppIcon.appiconset ios/Runner/Assets.xcassets/
-	cp -r temp/android-icons/* android/app/src/main/res/
-	rm -rf temp
+```bash
+ino-icon generate -i assets/icon.png -p all
+cp -r icons/AppIcon.appiconset ios/Runner/Assets.xcassets/
+cp -r icons/android-icons/* android/app/src/main/res/
 ```
 
-### CI/CD
-
+### CI/CD (GitHub Actions)
 ```yaml
-# GitHub Actions
-- name: Generate Icons
-  run: npx ino-icon-maker generate -i icon.png -o build/icons -p all -z
+name: Generate Icons
+on: [push]
+jobs:
+  icons:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      - run: npx ino-icon-maker generate -i icon.png -p all
 ```
 
 ---
 
-## 📈 Performance
+## 📐 Design Guidelines
 
-<table>
-<tr>
-<th>Task</th>
-<th>Time</th>
-<th>Output</th>
-</tr>
-<tr>
-<td>iOS Icons</td>
-<td>~2 seconds</td>
-<td>18 files + JSON</td>
-</tr>
-<tr>
-<td>Android Icons</td>
-<td>~1.5 seconds</td>
-<td>13 files</td>
-</tr>
-<tr>
-<td>Both + ZIP</td>
-<td>~4 seconds</td>
-<td>31 files + ZIP</td>
-</tr>
-</table>
+### Standard Icons
+- **Format**: PNG, JPEG, WebP, AVIF, or TIFF
+- **Recommended**: 1024×1024px minimum
+- **Non-square**: Auto-centered on transparent canvas
+
+### Adaptive Icons (Android 8.0+)
+
+**Foreground:**
+- PNG with transparency
+- 1024×1024px recommended
+- Keep content in center 66% (safe zone)
+- Auto-padding applied (20%)
+
+**Background:**
+- PNG or solid color hex
+- 1024×1024px if image
+- Fills entire space (no padding)
+- Default: `#111111` if not specified
+
+**Visual:**
+```
+┌──────────────────────────┐
+│  ← 20% padding →         │ 108dp total
+│  ┌──────────────┐        │
+│  │   Your Icon  │        │ 72dp safe zone
+│  └──────────────┘        │
+└──────────────────────────┘
+```
 
 ---
 
-## 🏗️ Output Structure
+## 💡 CLI Options
 
-### iOS Output
+```bash
+ino-icon generate [options]
 
-```
-AppIcon.appiconset/
-├── Icon-App-20x20@2x.png
-├── Icon-App-20x20@3x.png
-├── Icon-App-29x29@2x.png
-├── Icon-App-60x60@3x.png
-├── Icon-App-1024x1024@1x.png
-└── Contents.json
-```
+Options:
+  -i, --input <path>           Input image path
+  -o, --output <path>          Output directory (default: ./icons)
+  -p, --platform <platform>    Platform: ios, android, all (default: all)
+  -f, --force                  Force overwrite existing files
+  -z, --zip                    Create ZIP archive
+  -fg, --foreground <path>     Foreground layer (adaptive icons)
+  -bg, --background <path>     Background layer (adaptive icons)
+  --bg-color <hex>             Background color (adaptive icons)
+  -v, --version                Show version
+  -h, --help                   Show help
 
-### Android Output
+Serve HTTP API:
+  ino-icon serve [options]
+  -p, --port <number>          Port number (default: 3000)
 
-```
-android-icons/
-├── mipmap-ldpi/
-│   ├── ic_launcher.png
-│   └── ic_launcher_round.png
-├── mipmap-mdpi/
-├── mipmap-hdpi/
-├── mipmap-xhdpi/
-├── mipmap-xxhdpi/
-├── mipmap-xxxhdpi/
-└── playstore/
-    └── ic_launcher_playstore.png
+Info:
+  ino-icon platforms           List supported platforms
+  ino-icon info                Show detailed info
 ```
 
 ---
 
 ## 📚 Documentation
 
-| Guide                                                  | Description              |
-| ------------------------------------------------------ | ------------------------ |
-| [📖 Quick Start](./docs/guides/QUICK_START.md)         | Get started in 5 minutes |
-| [💡 All Examples](./docs/examples/ALL_EXAMPLES.md)     | 200+ code examples       |
-| [📱 React Native](./docs/examples/REACT_NATIVE.md)     | Complete integration     |
-| [🎨 Flutter](./docs/examples/FLUTTER.md)               | Complete integration     |
-| [🤖 CI/CD](./docs/examples/CI_CD.md)                   | Automation examples      |
-| [🏗️ Architecture](./docs/architecture/ARCHITECTURE.md) | Technical design         |
+| Document | Description |
+|----------|-------------|
+| [Quick Start](docs/guides/QUICK_START.md) | Get started in 2 minutes |
+| [Adaptive Icons](docs/guides/ADAPTIVE_ICONS.md) | Complete adaptive icons guide |
+| [All Examples](docs/examples/ALL_EXAMPLES.md) | Comprehensive examples |
+| [React Native](docs/examples/REACT_NATIVE.md) | React Native integration |
+| [Flutter](docs/examples/FLUTTER.md) | Flutter integration |
+| [CI/CD](docs/examples/CI_CD.md) | Automation examples |
+| [Architecture](docs/architecture/ARCHITECTURE.md) | Technical architecture |
+| [Changelog](docs/CHANGELOG.md) | Version history |
+
+---
+
+## 🛠️ Requirements
+
+- **Node.js**: ≥18.0.0
+- **npm**: ≥8.0.0
+- **Dependencies**: `sharp`, `archiver`, `express`, `multer`
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! See [CONTRIBUTING.md](./docs/CONTRIBUTING.md)
+Contributions welcome! See [CONTRIBUTING.md](docs/CONTRIBUTING.md) for guidelines.
+
+### Development
+```bash
+git clone https://github.com/narek589/ino-icon-maker.git
+cd ino-icon-maker
+npm install
+npm run dev
+```
 
 ---
 
@@ -369,18 +349,32 @@ Contributions are welcome! See [CONTRIBUTING.md](./docs/CONTRIBUTING.md)
 
 MIT © [Narek Hambarcumyan](https://github.com/narek589)
 
+See [LICENSE](LICENSE) for details.
+
 ---
 
-## ⭐ Support
+## 💬 Support
 
-If this package helps you, please ⭐ star the [repository](https://github.com/narek589/ino-icon-maker)!
+- 🐛 **Issues**: [GitHub Issues](https://github.com/narek589/ino-icon-maker/issues)
+- 📧 **Email**: n.hambarcumyan@inorain.com
+- 💬 **Discussions**: [GitHub Discussions](https://github.com/narek589/ino-icon-maker/discussions)
+
+---
+
+## 🙏 Acknowledgments
+
+Built with:
+- [Sharp](https://sharp.pixelplumbing.com/) - High-performance image processing
+- [Archiver](https://www.archiverjs.com/) - ZIP creation
+- [Express](https://expressjs.com/) - HTTP API
+- [Commander](https://github.com/tj/commander.js/) - CLI framework
 
 ---
 
 <div align="center">
 
-**Built with [Sharp](https://sharp.pixelplumbing.com/) for high-performance image processing**
+**[⭐ Star this project](https://github.com/narek589/ino-icon-maker)** if you find it useful!
 
-Made with ❤️ by [InoRain](https://github.com/narek589)
+Made with ❤️ by [Narek Hambarcumyan](https://github.com/narek589)
 
 </div>

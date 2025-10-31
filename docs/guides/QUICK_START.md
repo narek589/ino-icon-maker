@@ -4,266 +4,228 @@ Get started with Ino Icon Maker in 2 minutes.
 
 ---
 
-## 🚀 Installation Options
+## 🚀 Installation
 
-### Option 1: NPX (Recommended)
-
-No installation needed! Perfect for one-time use.
-
+### NPX (No Install, Recommended)
 ```bash
-npx ino-icon-maker generate -i icon.png -o ./output -p all -z
+npx ino-icon-maker generate -i icon.png
 ```
 
-### Option 2: Global Install
-
-For frequent use with short commands.
-
+### Global Install
 ```bash
 npm install -g ino-icon-maker
-
-# Then use anywhere (output defaults to ./icons/)
-ino-icon generate -i icon.png -p all
-iim generate -i icon.png -p all  # Short alias
+iim generate -i icon.png
 ```
 
-### Option 3: Project Dependency
-
-For team projects and automation.
-
+### Project Dependency
 ```bash
 npm install -D ino-icon-maker
 ```
 
-```json
-{
-	"scripts": {
-		"icons": "ino-icon-maker generate -i assets/icon.png -o output -p all"
-	}
-}
-```
-
 ---
 
-## 📱 Generate Icons
+## 📱 Basic Usage
 
-### All Platforms (Default output: ./icons/)
-
+### Generate for All Platforms
 ```bash
-ino-icon generate -i icon.png -p all -z
+ino-icon generate -i icon.png
+# Output: ./icons/AppIcon.appiconset/ + android-icons/
 ```
 
 ### iOS Only
-
 ```bash
 ino-icon generate -i icon.png -p ios
+# Output: ./icons/AppIcon.appiconset/ (19 icons + Contents.json)
 ```
 
-**Output:** `./icons/AppIcon.appiconset/` (18 icons + Contents.json)
-
-### Android Only (Legacy Mode)
-
+### Android Only
 ```bash
 ino-icon generate -i icon.png -p android
+# Output: ./icons/ (33 icons in mipmap-* folders)
 ```
-
-**Output:** `./icons/android-icons/` (13 icons in mipmap folders)
-
-### 🆕 Android Adaptive Icons (Recommended for Android 8.0+)
-
-Generate modern adaptive icons with separate foreground and background layers:
-
-```bash
-# With image layers
-ino-icon generate \
-  -p android \
-  -fg ./foreground.png \
-  -bg ./background.png \
-  -o ./icons
-
-# With solid color background
-ino-icon generate \
-  -p android \
-  -fg ./foreground.png \
-  -bg '#FF5722' \
-  -o ./icons
-```
-
-**Output:** `./icons/android-icons/` (50+ icons including adaptive layers + legacy compatibility)
-
-**📖 [Complete Adaptive Icons Guide](./ADAPTIVE_ICONS.md)**
-
-### Custom Output Directory
-
-```bash
-ino-icon generate -i icon.png -o ./build/assets -p all
-```
-
-**Output:** `./build/assets/` (both iOS and Android)
 
 ---
 
-## 📖 CLI Commands
+## 🆕 Unified Layer-Based Workflow (v1.1.0)
+
+**New!** Both iOS and Android support foreground/background layers:
+
+### HTTP API (Recommended for Layers)
 
 ```bash
+# Start server
+ino-icon serve
+
+# Generate with foreground only (default #111111 background)
+curl -F "foreground=@fg.png" \
+  http://localhost:3000/generate?platform=all -o icons.zip
+
+# With background color
+curl -F "foreground=@fg.png" \
+  "http://localhost:3000/generate?platform=all&backgroundColor=%23FF5722" -o icons.zip
+
+# With background image
+curl -F "foreground=@fg.png" -F "background=@bg.png" \
+  http://localhost:3000/generate?platform=all -o icons.zip
+```
+
+**Result:**
+- **iOS**: Composite image (background + centered foreground with padding)
+- **Android**: Adaptive icons with separate layers
+- **Auto-padding**: Foreground gets 20% safe zone
+
+### CLI (Android Adaptive Only)
+
+```bash
+# Android adaptive with colors
+ino-icon generate -p android -fg ./fg.png --bg-color "#FF5722"
+
+# Android adaptive with images
+ino-icon generate -p android -fg ./fg.png -bg ./bg.png
+```
+
+---
+
+## 🌐 HTTP API Server
+
+### Start Server
+```bash
+ino-icon serve -p 3000
+```
+
+### Test Endpoints
+```bash
+# Check platforms
+curl http://localhost:3000/platforms
+
 # Generate icons
-ino-icon generate -i <input> [-o <output>] [-p <platform>]
+curl -F "file=@icon.png" http://localhost:3000/generate -o icons.zip
+```
 
-# Options:
-#   -i, --input    Source image (required)
-#   -o, --out      Output directory (default: icons)
-#   -p, --platform ios|android|all (default: all)
-#   -z, --zip      Create ZIP archive
-#   -f, --force    Overwrite existing files
+### Common Patterns
+```bash
+# iOS only
+curl -F "file=@icon.png" \
+  "http://localhost:3000/generate?platform=ios" -o ios.zip
 
-# Show icon information
-ino-icon info --platform all
+# Android only
+curl -F "file=@icon.png" \
+  "http://localhost:3000/generate?platform=android" -o android.zip
 
-# List supported platforms
-ino-icon platforms
-
-# Start HTTP server
-ino-icon serve --port 3000
-
-# Show version
-ino-icon -v
-
-# Help
-ino-icon --help
+# Both platforms
+curl -F "file=@icon.png" \
+  "http://localhost:3000/generate?platform=all" -o all-icons.zip
 ```
 
 ---
 
-## 💻 Use as Library
+## 📦 Library Usage
 
+### Quick Generate
 ```javascript
 import { quickGenerate } from "ino-icon-maker";
 
 await quickGenerate({
 	input: "./icon.png",
-	output: "./output",
 	platform: "all",
+	force: true,
 	zip: true,
-	force: false,
 });
 ```
 
-### Advanced Usage
-
+### Advanced
 ```javascript
-import {
-	generateIconsForPlatform,
-	validateImageFile,
-	getSupportedPlatforms,
-} from "ino-icon-maker";
+import { generate } from "ino-icon-maker";
 
-// Validate image
-const isValid = await validateImageFile("./icon.png");
-
-// Get platforms
-const platforms = getSupportedPlatforms(); // ['ios', 'android']
-
-// Generate
-const result = await generateIconsForPlatform("ios", "./icon.png", "./output", {
-	zip: true,
+const results = await generate({
+	platforms: ["ios", "android"],
+	input: "./icon.png",
+	output: "./output",
+	force: true,
 });
 
-console.log(result.files); // Array of generated files
+console.log(results);
+// { ios: { count: 19, ... }, android: { count: 33, ... } }
 ```
 
 ---
 
-## 🌐 HTTP API
+## 🎯 Common Workflows
 
+### React Native
+```json
+{
+  "scripts": {
+    "icons": "ino-icon-maker generate -i assets/icon.png -p all"
+  }
+}
+```
+
+### Flutter
 ```bash
-# Start server
-ino-icon serve --port 3000
+# Generate icons
+ino-icon generate -i assets/icon.png -p all
 
-# Generate for both platforms (default)
-curl -F "file=@icon.png" http://localhost:3000/generate -o all-icons.zip
+# Copy to project
+cp -r icons/AppIcon.appiconset ios/Runner/Assets.xcassets/
+cp -r icons/android-icons/* android/app/src/main/res/
+```
 
-# iOS only
-curl -F "file=@icon.png" \
-  "http://localhost:3000/generate?platform=ios" \
-  -o ios-icons.zip
+### Build Automation
+```bash
+#!/bin/bash
+# Pre-build: Generate icons
+ino-icon generate -i assets/icon.png -p all -f
 
-# Android only
-curl -F "file=@icon.png" \
-  "http://localhost:3000/generate?platform=android" \
-  -o android-icons.zip
+# Adaptive icons via API
+curl -F "foreground=@fg.png" -F "background=@bg.png" \
+  http://localhost:3000/generate?platform=android -o adaptive.zip
 
-# Both platforms explicitly
-curl -F "file=@icon.png" \
-  "http://localhost:3000/generate?platform=all" \
-  -o all-icons.zip
+unzip -o adaptive.zip -d android/app/src/main/res/
 ```
 
 ---
 
-## 🎨 Best Practices
+## 💡 Tips
 
-### Input Image
-
-✅ **DO:**
-
-- Use 1024×1024 or larger
-- Square aspect ratio (1:1)
-- PNG format with transparency
-- High-quality source
-
-❌ **DON'T:**
-
-- Use low-resolution images
-- Use non-square images
-- Include padding/margins
-
-### File Formats
-
-| Format   | When to Use                           |
-| -------- | ------------------------------------- |
-| **PNG**  | Icons with transparency (recommended) |
-| **AVIF** | Next-gen format, best compression     |
-| **WebP** | Modern web images                     |
-| **JPEG** | Photos without transparency           |
-| **TIFF** | Professional/print quality            |
-
----
-
-## 📂 Output Examples
-
-### iOS Structure
-
-```
-output/
-└── AppIcon.appiconset/
-    ├── Icon-App-20x20@2x.png
-    ├── Icon-App-60x60@3x.png
-    ├── Icon-App-1024x1024@1x.png
-    └── Contents.json
+### Interactive Mode
+```bash
+ino-icon generate
+# Follow prompts - great for first-time use
 ```
 
-### Android Structure
-
+### Force Overwrite
+```bash
+ino-icon generate -i icon.png -f
 ```
-output/
-└── android-icons/
-    ├── mipmap-ldpi/
-    ├── mipmap-mdpi/
-    ├── mipmap-hdpi/
-    ├── mipmap-xhdpi/
-    ├── mipmap-xxhdpi/
-    ├── mipmap-xxxhdpi/
-    └── playstore/
+
+### Create ZIP
+```bash
+ino-icon generate -i icon.png -z
+```
+
+### Custom Output
+```bash
+ino-icon generate -i icon.png -o custom/path
+```
+
+### Show Info
+```bash
+ino-icon -v          # Version
+ino-icon platforms   # List platforms
+ino-icon info        # Show info
 ```
 
 ---
 
-## 🔄 What's Next?
+## 📚 Next Steps
 
-- **[React Native Integration](../examples/REACT_NATIVE.md)**
-- **[Flutter Integration](../examples/FLUTTER.md)**
-- **[CI/CD Automation](../examples/CI_CD.md)**
-- **[All Examples](../examples/ALL_EXAMPLES.md)**
+- **Adaptive Icons**: [ADAPTIVE_ICONS.md](./ADAPTIVE_ICONS.md)
+- **React Native**: [REACT_NATIVE.md](../examples/REACT_NATIVE.md)
+- **Flutter**: [FLUTTER.md](../examples/FLUTTER.md)
+- **CI/CD**: [CI_CD.md](../examples/CI_CD.md)
+- **All Examples**: [ALL_EXAMPLES.md](../examples/ALL_EXAMPLES.md)
 
 ---
 
-**Questions?** Check [All Examples](../examples/ALL_EXAMPLES.md) or [open an issue](https://github.com/narek589/ino-icon-maker/issues)
+**Need help?** Open an issue at [GitHub](https://github.com/narek589/ino-icon-maker/issues)

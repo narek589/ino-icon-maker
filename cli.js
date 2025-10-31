@@ -234,19 +234,10 @@ async function generateWithProgress(options) {
 			? getSupportedPlatforms()
 			: [platform.toLowerCase()];
 
-	// Adaptive icons are Android-only
-	if (
-		adaptiveMode &&
-		platforms.includes("ios") &&
-		!platforms.includes("android")
-	) {
-		console.error(
-			chalk.red(
-				"❌ Error: Adaptive icons are only supported for Android. Use --platform android\n"
-			)
-		);
-		process.exit(1);
-	}
+	// Adaptive mode now supports both iOS and Android
+	// iOS: Creates composite from layers (background + foreground with padding)
+	// Android: Uses native adaptive icons with separate layers
+	// No validation needed - both platforms work with layers!
 
 	// Print header
 	const platformNames = platforms.map(p => p.toUpperCase()).join(" + ");
@@ -924,25 +915,10 @@ function startServer(port = 3000) {
 				}
 			}
 
-			// Adaptive icons are Android-only
-			if (
-				adaptiveMode &&
-				platforms.includes("ios") &&
-				!platforms.includes("android")
-			) {
-				// Clean up uploaded files
-				for (const filePath of uploadedFiles) {
-					try {
-						await fs.unlink(filePath);
-					} catch (err) {
-						// Ignore cleanup errors
-					}
-				}
-				return res.status(400).json({
-					success: false,
-					error: "Adaptive icons are only supported for Android platform",
-				});
-			}
+			// Adaptive mode now supports both iOS and Android
+			// iOS: Creates composite from layers (background + foreground with padding)
+			// Android: Uses native adaptive icons with separate layers
+			// Both platforms work with the unified layer-based workflow!
 
 			// Validate image files
 			if (adaptiveMode) {
@@ -1035,31 +1011,124 @@ function startServer(port = 3000) {
 			const inputFile = hasLegacyFile ? req.files.file[0].path : null;
 
 			if (platforms.length === 1) {
-				const result = await generateIconsForPlatform(
-					platforms[0],
-					inputFile,
-					tempOutputDir,
-					genOptions
-				);
-				results = [result];
-			} else {
-				// Handle mixed mode (iOS + Android with adaptive)
-				if (adaptiveMode) {
-					// Generate iOS with standard input (if provided)
-					const iosResult = inputFile
-						? await generateIconsForPlatform("ios", inputFile, tempOutputDir, {
-								force: true,
-								zip: true,
-						  })
-						: null;
-					// Generate Android with adaptive icons
-					const androidResult = await generateIconsForPlatform(
-						"android",
+				// Single platform generation
+				if (adaptiveMode && platforms[0] === "ios") {
+					// iOS in adaptive mode - create composite from layers
+					const { ImageProcessor } = await import(
+						"./lib/core/ImageProcessor.js"
+					);
+					const imageProcessor = new ImageProcessor();
+
+					const foregroundFile = req.files.foreground[0];
+					const backgroundFile = req.files.background?.[0];
+					const backgroundColor =
+						req.query?.backgroundColor || req.body?.backgroundColor;
+
+					const backgroundSource =
+						backgroundFile?.path || backgroundColor || null;
+
+					console.log(
+						`\n🔨 Creating iOS composite from layers (background + centered foreground)...`
+					);
+					const iosComposite = await imageProcessor.createCompositeFromLayers(
+						foregroundFile.path,
+						backgroundSource,
+						1024
+					);
+
+					const iosCompositePath = path.join(
+						tempOutputDir,
+						"ios-composite.png"
+					);
+					await iosComposite.png().toFile(iosCompositePath);
+
+					const result = await generateIconsForPlatform(
+						"ios",
+						iosCompositePath,
+						tempOutputDir,
+						genOptions
+					);
+
+					// Clean up temporary composite
+					try {
+						await fs.unlink(iosCompositePath);
+					} catch (err) {
+						// Ignore
+					}
+
+					results = [result];
+				} else {
+					// Standard generation or Android adaptive
+					const result = await generateIconsForPlatform(
+						platforms[0],
 						inputFile,
 						tempOutputDir,
 						genOptions
 					);
-					results = iosResult ? [iosResult, androidResult] : [androidResult];
+					results = [result];
+				}
+			} else {
+				// Handle mixed mode (iOS + Android with adaptive)
+				if (adaptiveMode) {
+					// Unified layer-based workflow for both platforms
+					const { ImageProcessor } = await import(
+						"./lib/core/ImageProcessor.js"
+					);
+					const imageProcessor = new ImageProcessor();
+
+					const foregroundFile = req.files.foreground[0];
+					const backgroundFile = req.files.background?.[0];
+					const backgroundColor =
+						req.query?.backgroundColor || req.body?.backgroundColor;
+
+					// Determine background source (file, color, or null for #111111)
+					const backgroundSource =
+						backgroundFile?.path || backgroundColor || null;
+
+					// For iOS: Create composite from layers (background + foreground with padding)
+					console.log(
+						`\n🔨 Creating iOS composite from layers (background + centered foreground)...`
+					);
+					const iosComposite = await imageProcessor.createCompositeFromLayers(
+						foregroundFile.path,
+						backgroundSource,
+						1024 // 1024x1024 base size for iOS
+					);
+
+					// Save composite to temporary file for iOS generation
+					const iosCompositePath = path.join(
+						tempOutputDir,
+						"ios-composite.png"
+					);
+					await iosComposite.png().toFile(iosCompositePath);
+
+					// Generate iOS icons from composite
+					const iosResult = await generateIconsForPlatform(
+						"ios",
+						iosCompositePath,
+						tempOutputDir,
+						{
+							force: true,
+							zip: true,
+						}
+					);
+
+					// Generate Android with adaptive icons (separate layers)
+					const androidResult = await generateIconsForPlatform(
+						"android",
+						null, // Not used in adaptive mode
+						tempOutputDir,
+						genOptions
+					);
+
+					// Clean up temporary composite
+					try {
+						await fs.unlink(iosCompositePath);
+					} catch (err) {
+						// Ignore cleanup errors
+					}
+
+					results = [iosResult, androidResult];
 				} else {
 					results = await generateIconsForMultiplePlatforms(
 						platforms,
