@@ -107,10 +107,7 @@ program
 program
 	.command("generate")
 	.description("Generate icons from a source image")
-	.requiredOption(
-		"-i, --input <path>",
-		"Path to source image (preferably 512x512 or larger)"
-	)
+	.option("-i, --input <path>", "Path to source image (for legacy mode or iOS)")
 	.option("-o, --out <dir>", "Output directory (default: icons)", "icons")
 	.option(
 		"-p, --platform <platform>",
@@ -119,6 +116,18 @@ program
 	)
 	.option("-z, --zip", "Create a ZIP archive of the generated icons")
 	.option("-f, --force", "Overwrite existing output directory")
+	.option(
+		"-fg, --foreground <path>",
+		"Foreground layer for Android adaptive icons"
+	)
+	.option(
+		"-bg, --background <path>",
+		"Background layer for Android adaptive icons (image or hex color like #FF5722)"
+	)
+	.option(
+		"-m, --monochrome <path>",
+		"Monochrome layer for Android adaptive icons (optional)"
+	)
 	.action(async options => {
 		await generateWithProgress(options);
 	});
@@ -195,13 +204,49 @@ program.parse();
  * Generate icons with progress indicators and colored output
  */
 async function generateWithProgress(options) {
-	const { input, out, zip, force, platform = "ios" } = options;
+	const {
+		input,
+		out,
+		zip,
+		force,
+		platform = "ios",
+		foreground,
+		background,
+		monochrome,
+	} = options;
+
+	// Check if using adaptive icon mode
+	const adaptiveMode = foreground && background;
+
+	// Validate that either input OR adaptive layers are provided
+	if (!input && !adaptiveMode) {
+		console.error(
+			chalk.red(
+				"❌ Error: Either --input (-i) or adaptive icon layers (--foreground + --background) are required\n"
+			)
+		);
+		process.exit(1);
+	}
 
 	// Determine which platforms to generate for
 	const platforms =
 		platform.toLowerCase() === "all"
 			? getSupportedPlatforms()
 			: [platform.toLowerCase()];
+
+	// Adaptive icons are Android-only
+	if (
+		adaptiveMode &&
+		platforms.includes("ios") &&
+		!platforms.includes("android")
+	) {
+		console.error(
+			chalk.red(
+				"❌ Error: Adaptive icons are only supported for Android. Use --platform android\n"
+			)
+		);
+		process.exit(1);
+	}
 
 	// Print header
 	const platformNames = platforms.map(p => p.toUpperCase()).join(" + ");
@@ -214,10 +259,12 @@ async function generateWithProgress(options) {
 		emoji = "🤖"; // Android only
 	}
 
+	const mode = adaptiveMode ? "Adaptive Icon Mode" : "Standard Mode";
 	console.log(
 		boxen(
 			chalk.bold.cyan(`${emoji}  ${platformNames} Icon Generator\n\n`) +
-				chalk.gray("Professional mobile app icons from a single source"),
+				chalk.gray(`Professional mobile app icons\n`) +
+				chalk.yellow(`${mode}`),
 			{
 				padding: 1,
 				margin: 1,
@@ -228,27 +275,101 @@ async function generateWithProgress(options) {
 		)
 	);
 
-	// Validate input file
-	const validateSpinner = ora("Validating input file...").start();
+	// Validate input files
+	const validateSpinner = ora("Validating input files...").start();
 
-	if (!existsSync(input)) {
-		validateSpinner.fail(chalk.red(`Input file not found: ${input}`));
-		process.exit(1);
+	if (adaptiveMode) {
+		// Validate adaptive icon layers
+		if (!existsSync(foreground)) {
+			validateSpinner.fail(
+				chalk.red(`Foreground layer not found: ${foreground}`)
+			);
+			process.exit(1);
+		}
+
+		// Check if background is a file or hex color
+		const isHexColor = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(background);
+		if (!isHexColor && !existsSync(background)) {
+			validateSpinner.fail(
+				chalk.red(
+					`Background must be a valid image file or hex color (e.g., #FF5722): ${background}`
+				)
+			);
+			process.exit(1);
+		}
+
+		if (monochrome && !existsSync(monochrome)) {
+			validateSpinner.fail(
+				chalk.red(`Monochrome layer not found: ${monochrome}`)
+			);
+			process.exit(1);
+		}
+
+		// Validate foreground image format
+		const fgValid = await validateImageFile(foreground);
+		if (!fgValid) {
+			validateSpinner.fail(
+				chalk.red("Foreground layer is not a valid image format")
+			);
+			process.exit(1);
+		}
+
+		// Validate background if it's an image
+		if (!isHexColor) {
+			const bgValid = await validateImageFile(background);
+			if (!bgValid) {
+				validateSpinner.fail(
+					chalk.red("Background layer is not a valid image format")
+				);
+				process.exit(1);
+			}
+		}
+
+		// Validate monochrome if provided
+		if (monochrome) {
+			const monoValid = await validateImageFile(monochrome);
+			if (!monoValid) {
+				validateSpinner.fail(
+					chalk.red("Monochrome layer is not a valid image format")
+				);
+				process.exit(1);
+			}
+		}
+	} else {
+		// Legacy mode - validate single input
+		if (!existsSync(input)) {
+			validateSpinner.fail(chalk.red(`Input file not found: ${input}`));
+			process.exit(1);
+		}
+
+		const isValid = await validateImageFile(input);
+		if (!isValid) {
+			validateSpinner.fail(chalk.red("Input file is not a valid image format"));
+			process.exit(1);
+		}
 	}
 
-	const isValid = await validateImageFile(input);
-	if (!isValid) {
-		validateSpinner.fail(chalk.red("Input file is not a valid image format"));
-		process.exit(1);
-	}
-
-	validateSpinner.succeed(chalk.green("Input file validated"));
+	validateSpinner.succeed(chalk.green("Input files validated"));
 
 	// Show configuration
 	console.log(chalk.bold("\n📋 Configuration\n"));
-	console.log(
-		chalk.gray("  Source Image:    ") + clickablePath(input, "white")
-	);
+
+	if (adaptiveMode) {
+		console.log(
+			chalk.gray("  Foreground:      ") + clickablePath(foreground, "white")
+		);
+		console.log(chalk.gray("  Background:      ") + chalk.white(background));
+		if (monochrome) {
+			console.log(
+				chalk.gray("  Monochrome:      ") + clickablePath(monochrome, "white")
+			);
+		}
+	} else {
+		console.log(
+			chalk.gray("  Source Image:    ") + clickablePath(input, "white")
+		);
+	}
+
 	console.log(
 		chalk.gray("  Output Directory:") + " " + clickablePath(out, "white")
 	);
@@ -271,17 +392,54 @@ async function generateWithProgress(options) {
 		console.log = (...args) => logs.push(args.join(" "));
 
 		let results;
+
+		// Build options object
+		const genOptions = {
+			force,
+			zip,
+		};
+
+		// Add adaptive icon configuration if in adaptive mode
+		if (adaptiveMode) {
+			genOptions.adaptiveIcon = {
+				foreground,
+				background,
+				monochrome,
+			};
+		}
+
 		if (platforms.length === 1) {
-			const result = await generateIconsForPlatform(platforms[0], input, out, {
-				force,
-				zip,
-			});
+			const result = await generateIconsForPlatform(
+				platforms[0],
+				input,
+				out,
+				genOptions
+			);
 			results = [result];
 		} else {
-			results = await generateIconsForMultiplePlatforms(platforms, input, out, {
-				force,
-				zip,
-			});
+			// Handle mixed mode (iOS + Android with adaptive)
+			if (adaptiveMode) {
+				// Generate iOS with standard input
+				const iosResult = await generateIconsForPlatform("ios", input, out, {
+					force,
+					zip,
+				});
+				// Generate Android with adaptive icons
+				const androidResult = await generateIconsForPlatform(
+					"android",
+					input,
+					out,
+					genOptions
+				);
+				results = [iosResult, androidResult];
+			} else {
+				results = await generateIconsForMultiplePlatforms(
+					platforms,
+					input,
+					out,
+					genOptions
+				);
+			}
 		}
 
 		// Restore console.log
@@ -576,6 +734,7 @@ function startServer(port = 3000) {
 	const MAX_FILE_SIZE = parseInt(process.env.MAX_FILE_SIZE || "52428800"); // 50MB default
 
 	// Configure multer for file uploads
+	// Support both single file (legacy) and multiple files (adaptive icons)
 	const upload = multer({
 		dest: UPLOAD_DIR,
 		limits: {
@@ -604,6 +763,14 @@ function startServer(port = 3000) {
 		},
 	});
 
+	// Define upload fields for both legacy and adaptive modes
+	const uploadFields = upload.fields([
+		{ name: "file", maxCount: 1 }, // Legacy single image
+		{ name: "foreground", maxCount: 1 }, // Adaptive foreground
+		{ name: "background", maxCount: 1 }, // Adaptive background
+		{ name: "monochrome", maxCount: 1 }, // Adaptive monochrome (optional)
+	]);
+
 	// Health check endpoint
 	app.get("/", (req, res) => {
 		res.json({
@@ -612,9 +779,20 @@ function startServer(port = 3000) {
 			supportedPlatforms: getSupportedPlatforms(),
 			supportedFormats: ["jpeg", "jpg", "png", "webp", "avif", "tiff"],
 			defaultPlatform: "all",
+			features: {
+				legacyIcons: "Single image for both iOS and Android",
+				adaptiveIcons:
+					"Android 8.0+ adaptive icons with separate foreground/background layers",
+			},
 			endpoints: {
-				generate:
-					'POST /generate?platform=all|ios|android (multipart/form-data with "file" field, default: all)',
+				generate: {
+					url: "POST /generate?platform=all|ios|android",
+					legacyMode:
+						'Single "file" field (multipart/form-data) for standard icons',
+					adaptiveMode:
+						'"foreground" + "background" fields for Android adaptive icons (background can be image file or use ?backgroundColor=#HEX query param)',
+					optional: '"monochrome" field for themed icons',
+				},
 				platforms: "GET /platforms",
 			},
 		});
@@ -629,25 +807,92 @@ function startServer(port = 3000) {
 	});
 
 	// Icon generation endpoint
-	app.post("/generate", upload.single("file"), async (req, res) => {
+	app.post("/generate", uploadFields, async (req, res) => {
 		let tempOutputDir = null;
+		const uploadedFiles = [];
 
 		try {
-			if (!req.file) {
+			// Detect mode: legacy (single file) or adaptive (multiple files)
+			const hasLegacyFile = req.files && req.files.file && req.files.file[0];
+			const hasAdaptiveFiles =
+				req.files &&
+				req.files.foreground &&
+				req.files.foreground[0] &&
+				req.files.background &&
+				req.files.background[0];
+
+			// Also support backgroundColor query param for solid color backgrounds
+			const backgroundColor =
+				req.query.backgroundColor || req.body.backgroundColor;
+
+			const adaptiveMode =
+				hasAdaptiveFiles ||
+				(req.files &&
+					req.files.foreground &&
+					req.files.foreground[0] &&
+					backgroundColor);
+
+			console.log("\n🔍 Debug info:");
+			console.log("  hasLegacyFile:", !!hasLegacyFile);
+			console.log("  hasAdaptiveFiles:", hasAdaptiveFiles);
+			console.log("  backgroundColor:", backgroundColor);
+			console.log("  req.files:", req.files ? Object.keys(req.files) : "none");
+			console.log("  adaptiveMode:", adaptiveMode);
+
+			if (!hasLegacyFile && !adaptiveMode) {
 				return res.status(400).json({
 					success: false,
-					error: 'No file uploaded. Please provide a file in the "file" field.',
+					error:
+						'No file uploaded. Please provide either: 1) a single "file" field (legacy mode), or 2) "foreground" + "background" fields (adaptive mode)',
 				});
 			}
 
 			// Get platform from query parameter or form data (default: all)
 			const platform = req.query.platform || req.body.platform || "all";
 
-			console.log(
-				`\n📥 Received upload: ${req.file.originalname} (${
-					req.file.size
-				} bytes) for ${platform.toUpperCase()}`
-			);
+			if (adaptiveMode) {
+				// Adaptive icon mode
+				const foregroundFile = req.files.foreground[0];
+				const backgroundFile = req.files.background
+					? req.files.background[0]
+					: null;
+				const monochromeFile = req.files.monochrome
+					? req.files.monochrome[0]
+					: null;
+
+				uploadedFiles.push(foregroundFile.path);
+				if (backgroundFile) uploadedFiles.push(backgroundFile.path);
+				if (monochromeFile) uploadedFiles.push(monochromeFile.path);
+
+				console.log(
+					`\n📥 Received adaptive icon upload for ${platform.toUpperCase()}:`
+				);
+				console.log(
+					`   Foreground: ${foregroundFile.originalname} (${foregroundFile.size} bytes)`
+				);
+				if (backgroundFile) {
+					console.log(
+						`   Background: ${backgroundFile.originalname} (${backgroundFile.size} bytes)`
+					);
+				} else if (backgroundColor) {
+					console.log(`   Background: ${backgroundColor} (color)`);
+				}
+				if (monochromeFile) {
+					console.log(
+						`   Monochrome: ${monochromeFile.originalname} (${monochromeFile.size} bytes)`
+					);
+				}
+			} else {
+				// Legacy mode
+				const file = req.files.file[0];
+				uploadedFiles.push(file.path);
+
+				console.log(
+					`\n📥 Received upload: ${file.originalname} (${
+						file.size
+					} bytes) for ${platform.toUpperCase()}`
+				);
+			}
 
 			// Validate platform
 			const platforms =
@@ -657,7 +902,14 @@ function startServer(port = 3000) {
 
 			for (const p of platforms) {
 				if (!getSupportedPlatforms().includes(p)) {
-					await fs.unlink(req.file.path);
+					// Clean up uploaded files
+					for (const filePath of uploadedFiles) {
+						try {
+							await fs.unlink(filePath);
+						} catch (err) {
+							// Ignore cleanup errors
+						}
+					}
 					return res.status(400).json({
 						success: false,
 						error: `Unsupported platform: ${p}. Available: ${getSupportedPlatforms().join(
@@ -667,47 +919,158 @@ function startServer(port = 3000) {
 				}
 			}
 
-			// Validate image file
-			const isValid = await validateImageFile(req.file.path);
-			if (!isValid) {
-				await fs.unlink(req.file.path);
+			// Adaptive icons are Android-only
+			if (
+				adaptiveMode &&
+				platforms.includes("ios") &&
+				!platforms.includes("android")
+			) {
+				// Clean up uploaded files
+				for (const filePath of uploadedFiles) {
+					try {
+						await fs.unlink(filePath);
+					} catch (err) {
+						// Ignore cleanup errors
+					}
+				}
 				return res.status(400).json({
 					success: false,
-					error: "Uploaded file is not a valid image format",
+					error: "Adaptive icons are only supported for Android platform",
 				});
+			}
+
+			// Validate image files
+			if (adaptiveMode) {
+				// Validate foreground
+				const foregroundFile = req.files.foreground[0];
+				const fgValid = await validateImageFile(foregroundFile.path);
+				if (!fgValid) {
+					for (const filePath of uploadedFiles) {
+						await fs.unlink(filePath).catch(() => {});
+					}
+					return res.status(400).json({
+						success: false,
+						error: "Foreground file is not a valid image format",
+					});
+				}
+
+				// Validate background if it's a file
+				if (req.files.background && req.files.background[0]) {
+					const backgroundFile = req.files.background[0];
+					const bgValid = await validateImageFile(backgroundFile.path);
+					if (!bgValid) {
+						for (const filePath of uploadedFiles) {
+							await fs.unlink(filePath).catch(() => {});
+						}
+						return res.status(400).json({
+							success: false,
+							error: "Background file is not a valid image format",
+						});
+					}
+				}
+
+				// Validate monochrome if provided
+				if (req.files.monochrome && req.files.monochrome[0]) {
+					const monochromeFile = req.files.monochrome[0];
+					const monoValid = await validateImageFile(monochromeFile.path);
+					if (!monoValid) {
+						for (const filePath of uploadedFiles) {
+							await fs.unlink(filePath).catch(() => {});
+						}
+						return res.status(400).json({
+							success: false,
+							error: "Monochrome file is not a valid image format",
+						});
+					}
+				}
+			} else {
+				// Legacy mode - validate single file
+				const file = req.files.file[0];
+				const isValid = await validateImageFile(file.path);
+				if (!isValid) {
+					await fs.unlink(file.path).catch(() => {});
+					return res.status(400).json({
+						success: false,
+						error: "Uploaded file is not a valid image format",
+					});
+				}
 			}
 
 			// Create temporary output directory
 			tempOutputDir = path.join("/tmp", `icons-${Date.now()}`);
 			await fs.mkdir(tempOutputDir, { recursive: true });
 
+			// Build generation options
+			const genOptions = {
+				force: true,
+				zip: true,
+			};
+
+			// Add adaptive icon configuration if in adaptive mode
+			if (adaptiveMode) {
+				const foregroundFile = req.files.foreground[0];
+				const backgroundFile = req.files.background
+					? req.files.background[0]
+					: null;
+				const monochromeFile = req.files.monochrome
+					? req.files.monochrome[0]
+					: null;
+
+				genOptions.adaptiveIcon = {
+					foreground: foregroundFile.path,
+					background: backgroundFile ? backgroundFile.path : backgroundColor,
+					monochrome: monochromeFile ? monochromeFile.path : null,
+				};
+			}
+
 			// Generate icons (always create zip for HTTP API)
 			let results;
+			const inputFile = hasLegacyFile ? req.files.file[0].path : null;
+
 			if (platforms.length === 1) {
 				const result = await generateIconsForPlatform(
 					platforms[0],
-					req.file.path,
+					inputFile,
 					tempOutputDir,
-					{
-						force: true,
-						zip: true,
-					}
+					genOptions
 				);
 				results = [result];
 			} else {
-				results = await generateIconsForMultiplePlatforms(
-					platforms,
-					req.file.path,
-					tempOutputDir,
-					{
-						force: true,
-						zip: true,
-					}
-				);
+				// Handle mixed mode (iOS + Android with adaptive)
+				if (adaptiveMode) {
+					// Generate iOS with standard input (if provided)
+					const iosResult = inputFile
+						? await generateIconsForPlatform("ios", inputFile, tempOutputDir, {
+								force: true,
+								zip: true,
+						  })
+						: null;
+					// Generate Android with adaptive icons
+					const androidResult = await generateIconsForPlatform(
+						"android",
+						inputFile,
+						tempOutputDir,
+						genOptions
+					);
+					results = iosResult ? [iosResult, androidResult] : [androidResult];
+				} else {
+					results = await generateIconsForMultiplePlatforms(
+						platforms,
+						inputFile,
+						tempOutputDir,
+						genOptions
+					);
+				}
 			}
 
-			// Clean up uploaded file
-			await fs.unlink(req.file.path);
+			// Clean up uploaded files
+			for (const filePath of uploadedFiles) {
+				try {
+					await fs.unlink(filePath);
+				} catch (err) {
+					// Ignore cleanup errors
+				}
+			}
 
 			// Send ZIP file for single or multiple platforms
 			if (
@@ -717,6 +1080,22 @@ function startServer(port = 3000) {
 			) {
 				// Single platform: send the existing ZIP
 				const zipName = `${results[0].platform}-icons.zip`;
+
+				// Verify the ZIP file is valid and not empty
+				try {
+					const stats = await fs.stat(results[0].zipPath);
+					if (stats.size === 0) {
+						throw new Error("Generated ZIP file is empty");
+					}
+					console.log(`✅ ZIP file ready: ${stats.size} bytes`);
+				} catch (statErr) {
+					console.error("Failed to verify ZIP file:", statErr);
+					return res.status(500).json({
+						success: false,
+						error: "Generated ZIP file is invalid or empty",
+					});
+				}
+
 				res.download(results[0].zipPath, zipName, async err => {
 					// Clean up temp directory after download
 					if (tempOutputDir) {
@@ -802,6 +1181,13 @@ function startServer(port = 3000) {
 
 					console.log(`✅ Created combined ZIP: ${combinedZipPath}`);
 
+					// Verify the ZIP file is valid and not empty
+					const stats = await fs.stat(combinedZipPath);
+					if (stats.size === 0) {
+						throw new Error("Generated combined ZIP file is empty");
+					}
+					console.log(`✅ Combined ZIP file ready: ${stats.size} bytes`);
+
 					// Send the combined ZIP
 					res.download(combinedZipPath, "all-icons.zip", async err => {
 						// Clean up temp directory after download
@@ -837,9 +1223,9 @@ function startServer(port = 3000) {
 			console.error("Generation error:", error);
 
 			// Clean up temp files
-			if (req.file && req.file.path) {
+			for (const filePath of uploadedFiles) {
 				try {
-					await fs.unlink(req.file.path);
+					await fs.unlink(filePath);
 				} catch (err) {
 					// Ignore cleanup errors
 				}

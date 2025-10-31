@@ -6,6 +6,7 @@ This document provides comprehensive examples for every possible use case of Ino
 
 - [Installation Methods](#installation-methods)
 - [Basic Usage](#basic-usage)
+- [🆕 Adaptive Icons (Android 8.0+)](#adaptive-icons-android-80)
 - [CLI Examples](#cli-examples)
 - [Library API Examples](#library-api-examples)
 - [HTTP API Examples](#http-api-examples)
@@ -165,6 +166,109 @@ await quickGenerate({
 ```
 
 **Output**: Icons + ZIP archives
+
+---
+
+## 🆕 Adaptive Icons (Android 8.0+)
+
+### Generate Adaptive Icons with Images
+
+```bash
+# CLI - With image files for foreground and background
+ino-icon generate \
+  --platform android \
+  --foreground ./layers/foreground.png \
+  --background ./layers/background.png \
+  --monochrome ./layers/monochrome.png \
+  --out ./output \
+  --zip
+```
+
+**Output**: 50+ icons including adaptive layers + legacy compatibility
+
+### Generate with Solid Color Background
+
+```bash
+# CLI - With hex color as background
+ino-icon generate \
+  -p android \
+  -fg ./foreground.png \
+  -bg '#FF5722' \
+  -o ./output
+```
+
+### Library API - Adaptive Icons
+
+```javascript
+import { quickGenerate } from "ino-icon-maker";
+
+// With image layers
+await quickGenerate({
+	output: "./output",
+	platform: "android",
+	adaptiveIcon: {
+		foreground: "./layers/foreground.png",
+		background: "./layers/background.png",
+		monochrome: "./layers/monochrome.png",
+	},
+	zip: true,
+});
+
+// With color background
+await quickGenerate({
+	output: "./output",
+	platform: "android",
+	adaptiveIcon: {
+		foreground: "./foreground.png",
+		background: "#4CAF50", // Hex color
+	},
+});
+```
+
+### HTTP API - Adaptive Icons
+
+```bash
+# With image files for all layers
+curl -X POST http://localhost:3000/generate?platform=android \
+  -F "foreground=@./layers/foreground.png" \
+  -F "background=@./layers/background.png" \
+  -F "monochrome=@./layers/monochrome.png" \
+  -o adaptive-icons.zip
+
+# With color background
+curl -X POST "http://localhost:3000/generate?platform=android&backgroundColor=%23FF5722" \
+  -F "foreground=@./foreground.png" \
+  -o adaptive-icons.zip
+```
+
+### Generate iOS + Android Adaptive
+
+```bash
+# CLI - iOS with standard input, Android with adaptive layers
+ino-icon generate \
+  -i ./icon-ios.png \
+  -p all \
+  -fg ./android-fg.png \
+  -bg '#2196F3' \
+  -o ./output \
+  -z
+```
+
+```javascript
+// Library API - Mixed mode
+await quickGenerate({
+	input: "./icon-ios.png", // Used for iOS
+	output: "./output",
+	platform: "all",
+	adaptiveIcon: {
+		// Used for Android
+		foreground: "./android-fg.png",
+		background: "./android-bg.png",
+	},
+});
+```
+
+**📖 [Complete Adaptive Icons Guide →](../guides/ADAPTIVE_ICONS.md)**
 
 ---
 

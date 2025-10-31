@@ -40,11 +40,15 @@
 
 <img src="https://raw.githubusercontent.com/narek589/ino-icon-maker/main/assets/android-preview.png" alt="Android Icons" width="300" />
 
-**13 Icons Generated**
+**13 Icons Generated** (Legacy)  
+**50+ Icons Generated** (Adaptive)
 
 ✓ All densities (ldpi → xxxhdpi)  
 ✓ Round icons included  
 ✓ Play Store (512×512)  
+✓ **NEW:** Adaptive Icons (Android 8.0+)  
+✓ Foreground + Background layers  
+✓ Themed icons support  
 ✓ Ready for `AndroidManifest.xml`
 
 </td>
@@ -104,6 +108,8 @@ Lanczos3 resampling
 
 ## 🚀 Quick Start
 
+### Standard Icons (Single Image)
+
 ```bash
 # 1️⃣ NPX (No install required) - Recommended
 npx ino-icon-maker generate -i icon.png -p all -z
@@ -117,6 +123,30 @@ ino-icon generate -i icon.png -p all
 # 3️⃣ Project Dependency
 npm install -D ino-icon-maker
 ```
+
+### 🆕 Adaptive Icons (Android 8.0+)
+
+Generate modern Android adaptive icons with separate layers:
+
+```bash
+# With separate foreground and background images
+ino-icon generate \
+  --platform android \
+  --foreground ./foreground.png \
+  --background ./background.png \
+  --monochrome ./monochrome.png \
+  --out ./icons \
+  --zip
+
+# With solid color background (hex code)
+ino-icon generate \
+  -p android \
+  -fg ./foreground.png \
+  -bg '#FF5722' \
+  -o ./icons
+```
+
+**📖 [Complete Adaptive Icons Guide →](./docs/guides/ADAPTIVE_ICONS.md)**
 
 ---
 

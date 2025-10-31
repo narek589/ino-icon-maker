@@ -50,17 +50,21 @@ export { IconGeneratorFactory } from "./lib/IconGeneratorFactory.js";
  * Quick start function - Generate icons with minimal configuration
  *
  * @param {Object} options - Generation options
- * @param {string} options.input - Path to source image (JPEG, PNG, WebP)
+ * @param {string} [options.input] - Path to source image (JPEG, PNG, WebP) - for legacy mode or iOS
  * @param {string} options.output - Output directory
  * @param {string} [options.platform='all'] - Platform: 'ios', 'android', or 'all'
  * @param {boolean} [options.zip=false] - Create ZIP archive
  * @param {boolean} [options.force=false] - Overwrite existing files
+ * @param {Object} [options.adaptiveIcon] - Adaptive icon configuration (Android only)
+ * @param {string} options.adaptiveIcon.foreground - Path to foreground layer image
+ * @param {string} options.adaptiveIcon.background - Path to background layer image or hex color (e.g., '#FF5722')
+ * @param {string} [options.adaptiveIcon.monochrome] - Path to monochrome layer image (optional)
  * @returns {Promise<Object|Array>} Generation result(s)
  *
  * @example
  * import { quickGenerate } from 'ino-icon-maker';
  *
- * // Generate for both platforms (default)
+ * // Generate for both platforms (legacy mode)
  * await quickGenerate({
  *   input: './my-icon.png',
  *   output: './output',
@@ -68,11 +72,27 @@ export { IconGeneratorFactory } from "./lib/IconGeneratorFactory.js";
  * });
  *
  * @example
- * // Generate for iOS only
+ * // Generate Android adaptive icons
  * await quickGenerate({
- *   input: './my-icon.jpg',
  *   output: './output',
- *   platform: 'ios'
+ *   platform: 'android',
+ *   adaptiveIcon: {
+ *     foreground: './foreground.png',
+ *     background: '#FF5722',
+ *     monochrome: './monochrome.png'
+ *   }
+ * });
+ *
+ * @example
+ * // Generate iOS + Android adaptive icons
+ * await quickGenerate({
+ *   input: './icon.png', // Used for iOS
+ *   output: './output',
+ *   platform: 'all',
+ *   adaptiveIcon: {
+ *     foreground: './fg.png',
+ *     background: './bg.png'
+ *   }
  * });
  */
 export async function quickGenerate(options) {
@@ -82,10 +102,18 @@ export async function quickGenerate(options) {
 		platform = "all",
 		zip = false,
 		force = false,
+		adaptiveIcon,
 	} = options;
 
-	if (!input || !output) {
-		throw new Error("Input and output paths are required");
+	// Validate that either input OR adaptiveIcon is provided
+	if (!input && !adaptiveIcon) {
+		throw new Error(
+			"Either 'input' or 'adaptiveIcon' configuration is required"
+		);
+	}
+
+	if (!output) {
+		throw new Error("Output path is required");
 	}
 
 	const {
@@ -99,16 +127,50 @@ export async function quickGenerate(options) {
 			? getSupportedPlatforms()
 			: [platform.toLowerCase()];
 
+	// Build generation options
+	const genOptions = {
+		force,
+		zip,
+	};
+
+	// Add adaptive icon configuration if provided
+	if (adaptiveIcon) {
+		genOptions.adaptiveIcon = adaptiveIcon;
+	}
+
 	if (platforms.length === 1) {
-		return await generateIconsForPlatform(platforms[0], input, output, {
-			force,
-			zip,
-		});
+		return await generateIconsForPlatform(
+			platforms[0],
+			input,
+			output,
+			genOptions
+		);
 	} else {
-		return await generateIconsForMultiplePlatforms(platforms, input, output, {
-			force,
-			zip,
-		});
+		// Handle mixed mode (iOS + Android with adaptive)
+		if (adaptiveIcon) {
+			// Generate iOS with standard input
+			const iosResult = input
+				? await generateIconsForPlatform("ios", input, output, {
+						force,
+						zip,
+				  })
+				: null;
+			// Generate Android with adaptive icons
+			const androidResult = await generateIconsForPlatform(
+				"android",
+				input,
+				output,
+				genOptions
+			);
+			return iosResult ? [iosResult, androidResult] : [androidResult];
+		} else {
+			return await generateIconsForMultiplePlatforms(
+				platforms,
+				input,
+				output,
+				genOptions
+			);
+		}
 	}
 }
 

@@ -60,13 +60,37 @@ ino-icon generate -i icon.png -p ios
 
 **Output:** `./icons/AppIcon.appiconset/` (18 icons + Contents.json)
 
-### Android Only
+### Android Only (Legacy Mode)
 
 ```bash
 ino-icon generate -i icon.png -p android
 ```
 
 **Output:** `./icons/android-icons/` (13 icons in mipmap folders)
+
+### 🆕 Android Adaptive Icons (Recommended for Android 8.0+)
+
+Generate modern adaptive icons with separate foreground and background layers:
+
+```bash
+# With image layers
+ino-icon generate \
+  -p android \
+  -fg ./foreground.png \
+  -bg ./background.png \
+  -o ./icons
+
+# With solid color background
+ino-icon generate \
+  -p android \
+  -fg ./foreground.png \
+  -bg '#FF5722' \
+  -o ./icons
+```
+
+**Output:** `./icons/android-icons/` (50+ icons including adaptive layers + legacy compatibility)
+
+**📖 [Complete Adaptive Icons Guide](./ADAPTIVE_ICONS.md)**
 
 ### Custom Output Directory
 
