@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.3] - 2025-10-31
+
+### Added
+
+- **IOSGenerator adaptive mode**: iOS now has native layer-based generation support
+- `IOSGenerator.generateAdaptiveMode()` method for creating composites from layers
+- Both iOS and Android generators now fully support unified layer-based workflow via CLI
+
+### Fixed
+
+- **CLI adaptive mode**: Fixed generation for both iOS and Android platforms
+- IOSGenerator now properly handles null input in adaptive mode
+- CLI commands like `ino-icon generate -fg foreground.png` now work correctly
+
+### Changed
+
+- IOSGenerator overrides `generate()` to detect and handle adaptive mode
+- Consistent adaptive mode implementation across both platform generators
+
 ## [1.1.2] - 2025-10-31
 
 ### Fixed
