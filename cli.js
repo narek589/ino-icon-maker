@@ -406,9 +406,10 @@ async function generateWithProgress(options) {
 		}
 
 		if (platforms.length === 1) {
+			// In adaptive mode, pass null for input (foreground/background come from genOptions)
 			const result = await generateIconsForPlatform(
 				platforms[0],
-				input,
+				adaptiveMode ? null : input,
 				out,
 				genOptions
 			);
@@ -416,15 +417,16 @@ async function generateWithProgress(options) {
 		} else {
 			// Handle mixed mode (iOS + Android with adaptive)
 			if (adaptiveMode) {
-				// Generate iOS with standard input
-				const iosResult = await generateIconsForPlatform("ios", input, out, {
+				// Generate iOS with adaptive (pass null, uses genOptions.adaptiveIcon)
+				const iosResult = await generateIconsForPlatform("ios", null, out, {
 					force,
 					zip,
+					...genOptions,
 				});
 				// Generate Android with adaptive icons
 				const androidResult = await generateIconsForPlatform(
 					"android",
-					input,
+					null,
 					out,
 					genOptions
 				);
