@@ -29,9 +29,11 @@ Visual guide to all documentation.
     │   ├── FLUTTER.md            # Flutter setup
     │   └── CI_CD.md              # Automation
     │
-    └── 📁 architecture/
-        ├── ARCHITECTURE.md       # Design overview
-        └── REFACTORING_DETAILS.md # Technical details
+    ├── 📁 architecture/
+    │   ├── ARCHITECTURE.md       # Design overview
+    │   └── REFACTORING_DETAILS.md # Technical details
+    │
+    └── 📄 ANDROID_ADAPTIVE_ICON_FIX.md # Android icon fix details
 ```
 
 ---
@@ -73,6 +75,7 @@ Visual guide to all documentation.
 
 - [Architecture](./architecture/ARCHITECTURE.md) - System design
 - [Refactoring](./architecture/REFACTORING_DETAILS.md) - SOLID principles
+- [Android Adaptive Icon Fix](./ANDROID_ADAPTIVE_ICON_FIX.md) - Safe zone calculation fix
 
 ### Community
 
@@ -114,6 +117,9 @@ Visual guide to all documentation.
 
 **How does it work internally?**  
 → [Architecture](./architecture/ARCHITECTURE.md)
+
+**Why were my Android icons getting clipped?**  
+→ [Android Adaptive Icon Fix](./ANDROID_ADAPTIVE_ICON_FIX.md)
 
 ---
 

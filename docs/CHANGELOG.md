@@ -10,15 +10,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - **Android adaptive icon safe zone**: Corrected foreground padding to match official Android specification
-- Safe zone now properly sized at 66dp within 108dp canvas (61.11% content)
-- Padding adjusted from 20% to 38.89% (21dp on each side) per Android Material Design guidelines
+- Fixed incorrect padding calculation: was using 21dp per side (42dp total), now correctly uses **18dp per side (36dp total)**
+- Fixed bug where calculated `innerSize` was computed but never used in the resize operation
+- Safe zone now properly sized at 66dp within 108dp canvas (61.11% content area)
+- Foreground images are now correctly resized to fit the 66dp safe zone, then extended with 18dp transparent padding
 - Foreground icons will no longer be clipped by circular/squircle launcher masks
 
 ### Changed
 
-- Updated `ImageProcessor.prepareAdaptiveLayer()` padding calculation: `42/108` instead of `0.2`
+- Updated `ImageProcessor.prepareAdaptiveLayer()` to use correct formula: `safeZoneRatio = 66/108`
+- Foreground layer now properly resizes to safe zone first, then extends with transparent padding
 - Enhanced documentation with detailed Android adaptive icon specifications
-- Improved code comments explaining safe zone dimensions
+- Improved code comments explaining safe zone dimensions per official Android guidelines
+- Added comprehensive fix documentation in `docs/ANDROID_ADAPTIVE_ICON_FIX.md`
+
+### References
+
+- [Android Adaptive Icon Design Guidelines](https://developer.android.com/develop/ui/views/launch/icon_design_adaptive)
 
 ## [1.1.3] - 2025-10-31
 

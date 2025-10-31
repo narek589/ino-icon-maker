@@ -21,7 +21,7 @@ Introduced in Android 8.0 (API 26), adaptive icons consist of:
 
 1. **Foreground layer**: Your app's logo/icon
 2. **Background layer**: Solid color or image
-3. **Safe zone**: 20% padding (66dp of 108dp canvas)
+3. **Safe zone**: 66dp within 108dp canvas (61.11% content area)
 
 **Why use them?**
 
@@ -32,15 +32,16 @@ Introduced in Android 8.0 (API 26), adaptive icons consist of:
 **Safe Zone Diagram:**
 
 ```
-┌──────────────────────────┐
-│  ← 20% padding →         │ 108dp total canvas
-│  ┌──────────────┐        │
-│  │              │        │ 72dp safe zone (icon)
-│  │   Your Icon  │        │ 36dp bleeding edge
-│  │              │        │
-│  └──────────────┘        │
-│         ↑ 20% padding    │
-└──────────────────────────┘
+┌─────────────────────────────────┐
+│ 18dp   ←  Transparent Padding   │ 108dp total canvas
+│     ┌───────────────────────┐   │
+│     │                       │   │ 66dp safe zone
+│  ↑  │   Your Icon Content   │   │ (always visible)
+│ 18dp│                       │   │
+│  ↓  │                       │   │
+│     └───────────────────────┘   │
+│             → 18dp              │
+└─────────────────────────────────┘
 ```
 
 ---
@@ -54,14 +55,14 @@ Introduced in Android 8.0 (API 26), adaptive icons consist of:
 **For Android:**
 
 - Generates native adaptive icons (separate foreground/background layers)
-- Foreground automatically gets 20% padding (safe zone)
+- Foreground automatically resized to 66dp safe zone with 18dp padding on each side
 - Background fills entire space
 
 **For iOS:**
 
 - Creates composite image from layers
 - Background fills entire space
-- Foreground centered with 20% padding (zoomed out)
+- Foreground centered with padding (zoomed out to safe zone)
 - Composite used to generate standard iOS icons
 
 **Default Background:** If no background specified, uses `#111111` (dark gray)
@@ -193,33 +194,35 @@ curl -F "foreground=@fg.png" -F "background=@bg.png" \
 
 ### Safe Zone Rules
 
-The **safe zone is the center 66%** of the canvas:
+The **safe zone is 66dp within the 108dp canvas** (61.11% of total):
 
 - Total canvas: 108dp × 108dp
-- Safe zone: 72dp × 72dp (center)
-- Visible: At least 66% always shown
-- Masked: Outer 36dp may be clipped
+- Safe zone: 66dp × 66dp (center)
+- Outer margin: 18dp on each side (36dp total)
+- Visible: Safe zone content always shown
+- Masked: Outer 18dp on each side may be clipped
 
 **Visual Representation:**
 
 ```
 ┌─────────────────────────────┐
-│ ← Unsafe (may be clipped) → │
+│ ← 18dp (may be clipped) →   │
 │  ┌───────────────────────┐  │
 │  │                       │  │
-│  │    Safe Zone 72dp     │  │
+│  │   Safe Zone 66dp      │  │
 │  │  (Always visible)     │  │
 │  │                       │  │
 │  └───────────────────────┘  │
-│ ← Unsafe (may be clipped) → │
+│ ← 18dp (may be clipped) →   │
 └─────────────────────────────┘
 ```
 
 ### Padding Applied Automatically
 
-**v1.1.0 automatically adds 20% padding** to foreground layers:
+**v1.1.0+ automatically handles safe zone** for foreground layers:
 
-- ✅ Your foreground is zoomed out (safe from clipping)
+- ✅ Your foreground is resized to 66dp safe zone (safe from clipping)
+- ✅ 18dp transparent padding added on all sides
 - ✅ Background fills entire space
 - ✅ No manual padding needed!
 
@@ -230,10 +233,11 @@ You had to manually design with padding
 ❌ Risk of clipping if logo too large
 ```
 
-**v1.1.0+ Automatic:**
+**v1.1.4+ Automatic (Fixed):**
 
 ```
-✅ Foreground automatically zoomed out 20%
+✅ Foreground resized to 66dp safe zone
+✅ 18dp padding on each side (per Android spec)
 ✅ Safe zone guaranteed
 ✅ Just design at 100%, we handle the rest!
 ```
@@ -377,6 +381,21 @@ await generator.generate("./foreground.png", "./output", {
 - [Material Design Icons](https://m3.material.io/styles/icons/overview)
 - [Quick Start Guide](./QUICK_START.md)
 - [Complete Examples](../examples/ALL_EXAMPLES.md)
+- [Android Adaptive Icon Fix Details](../ANDROID_ADAPTIVE_ICON_FIX.md) - v1.1.4 safe zone fix
+
+---
+
+## 🐛 Important: v1.1.4 Fix
+
+**If you generated adaptive icons before v1.1.4**, your foreground images may have been using incorrect safe zone calculations. The fix in v1.1.4 corrects:
+
+- ✅ Safe zone now correctly 66dp (was incorrectly calculated before)
+- ✅ Padding now correctly 18dp on each side (was 21dp)
+- ✅ Follows official Android specification
+
+**Recommendation:** Regenerate your adaptive icons with v1.1.4+ for proper safe zone compliance.
+
+See [Android Adaptive Icon Fix Details](../ANDROID_ADAPTIVE_ICON_FIX.md) for technical details.
 
 ---
 
