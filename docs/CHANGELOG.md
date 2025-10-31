@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.2] - 2025-10-31
+
+### Fixed
+
+- **CLI adaptive mode**: Fixed "Input file not found: undefined" error
+- CLI now passes `null` instead of `undefined` for input parameter in adaptive mode
+- Input parameter not needed in adaptive mode (uses `genOptions.adaptiveIcon`)
+- Fixes both single platform and multi-platform adaptive generation
+
 ## [1.1.1] - 2025-10-31
 
 ### Fixed
