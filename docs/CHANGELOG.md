@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.4] - 2025-10-31
+
+### Fixed
+
+- **Android adaptive icon safe zone**: Corrected foreground padding to match official Android specification
+- Safe zone now properly sized at 66dp within 108dp canvas (61.11% content)
+- Padding adjusted from 20% to 38.89% (21dp on each side) per Android Material Design guidelines
+- Foreground icons will no longer be clipped by circular/squircle launcher masks
+
+### Changed
+
+- Updated `ImageProcessor.prepareAdaptiveLayer()` padding calculation: `42/108` instead of `0.2`
+- Enhanced documentation with detailed Android adaptive icon specifications
+- Improved code comments explaining safe zone dimensions
+
 ## [1.1.3] - 2025-10-31
 
 ### Added

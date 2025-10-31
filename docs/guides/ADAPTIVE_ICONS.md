@@ -24,11 +24,13 @@ Introduced in Android 8.0 (API 26), adaptive icons consist of:
 3. **Safe zone**: 20% padding (66dp of 108dp canvas)
 
 **Why use them?**
+
 - System applies different masks (circle, squircle, rounded square)
 - Supports visual effects (parallax, pulsing)
 - Modern, consistent look across launchers
 
 **Safe Zone Diagram:**
+
 ```
 ┌──────────────────────────┐
 │  ← 20% padding →         │ 108dp total canvas
@@ -50,11 +52,13 @@ Introduced in Android 8.0 (API 26), adaptive icons consist of:
 ### How It Works
 
 **For Android:**
+
 - Generates native adaptive icons (separate foreground/background layers)
 - Foreground automatically gets 20% padding (safe zone)
 - Background fills entire space
 
 **For iOS:**
+
 - Creates composite image from layers
 - Background fills entire space
 - Foreground centered with 20% padding (zoomed out)
@@ -90,6 +94,7 @@ ino-icon generate -p android \
 ```
 
 **Output Structure:**
+
 ```
 android/
 └── app/
@@ -112,6 +117,7 @@ android/
 ## 🌐 HTTP API Usage
 
 ### Start Server
+
 ```bash
 ino-icon serve -p 3000
 ```
@@ -149,6 +155,7 @@ curl -F "foreground=@fg.png" -F "background=@bg.png" \
 ```
 
 **What you get:**
+
 - **iOS**: Composite icons (background + padded foreground) in `AppIcon.appiconset/`
 - **Android**: Native adaptive icons with separate layers in `mipmap-*/`
 
@@ -171,12 +178,14 @@ curl -F "foreground=@fg.png" -F "background=@bg.png" \
 ### Image Requirements
 
 **Foreground Layer:**
+
 - Format: PNG with transparency
 - Recommended: 1024x1024px minimum
 - Content: Keep within safe zone (66% of canvas)
 - Best: Simple, recognizable shapes
 
 **Background Layer:**
+
 - Format: PNG or solid color
 - Recommended: 1024x1024px if image
 - Content: Fills entire space (no transparency needed)
@@ -185,12 +194,14 @@ curl -F "foreground=@fg.png" -F "background=@bg.png" \
 ### Safe Zone Rules
 
 The **safe zone is the center 66%** of the canvas:
+
 - Total canvas: 108dp × 108dp
 - Safe zone: 72dp × 72dp (center)
 - Visible: At least 66% always shown
 - Masked: Outer 36dp may be clipped
 
 **Visual Representation:**
+
 ```
 ┌─────────────────────────────┐
 │ ← Unsafe (may be clipped) → │
@@ -207,17 +218,20 @@ The **safe zone is the center 66%** of the canvas:
 ### Padding Applied Automatically
 
 **v1.1.0 automatically adds 20% padding** to foreground layers:
+
 - ✅ Your foreground is zoomed out (safe from clipping)
 - ✅ Background fills entire space
 - ✅ No manual padding needed!
 
 **Before v1.1.0:**
+
 ```
 You had to manually design with padding
 ❌ Risk of clipping if logo too large
 ```
 
 **v1.1.0+ Automatic:**
+
 ```
 ✅ Foreground automatically zoomed out 20%
 ✅ Safe zone guaranteed
@@ -229,31 +243,37 @@ You had to manually design with padding
 ## ✅ Best Practices
 
 ### 1. **Foreground Design**
+
 - Keep important elements within 66% center
 - Use transparency for irregular shapes
 - Avoid text or fine details on edges
 - Test with different launcher masks
 
 ### 2. **Background Design**
+
 - Use solid colors for consistency
 - Avoid complex patterns (they may look busy when masked)
 - Consider contrast with foreground
 - Test light/dark modes
 
 ### 3. **Color Recommendations**
+
 - **Brand colors**: Use your primary brand color for background
 - **Dark mode friendly**: Consider `#111111` or `#1a1a1a` for dark themes
 - **Contrast**: Ensure foreground is visible on background
 - **Accessibility**: Check WCAG contrast ratios
 
 ### 4. **Testing**
+
 Test your icons on different launchers:
+
 - Google Pixel Launcher (circle)
 - Samsung One UI (squircle)
 - OnePlus Launcher (rounded square)
 - Custom launchers (various shapes)
 
 ### 5. **Common Mistakes to Avoid**
+
 - ❌ Placing text/logos too close to edges
 - ❌ Using transparency in background (use solid color instead)
 - ❌ Making foreground too large (will be clipped)
@@ -266,6 +286,7 @@ Test your icons on different launchers:
 ### Preview Different Masks
 
 Use Android Studio's Image Asset Studio to preview:
+
 1. Open Android Studio
 2. File → New → Image Asset
 3. Import your generated icons
@@ -286,6 +307,7 @@ cd android && ./gradlew installDebug
 ```
 
 ### Online Preview Tools
+
 - [Android Asset Studio](https://romannurik.github.io/AndroidAssetStudio/icons-launcher.html)
 - [Figma Android Icon Template](https://www.figma.com/community/file/894667932711550782)
 
@@ -294,6 +316,7 @@ cd android && ./gradlew installDebug
 ## 📚 Examples
 
 ### Example 1: Simple Logo + Solid Color
+
 ```bash
 curl -F "foreground=@logo.png" \
   "http://localhost:3000/generate?platform=android&backgroundColor=%23FF5722" \
@@ -301,6 +324,7 @@ curl -F "foreground=@logo.png" \
 ```
 
 ### Example 2: Logo + Gradient Background
+
 ```bash
 # Create gradient background first (use design tool)
 curl -F "foreground=@logo.png" -F "background=@gradient.png" \
@@ -308,12 +332,14 @@ curl -F "foreground=@logo.png" -F "background=@gradient.png" \
 ```
 
 ### Example 3: Both Platforms with Layers
+
 ```bash
 curl -F "foreground=@logo.png" -F "background=@brand-bg.png" \
   http://localhost:3000/generate?platform=all -o all-icons.zip
 ```
 
 ### Example 4: Default Dark Background
+
 ```bash
 # Uses #111111 automatically
 curl -F "foreground=@logo.png" \

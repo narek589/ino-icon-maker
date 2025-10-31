@@ -7,17 +7,20 @@ Get started with Ino Icon Maker in 2 minutes.
 ## 🚀 Installation
 
 ### NPX (No Install, Recommended)
+
 ```bash
 npx ino-icon-maker generate -i icon.png
 ```
 
 ### Global Install
+
 ```bash
 npm install -g ino-icon-maker
 iim generate -i icon.png
 ```
 
 ### Project Dependency
+
 ```bash
 npm install -D ino-icon-maker
 ```
@@ -27,18 +30,21 @@ npm install -D ino-icon-maker
 ## 📱 Basic Usage
 
 ### Generate for All Platforms
+
 ```bash
 ino-icon generate -i icon.png
 # Output: ./icons/AppIcon.appiconset/ + android-icons/
 ```
 
 ### iOS Only
+
 ```bash
 ino-icon generate -i icon.png -p ios
 # Output: ./icons/AppIcon.appiconset/ (19 icons + Contents.json)
 ```
 
 ### Android Only
+
 ```bash
 ino-icon generate -i icon.png -p android
 # Output: ./icons/ (33 icons in mipmap-* folders)
@@ -70,6 +76,7 @@ curl -F "foreground=@fg.png" -F "background=@bg.png" \
 ```
 
 **Result:**
+
 - **iOS**: Composite image (background + centered foreground with padding)
 - **Android**: Adaptive icons with separate layers
 - **Auto-padding**: Foreground gets 20% safe zone
@@ -89,11 +96,13 @@ ino-icon generate -p android -fg ./fg.png -bg ./bg.png
 ## 🌐 HTTP API Server
 
 ### Start Server
+
 ```bash
 ino-icon serve -p 3000
 ```
 
 ### Test Endpoints
+
 ```bash
 # Check platforms
 curl http://localhost:3000/platforms
@@ -103,6 +112,7 @@ curl -F "file=@icon.png" http://localhost:3000/generate -o icons.zip
 ```
 
 ### Common Patterns
+
 ```bash
 # iOS only
 curl -F "file=@icon.png" \
@@ -122,6 +132,7 @@ curl -F "file=@icon.png" \
 ## 📦 Library Usage
 
 ### Quick Generate
+
 ```javascript
 import { quickGenerate } from "ino-icon-maker";
 
@@ -134,6 +145,7 @@ await quickGenerate({
 ```
 
 ### Advanced
+
 ```javascript
 import { generate } from "ino-icon-maker";
 
@@ -153,15 +165,17 @@ console.log(results);
 ## 🎯 Common Workflows
 
 ### React Native
+
 ```json
 {
-  "scripts": {
-    "icons": "ino-icon-maker generate -i assets/icon.png -p all"
-  }
+	"scripts": {
+		"icons": "ino-icon-maker generate -i assets/icon.png -p all"
+	}
 }
 ```
 
 ### Flutter
+
 ```bash
 # Generate icons
 ino-icon generate -i assets/icon.png -p all
@@ -172,6 +186,7 @@ cp -r icons/android-icons/* android/app/src/main/res/
 ```
 
 ### Build Automation
+
 ```bash
 #!/bin/bash
 # Pre-build: Generate icons
@@ -189,27 +204,32 @@ unzip -o adaptive.zip -d android/app/src/main/res/
 ## 💡 Tips
 
 ### Interactive Mode
+
 ```bash
 ino-icon generate
 # Follow prompts - great for first-time use
 ```
 
 ### Force Overwrite
+
 ```bash
 ino-icon generate -i icon.png -f
 ```
 
 ### Create ZIP
+
 ```bash
 ino-icon generate -i icon.png -z
 ```
 
 ### Custom Output
+
 ```bash
 ino-icon generate -i icon.png -o custom/path
 ```
 
 ### Show Info
+
 ```bash
 ino-icon -v          # Version
 ino-icon platforms   # List platforms

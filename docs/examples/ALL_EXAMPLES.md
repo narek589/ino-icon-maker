@@ -16,26 +16,29 @@ Comprehensive examples for every use case of Ino Icon Maker.
 ## 🔧 Installation Methods
 
 ### NPX (No Installation)
+
 ```bash
 npx ino-icon-maker generate -i icon.png -p all
 ```
 
 ### Global Installation
+
 ```bash
 npm install -g ino-icon-maker
 iim generate -i icon.png -p all
 ```
 
 ### Project Dependency
+
 ```bash
 npm install -D ino-icon-maker
 ```
 
 ```json
 {
-  "scripts": {
-    "icons": "ino-icon-maker generate -i assets/icon.png -p all"
-  }
+	"scripts": {
+		"icons": "ino-icon-maker generate -i assets/icon.png -p all"
+	}
 }
 ```
 
@@ -44,6 +47,7 @@ npm install -D ino-icon-maker
 ## 🎯 Basic Usage
 
 ### Generate for All Platforms
+
 ```bash
 # CLI
 ino-icon generate -i icon.png
@@ -53,6 +57,7 @@ curl -F "file=@icon.png" http://localhost:3000/generate -o icons.zip
 ```
 
 ### iOS Only
+
 ```bash
 # CLI
 ino-icon generate -i icon.png -p ios
@@ -62,6 +67,7 @@ curl -F "file=@icon.png" http://localhost:3000/generate?platform=ios -o ios.zip
 ```
 
 ### Android Only
+
 ```bash
 # CLI
 ino-icon generate -i icon.png -p android
@@ -94,6 +100,7 @@ curl -F "foreground=@fg.png" \
 ```
 
 **How it works:**
+
 - **iOS**: Creates composite (background + centered foreground with 20% padding)
 - **Android**: Generates adaptive icons with separate layers
 - **Default**: Uses #111111 if no background specified
@@ -104,12 +111,14 @@ curl -F "foreground=@fg.png" \
 ## 🖥️ CLI Examples
 
 ### Interactive Mode
+
 ```bash
 ino-icon generate
 # Follow prompts
 ```
 
 ### With Options
+
 ```bash
 # Custom output directory
 ino-icon generate -i icon.png -o custom/path
@@ -122,6 +131,7 @@ ino-icon generate -i icon.png -p ios
 ```
 
 ### Serve HTTP API
+
 ```bash
 # Default port 3000
 ino-icon serve
@@ -131,6 +141,7 @@ ino-icon serve -p 8080
 ```
 
 ### Info Commands
+
 ```bash
 # Show version
 ino-icon -v
@@ -147,11 +158,13 @@ ino-icon info
 ## 🌐 HTTP API Examples
 
 ### Start Server
+
 ```bash
 ino-icon serve -p 3000
 ```
 
 ### Basic Generation
+
 ```bash
 # All platforms
 curl -F "file=@icon.png" http://localhost:3000/generate -o icons.zip
@@ -164,6 +177,7 @@ curl -F "file=@icon.png" http://localhost:3000/generate?platform=android -o andr
 ```
 
 ### Adaptive Icons
+
 ```bash
 # Default background (#111111)
 curl -F "foreground=@fg.png" \
@@ -183,6 +197,7 @@ curl -F "foreground=@fg.png" -F "background=@bg.png" \
 ```
 
 ### Query Available Platforms
+
 ```bash
 curl http://localhost:3000/platforms
 ```
@@ -192,6 +207,7 @@ curl http://localhost:3000/platforms
 ## 📦 Library API Examples
 
 ### Quick Generate
+
 ```javascript
 import { quickGenerate } from "ino-icon-maker";
 
@@ -205,6 +221,7 @@ await quickGenerate({
 ```
 
 ### Advanced Usage
+
 ```javascript
 import { generate } from "ino-icon-maker";
 
@@ -224,6 +241,7 @@ console.log(results);
 ```
 
 ### Adaptive Icons (Programmatic)
+
 ```javascript
 import { AndroidGenerator } from "ino-icon-maker/lib/platforms/AndroidGenerator.js";
 import { ImageProcessor } from "ino-icon-maker/lib/core/ImageProcessor.js";
@@ -248,15 +266,17 @@ await generator.generate("./foreground.png", "./output", {
 ## 🔗 Integration Examples
 
 ### React Native
+
 ```json
 {
-  "scripts": {
-    "generate-icons": "ino-icon-maker generate -i assets/icon.png -o ./output -p all"
-  }
+	"scripts": {
+		"generate-icons": "ino-icon-maker generate -i assets/icon.png -o ./output -p all"
+	}
 }
 ```
 
 ### Flutter
+
 ```yaml
 # pubspec.yaml
 dev_dependencies:
@@ -267,6 +287,7 @@ flutter_launcher_icons:
 ```
 
 ### GitHub Actions
+
 ```yaml
 name: Generate Icons
 on: [push]
@@ -284,19 +305,21 @@ jobs:
 ## 📝 Common Patterns
 
 ### npm Scripts
+
 ```json
 {
-  "scripts": {
-    "icons": "ino-icon-maker generate -i assets/icon.png -p all",
-    "icons:ios": "ino-icon-maker generate -i assets/icon.png -p ios",
-    "icons:android": "ino-icon-maker generate -i assets/icon.png -p android",
-    "icons:adaptive": "curl -F 'foreground=@fg.png' -F 'background=@bg.png' http://localhost:3000/generate?platform=all -o icons.zip",
-    "icons:serve": "ino-icon-maker serve -p 3000"
-  }
+	"scripts": {
+		"icons": "ino-icon-maker generate -i assets/icon.png -p all",
+		"icons:ios": "ino-icon-maker generate -i assets/icon.png -p ios",
+		"icons:android": "ino-icon-maker generate -i assets/icon.png -p android",
+		"icons:adaptive": "curl -F 'foreground=@fg.png' -F 'background=@bg.png' http://localhost:3000/generate?platform=all -o icons.zip",
+		"icons:serve": "ino-icon-maker serve -p 3000"
+	}
 }
 ```
 
 ### Build Scripts
+
 ```bash
 #!/bin/bash
 # generate-icons.sh
@@ -318,6 +341,7 @@ unzip -o adaptive.zip -d android/app/src/main/res/
 ## 🆘 Troubleshooting
 
 ### Server not responding
+
 ```bash
 # Check if port is in use
 lsof -i :3000
@@ -327,6 +351,7 @@ ino-icon serve -p 8080
 ```
 
 ### Permission errors
+
 ```bash
 # Add force flag
 ino-icon generate -i icon.png -f
@@ -336,6 +361,7 @@ ls -la output/
 ```
 
 ### Image format issues
+
 ```bash
 # Supported formats: JPEG, PNG, WebP, AVIF, TIFF
 file icon.png  # Verify format
