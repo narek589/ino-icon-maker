@@ -727,6 +727,10 @@ function showPlatforms() {
 function startServer(port = 3000) {
 	const app = express();
 
+	// Enable body parsing for JSON and URL-encoded data
+	app.use(express.json());
+	app.use(express.urlencoded({ extended: true }));
+
 	// Environment variables with defaults
 	const PORT = process.env.PORT || port;
 	const HOST = process.env.HOST || "localhost";
@@ -814,27 +818,26 @@ function startServer(port = 3000) {
 		try {
 			// Detect mode: legacy (single file) or adaptive (multiple files)
 			const hasLegacyFile = req.files && req.files.file && req.files.file[0];
-			const hasAdaptiveFiles =
-				req.files &&
-				req.files.foreground &&
-				req.files.foreground[0] &&
-				req.files.background &&
-				req.files.background[0];
+
+			// Adaptive mode: requires foreground, background is optional (defaults to #111111)
+			const hasForeground =
+				req.files && req.files.foreground && req.files.foreground[0];
+
+			const hasBackgroundFile =
+				req.files && req.files.background && req.files.background[0];
 
 			// Also support backgroundColor query param for solid color backgrounds
 			const backgroundColor =
-				req.query.backgroundColor || req.body.backgroundColor;
+				req.query?.backgroundColor || req.body?.backgroundColor;
 
-			const adaptiveMode =
-				hasAdaptiveFiles ||
-				(req.files &&
-					req.files.foreground &&
-					req.files.foreground[0] &&
-					backgroundColor);
+			// Adaptive mode is triggered by having a foreground layer
+			// Background can be a file, color param, or will default to #111111
+			const adaptiveMode = hasForeground;
 
 			console.log("\n🔍 Debug info:");
 			console.log("  hasLegacyFile:", !!hasLegacyFile);
-			console.log("  hasAdaptiveFiles:", hasAdaptiveFiles);
+			console.log("  hasForeground:", !!hasForeground);
+			console.log("  hasBackgroundFile:", !!hasBackgroundFile);
 			console.log("  backgroundColor:", backgroundColor);
 			console.log("  req.files:", req.files ? Object.keys(req.files) : "none");
 			console.log("  adaptiveMode:", adaptiveMode);
@@ -848,7 +851,7 @@ function startServer(port = 3000) {
 			}
 
 			// Get platform from query parameter or form data (default: all)
-			const platform = req.query.platform || req.body.platform || "all";
+			const platform = req.query?.platform || req.body?.platform || "all";
 
 			if (adaptiveMode) {
 				// Adaptive icon mode
@@ -876,6 +879,8 @@ function startServer(port = 3000) {
 					);
 				} else if (backgroundColor) {
 					console.log(`   Background: ${backgroundColor} (color)`);
+				} else {
+					console.log(`   Background: #111111 (default)`);
 				}
 				if (monochromeFile) {
 					console.log(
@@ -1018,7 +1023,9 @@ function startServer(port = 3000) {
 
 				genOptions.adaptiveIcon = {
 					foreground: foregroundFile.path,
-					background: backgroundFile ? backgroundFile.path : backgroundColor,
+					background: backgroundFile
+						? backgroundFile.path
+						: backgroundColor || null, // null will default to #111111
 					monochrome: monochromeFile ? monochromeFile.path : null,
 				};
 			}
@@ -1274,11 +1281,15 @@ function startServer(port = 3000) {
 					chalk.gray("  GET  /platforms\n") +
 					chalk.gray("  POST /generate?platform=<ios|android|all>\n\n") +
 					chalk.bold("Examples:\n") +
-					chalk.gray(`  # iOS icons:\n`) +
+					chalk.gray(`  # Both platforms (default):\n`) +
+					chalk.gray(
+						`  curl -F "file=@icon.png" "http://${HOST}:${PORT}/generate" -o all-icons.zip\n\n`
+					) +
+					chalk.gray(`  # iOS only:\n`) +
 					chalk.gray(
 						`  curl -F "file=@icon.png" "http://${HOST}:${PORT}/generate?platform=ios" -o ios-icons.zip\n\n`
 					) +
-					chalk.gray(`  # Android icons:\n`) +
+					chalk.gray(`  # Android only:\n`) +
 					chalk.gray(
 						`  curl -F "file=@icon.png" "http://${HOST}:${PORT}/generate?platform=android" -o android-icons.zip`
 					),

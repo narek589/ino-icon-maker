@@ -219,13 +219,23 @@ await quickGenerate({
 # Start server
 ino-icon serve --port 3000
 
-# Generate via API (defaults to both platforms)
-curl -F "file=@icon.png" http://localhost:3000/generate -o icons.zip
+# Generate for both platforms (default)
+curl -F "file=@icon.png" http://localhost:3000/generate -o all-icons.zip
 
-# Specific platform
+# iOS only
 curl -F "file=@icon.png" \
   "http://localhost:3000/generate?platform=ios" \
   -o ios-icons.zip
+
+# Android only
+curl -F "file=@icon.png" \
+  "http://localhost:3000/generate?platform=android" \
+  -o android-icons.zip
+
+# Both platforms explicitly
+curl -F "file=@icon.png" \
+  "http://localhost:3000/generate?platform=all" \
+  -o all-icons.zip
 ```
 
 ---
