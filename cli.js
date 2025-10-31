@@ -1165,11 +1165,18 @@ function startServer(port = 3000) {
 
 				// Verify the ZIP file is valid and not empty
 				try {
+					// Wait for file to be fully written
+					await new Promise(resolve => setTimeout(resolve, 200));
+
 					const stats = await fs.stat(results[0].zipPath);
 					if (stats.size === 0) {
 						throw new Error("Generated ZIP file is empty");
 					}
 					console.log(`✅ ZIP file ready: ${stats.size} bytes`);
+
+					// Verify file is readable before sending
+					const fileHandle = await fs.open(results[0].zipPath, "r");
+					await fileHandle.close();
 				} catch (statErr) {
 					console.error("Failed to verify ZIP file:", statErr);
 					return res.status(500).json({
@@ -1263,12 +1270,19 @@ function startServer(port = 3000) {
 
 					console.log(`✅ Created combined ZIP: ${combinedZipPath}`);
 
+					// Wait for file to be fully written and readable
+					await new Promise(resolve => setTimeout(resolve, 200));
+
 					// Verify the ZIP file is valid and not empty
 					const stats = await fs.stat(combinedZipPath);
 					if (stats.size === 0) {
 						throw new Error("Generated combined ZIP file is empty");
 					}
 					console.log(`✅ Combined ZIP file ready: ${stats.size} bytes`);
+
+					// Verify file is readable before sending
+					const fileHandle = await fs.open(combinedZipPath, "r");
+					await fileHandle.close();
 
 					// Send the combined ZIP
 					res.download(combinedZipPath, "all-icons.zip", async err => {
