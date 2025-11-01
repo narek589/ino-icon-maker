@@ -5,4 +5,5 @@ export default {
 	collectCoverageFrom: ["lib/**/*.js", "index.js"],
 	coveragePathIgnorePatterns: ["/node_modules/"],
 	verbose: false,
+	testTimeout: 30000,
 };

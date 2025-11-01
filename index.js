@@ -10,6 +10,19 @@
 
 import { Platform } from "./lib/core/ImageProcessor.js";
 
+// Import main generator functions for re-export
+import {
+	generateIcons,
+	generateIconsForPlatform,
+	generateIconsForMultiplePlatforms,
+	validateImageFile,
+	createZipArchive,
+	getSupportedPlatforms,
+	getPlatformInfo,
+	getAllPlatformsInfo,
+	iconGeneratorFactory,
+} from "./lib/generator.js";
+
 // Export main generator functions
 export {
 	generateIcons,
@@ -21,7 +34,7 @@ export {
 	getPlatformInfo,
 	getAllPlatformsInfo,
 	iconGeneratorFactory,
-} from "./lib/generator.js";
+};
 
 // Export platform-specific configurations
 export {
