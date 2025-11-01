@@ -26,6 +26,7 @@
 <div align="center">
 
 ### 🍎 iOS
+
 **19 icons**
 
 <br/>
@@ -52,12 +53,18 @@
 <div align="center">
 
 ### 🤖 Android
+
 **33 icons**
 
 <br/>
 
 <img src="./docs/assets/android-example.png" alt="Android Icons Preview" width="100%" height="280"/>
 
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
 <br/>
 
 </div>
