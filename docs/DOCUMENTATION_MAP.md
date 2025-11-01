@@ -33,6 +33,7 @@ Visual guide to all documentation.
     │   ├── QUICK_START.md        # 2-minute setup
     │   ├── TESTING.md            # Testing guide
     │   ├── ICON_PADDING_CONFIG.md # Configure icon padding/zoom
+    │   ├── CUSTOM_SIZES.md       # Customize icon sizes
     │   ├── GIT_WORKFLOW.md       # Git basics
     │   └── ADAPTIVE_ICONS.md     # Adaptive icons guide
     │
@@ -98,6 +99,7 @@ Visual guide to all documentation.
 ### Specialized Topics
 
 - [Icon Padding Configuration](./guides/ICON_PADDING_CONFIG.md) - Configure foreground zoom/padding
+- [Custom Icon Sizes](./guides/CUSTOM_SIZES.md) - Scale, add, or exclude icon sizes
 - [Adaptive Icons](./guides/ADAPTIVE_ICONS.md) - Android adaptive icons guide
 - [Testing](./guides/TESTING.md) - Complete testing guide
 - [Android Adaptive Icon Fix](./ANDROID_ADAPTIVE_ICON_FIX.md) - Safe zone calculation fix
@@ -156,6 +158,9 @@ Visual guide to all documentation.
 
 **How do I configure icon padding/zoom?**  
 → [Icon Padding Configuration](./guides/ICON_PADDING_CONFIG.md)
+
+**How do I customize icon sizes?**  
+→ [Custom Icon Sizes Guide](./guides/CUSTOM_SIZES.md)
 
 **How do I test everything works?**  
 → [Testing Guide](./guides/TESTING.md)

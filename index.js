@@ -39,6 +39,10 @@ export {
 export { ImageProcessor } from "./lib/core/ImageProcessor.js";
 export { FileManager } from "./lib/core/FileManager.js";
 export { ArchiveManager } from "./lib/core/ArchiveManager.js";
+export {
+	SizeConfigManager,
+	sizeConfigManager,
+} from "./lib/core/SizeConfigManager.js";
 
 // Export platform generators for advanced usage
 export { IOSGenerator } from "./lib/platforms/IOSGenerator.js";
@@ -61,6 +65,10 @@ export { IconGeneratorFactory } from "./lib/IconGeneratorFactory.js";
  * @param {string} options.adaptiveIcon.foreground - Path to foreground layer image
  * @param {string} options.adaptiveIcon.background - Path to background layer image or hex color (e.g., '#FF5722')
  * @param {string} [options.adaptiveIcon.monochrome] - Path to monochrome layer image (optional)
+ * @param {Object} [options.customSizes] - Custom size configuration (optional)
+ * @param {number} [options.customSizes.scale] - Global scale factor for all icons
+ * @param {Object} [options.customSizes.ios] - iOS-specific customization
+ * @param {Object} [options.customSizes.android] - Android-specific customization
  * @returns {Promise<Object|Array>} Generation result(s)
  *
  * @example
@@ -86,14 +94,30 @@ export { IconGeneratorFactory } from "./lib/IconGeneratorFactory.js";
  * });
  *
  * @example
- * // Generate iOS + Android adaptive icons
+ * // Generate with custom sizes
  * await quickGenerate({
- *   input: './icon.png', // Used for iOS
+ *   input: './icon.png',
  *   output: './output',
- *   platform: 'all',
- *   adaptiveIcon: {
- *     foreground: './fg.png',
- *     background: './bg.png'
+ *   customSizes: {
+ *     scale: 1.2,  // Make all icons 20% larger
+ *     android: {
+ *       excludeSizes: ['ldpi', 'monochrome']  // Skip low-density and monochrome
+ *     }
+ *   }
+ * });
+ *
+ * @example
+ * // Add custom icon size
+ * await quickGenerate({
+ *   input: './icon.png',
+ *   output: './output',
+ *   platform: 'ios',
+ *   customSizes: {
+ *     ios: {
+ *       addSizes: [
+ *         { size: "1024x1024", scale: "3x", filename: "Icon-App-1024x1024@3x.png" }
+ *       ]
+ *     }
  *   }
  * });
  */
@@ -105,6 +129,7 @@ export async function quickGenerate(options) {
 		zip = false,
 		force = false,
 		adaptiveIcon,
+		customSizes,
 	} = options;
 
 	// Validate that either input OR adaptiveIcon is provided
@@ -138,6 +163,11 @@ export async function quickGenerate(options) {
 	// Add adaptive icon configuration if provided
 	if (adaptiveIcon) {
 		genOptions.adaptiveIcon = adaptiveIcon;
+	}
+
+	// Add custom sizes if provided
+	if (customSizes) {
+		genOptions.customSizes = customSizes;
 	}
 
 	if (platforms.length === 1) {

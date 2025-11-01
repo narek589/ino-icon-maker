@@ -5,6 +5,48 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2025-11-01
+
+### Added
+
+- **Custom Icon Sizes**: Users can now customize icon generation with scale factors, add custom sizes, or exclude specific sizes
+  - Scale all icons by a factor (e.g., `--scale 1.2` for 20% larger icons)
+  - Add custom sizes not in defaults (e.g., add "1024x1024@3x" for iOS)
+  - Exclude specific sizes from generation (e.g., skip "monochrome" or "ldpi" for Android)
+- **New CLI flags**:
+  - `--scale <factor>` - Global scale factor for all icons
+  - `--ios-scale <factor>` - iOS-specific scale factor
+  - `--android-scale <factor>` - Android-specific scale factor
+  - `--exclude <sizes>` - Comma-separated sizes to exclude
+  - `--custom-config <path>` - Path to JSON file with full customization
+- **New SizeConfigManager class**: Core size customization logic with validation
+- **HTTP API support**: Custom sizes can be passed via `customSizes` parameter
+- **Programmatic API support**: `customSizes` option in all generation functions
+- **Comprehensive documentation**: New guide at `docs/guides/CUSTOM_SIZES.md` with examples
+
+### Changed
+
+- Updated package description to include custom sizes feature
+- Enhanced API exports to include `SizeConfigManager` and `sizeConfigManager`
+- Updated `README.md` with custom sizes examples
+- Updated `DOCUMENTATION_MAP.md` to include custom sizes guide
+
+### Technical
+
+- Added `lib/core/SizeConfigManager.js` - Core size customization manager
+- Updated `PlatformGenerator` base class to support custom sizes
+- Updated `IconGeneratorFactory` to pass custom sizes to generators
+- Updated all CLI helpers to parse and validate size customization
+- Updated HTTP server validators and handlers to support custom sizes
+- Maintains backward compatibility - all existing code works without changes
+
+### Notes
+
+- Default icon sizes remain unchanged and follow platform best practices
+- Custom sizes are completely optional
+- Users cannot override existing default sizes (only scale, add, or exclude)
+- All custom size configurations are validated before generation
+
 ## [1.1.5] - 2025-10-31
 
 ### Fixed

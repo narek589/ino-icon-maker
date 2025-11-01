@@ -251,6 +251,52 @@ console.log(results);
 
 ---
 
+## ⚙️ Custom Icon Sizes (Advanced)
+
+Customize icon sizes with scale factors, add custom sizes, or exclude specific sizes:
+
+### CLI
+
+```bash
+# Scale all icons by 20%
+ino-icon generate -i icon.png --scale 1.2
+
+# Exclude specific sizes
+ino-icon generate -i icon.png -p android --exclude "ldpi,monochrome"
+
+# Use custom config file
+ino-icon generate -i icon.png --custom-config custom-sizes.json
+```
+
+### Programmatic
+
+```javascript
+import { quickGenerate } from "ino-icon-maker";
+
+await quickGenerate({
+	input: "./icon.png",
+	output: "./output",
+	customSizes: {
+		scale: 1.2, // Make all icons 20% larger
+		android: {
+			excludeSizes: ["ldpi", "monochrome"], // Skip low-density & monochrome
+		},
+	},
+});
+```
+
+### HTTP API
+
+```bash
+curl -F "file=@icon.png" \
+  -F 'customSizes={"scale":1.2,"android":{"excludeSizes":["ldpi","monochrome"]}}' \
+  http://localhost:3000/generate -o icons.zip
+```
+
+**📖 See [Custom Sizes Guide](./docs/guides/CUSTOM_SIZES.md) for complete documentation.**
+
+---
+
 ## 🎯 Common Workflows
 
 ### React Native

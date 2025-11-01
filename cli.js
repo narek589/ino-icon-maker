@@ -71,6 +71,20 @@ program
 		"--install",
 		"Auto-install icons to React Native or Flutter project (auto-detects project type)"
 	)
+	.option(
+		"--scale <factor>",
+		"Scale all icon sizes by this factor (e.g., 1.2 for 20% larger)"
+	)
+	.option("--ios-scale <factor>", "iOS-specific scale factor")
+	.option("--android-scale <factor>", "Android-specific scale factor")
+	.option(
+		"--exclude <sizes>",
+		"Comma-separated sizes to exclude (e.g., 'ldpi,monochrome' or '20x20@2x')"
+	)
+	.option(
+		"--custom-config <path>",
+		"Path to JSON file with full size customization"
+	)
 	.action(async options => {
 		await generateWithProgress(options);
 	});
@@ -91,6 +105,14 @@ program
 		"--install",
 		"Auto-install icons to React Native or Flutter project (auto-detects project type)"
 	)
+	.option("--scale <factor>", "Scale all icon sizes by this factor")
+	.option("--ios-scale <factor>", "iOS-specific scale factor")
+	.option("--android-scale <factor>", "Android-specific scale factor")
+	.option("--exclude <sizes>", "Comma-separated sizes to exclude")
+	.option(
+		"--custom-config <path>",
+		"Path to JSON file with full size customization"
+	)
 	.action(async (image, options) => {
 		await generateWithProgress({
 			input: image,
@@ -99,6 +121,11 @@ program
 			zip: options.zip,
 			force: options.force,
 			install: options.install,
+			scale: options.scale,
+			iosScale: options.iosScale,
+			androidScale: options.androidScale,
+			exclude: options.exclude,
+			customConfig: options.customConfig,
 		});
 	});
 
