@@ -18,7 +18,7 @@ Complete guide for using Ino Icon Maker with Flutter projects.
 
 ```bash
 # From your Flutter project root
-npx ino-icon-maker generate -i assets/icon.png --install
+npx ino-icon-maker generate -fg assets/icon.png --install
 ```
 
 **What happens:**
@@ -36,7 +36,7 @@ npx ino-icon-maker generate -i assets/icon.png --install
 cd /path/to/your-flutter-project
 
 # Generate and install icons in one command
-npx ino-icon-maker generate -i assets/icon.png -o temp -p all && \
+npx ino-icon-maker generate -fg assets/icon.png -o temp -p all && \
 cp -r temp/AppIcon.appiconset ios/Runner/Assets.xcassets/ && \
 cp -r temp/android-icons/* android/app/src/main/res/ && \
 rm -rf temp
@@ -53,7 +53,7 @@ Create a `Makefile` in your project root:
 
 icons:
 	@echo "🎨 Generating icons..."
-	@npx ino-icon-maker generate -i assets/icon.png -o temp -p all
+	@npx ino-icon-maker generate -fg assets/icon.png -o temp -p all
 	@cp -r temp/AppIcon.appiconset ios/Runner/Assets.xcassets/
 	@cp -r temp/android-icons/* android/app/src/main/res/
 	@rm -rf temp
@@ -77,7 +77,7 @@ make icons
 cd /path/to/your-flutter-project
 
 # Generate icons
-npx ino-icon-maker generate -i assets/icon.png -o ./temp -p all
+npx ino-icon-maker generate -fg assets/icon.png -o ./temp -p all
 ```
 
 ### Step 2: iOS Integration
@@ -348,28 +348,28 @@ android {
 .PHONY: icons icons-dev icons-staging icons-prod
 
 icons:
-	@npx ino-icon-maker generate -i assets/icon.png -o temp -p all
+	@npx ino-icon-maker generate -fg assets/icon.png -o temp -p all
 	@cp -r temp/AppIcon.appiconset ios/Runner/Assets.xcassets/AppIcon.appiconset
 	@cp -r temp/android-icons/* android/app/src/main/res/
 	@rm -rf temp
 	@echo "✅ Icons installed!"
 
 icons-dev:
-	@npx ino-icon-maker generate -i assets/icons/dev.png -o temp -p all -f
+	@npx ino-icon-maker generate -fg assets/icons/dev.png -o temp -p all -f
 	@cp -r temp/AppIcon.appiconset ios/Runner/Assets.xcassets/AppIcon.appiconset
 	@cp -r temp/android-icons/* android/app/src/main/res/
 	@rm -rf temp
 	@echo "✅ Dev icons installed!"
 
 icons-staging:
-	@npx ino-icon-maker generate -i assets/icons/staging.png -o temp -p all -f
+	@npx ino-icon-maker generate -fg assets/icons/staging.png -o temp -p all -f
 	@cp -r temp/AppIcon.appiconset ios/Runner/Assets.xcassets/AppIcon.appiconset
 	@cp -r temp/android-icons/* android/app/src/main/res/
 	@rm -rf temp
 	@echo "✅ Staging icons installed!"
 
 icons-prod:
-	@npx ino-icon-maker generate -i assets/icons/prod.png -o temp -p all -f
+	@npx ino-icon-maker generate -fg assets/icons/prod.png -o temp -p all -f
 	@cp -r temp/AppIcon.appiconset ios/Runner/Assets.xcassets/AppIcon.appiconset
 	@cp -r temp/android-icons/* android/app/src/main/res/
 	@rm -rf temp
@@ -395,7 +395,7 @@ You can use `ino-icon-maker` as an alternative to `flutter_launcher_icons`!
 
 ```bash
 # Simple, fast, works every time
-npx ino-icon-maker generate -i assets/icon.png -o temp -p all
+npx ino-icon-maker generate -fg assets/icon.png -o temp -p all
 cp -r temp/AppIcon.appiconset ios/Runner/Assets.xcassets/
 cp -r temp/android-icons/* android/app/src/main/res/
 rm -rf temp
@@ -498,7 +498,7 @@ Create `Makefile` in project root:
 .PHONY: icons
 
 icons:
-	@npx ino-icon-maker generate -i assets/icon.png -o temp -p all
+	@npx ino-icon-maker generate -fg assets/icon.png -o temp -p all
 	@cp -r temp/AppIcon.appiconset ios/Runner/Assets.xcassets/
 	@cp -r temp/android-icons/* android/app/src/main/res/
 	@rm -rf temp

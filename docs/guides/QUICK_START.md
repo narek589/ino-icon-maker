@@ -9,14 +9,14 @@ Get started with Ino Icon Maker in 2 minutes.
 ### NPX (No Install, Recommended)
 
 ```bash
-npx ino-icon-maker generate -i icon.png
+npx ino-icon-maker generate -fg icon.png
 ```
 
 ### Global Install
 
 ```bash
 npm install -g ino-icon-maker
-iim generate -i icon.png
+iim generate -fg icon.png
 ```
 
 ### Project Dependency
@@ -32,21 +32,21 @@ npm install -D ino-icon-maker
 ### Generate for All Platforms
 
 ```bash
-ino-icon generate -i icon.png
+ino-icon generate -fg icon.png
 # Output: ./icons/AppIcon.appiconset/ + android-icons/
 ```
 
 ### iOS Only
 
 ```bash
-ino-icon generate -i icon.png -p ios
+ino-icon generate -fg icon.png -p ios
 # Output: ./icons/AppIcon.appiconset/ (19 icons + Contents.json)
 ```
 
 ### Android Only
 
 ```bash
-ino-icon generate -i icon.png -p android
+ino-icon generate -fg icon.png -p android
 # Output: ./icons/ (33 icons in mipmap-* folders)
 ```
 
@@ -169,7 +169,7 @@ console.log(results);
 ```json
 {
 	"scripts": {
-		"icons": "ino-icon-maker generate -i assets/icon.png -p all"
+		"icons": "ino-icon-maker generate -fg assets/icon.png -p all"
 	}
 }
 ```
@@ -178,7 +178,7 @@ console.log(results);
 
 ```bash
 # Generate icons
-ino-icon generate -i assets/icon.png -p all
+ino-icon generate -fg assets/icon.png -p all
 
 # Copy to project
 cp -r icons/AppIcon.appiconset ios/Runner/Assets.xcassets/
@@ -190,7 +190,7 @@ cp -r icons/android-icons/* android/app/src/main/res/
 ```bash
 #!/bin/bash
 # Pre-build: Generate icons
-ino-icon generate -i assets/icon.png -p all -f
+ino-icon generate -fg assets/icon.png -p all -f
 
 # Adaptive icons via API
 curl -F "foreground=@fg.png" -F "background=@bg.png" \
@@ -213,19 +213,19 @@ ino-icon generate
 ### Force Overwrite
 
 ```bash
-ino-icon generate -i icon.png -f
+ino-icon generate -fg icon.png -f
 ```
 
 ### Create ZIP
 
 ```bash
-ino-icon generate -i icon.png -z
+ino-icon generate -fg icon.png -z
 ```
 
 ### Custom Output
 
 ```bash
-ino-icon generate -i icon.png -o custom/path
+ino-icon generate -fg icon.png -o custom/path
 ```
 
 ### Show Info

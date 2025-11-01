@@ -20,7 +20,7 @@ Comprehensive guide for testing ino-icon-maker in all scenarios.
 
 ```bash
 # Test all platforms
-ino-icon generate -i test-icon.png -o ./test-output -p all
+ino-icon generate -fg test-icon.png -o ./test-output -p all
 
 # Verify output
 ls -la test-output/
@@ -35,11 +35,11 @@ rm -rf test-output
 
 ```bash
 # iOS
-ino-icon generate -i test-icon.png -o ./ios-test -p ios
+ino-icon generate -fg test-icon.png -o ./ios-test -p ios
 test -d ios-test/AppIcon.appiconset && echo "✅ iOS OK" || echo "❌ iOS Failed"
 
 # Android
-ino-icon generate -i test-icon.png -o ./android-test -p android
+ino-icon generate -fg test-icon.png -o ./android-test -p android
 test -d android-test/android-icons && echo "✅ Android OK" || echo "❌ Android Failed"
 
 # Cleanup
@@ -49,7 +49,7 @@ rm -rf ios-test android-test
 #### Test ZIP Creation
 
 ```bash
-ino-icon generate -i test-icon.png -o ./zip-test -z
+ino-icon generate -fg test-icon.png -o ./zip-test -z
 
 # Verify ZIP exists
 test -f zip-test/*.zip && echo "✅ ZIP created" || echo "❌ ZIP not created"
@@ -76,7 +76,7 @@ echo '{"dependencies":{"react-native":"*"}}' > test-rn/package.json
 
 # Test auto-install
 cd test-rn
-ino-icon generate -i ../test-icon.png --install
+ino-icon generate -fg ../test-icon.png --install
 
 # Verify installation
 test -d ios/TestApp/Images.xcassets/AppIcon.appiconset && echo "✅ iOS installed"
@@ -97,7 +97,7 @@ echo 'name: test_app' > test-flutter/pubspec.yaml
 
 # Test auto-install
 cd test-flutter
-ino-icon generate -i ../test-icon.png --install
+ino-icon generate -fg ../test-icon.png --install
 
 # Verify installation
 test -d ios/Runner/Assets.xcassets/AppIcon.appiconset && echo "✅ iOS installed"
@@ -129,14 +129,14 @@ rm -rf adaptive-test
 
 ```bash
 # Test missing input file
-ino-icon generate -i nonexistent.png -o ./test 2>&1 | grep -q "not found" && echo "✅ Error handling OK"
+ino-icon generate -fg nonexistent.png -o ./test 2>&1 | grep -q "not found" && echo "✅ Error handling OK"
 
 # Test invalid platform
-ino-icon generate -i test-icon.png -p invalid 2>&1 | grep -q "Invalid" && echo "✅ Error handling OK"
+ino-icon generate -fg test-icon.png -p invalid 2>&1 | grep -q "Invalid" && echo "✅ Error handling OK"
 
 # Test invalid image format
 touch test.txt
-ino-icon generate -i test.txt -o ./test 2>&1 | grep -q "Invalid" && echo "✅ Error handling OK"
+ino-icon generate -fg test.txt -o ./test 2>&1 | grep -q "Invalid" && echo "✅ Error handling OK"
 rm test.txt
 ```
 
@@ -349,7 +349,7 @@ jobs:
 
 ```bash
 # Generate iOS icons
-ino-icon generate -i icon.png -o output -p ios
+ino-icon generate -fg icon.png -o output -p ios
 
 # Check all sizes exist
 sizes=(
@@ -386,7 +386,7 @@ test -f output/AppIcon.appiconset/Contents.json && echo "✅ Contents.json"
 
 ```bash
 # Generate Android icons
-ino-icon generate -i icon.png -o output -p android
+ino-icon generate -fg icon.png -o output -p android
 
 # Check all density folders exist
 densities=("ldpi" "mdpi" "hdpi" "xhdpi" "xxhdpi" "xxxhdpi")
@@ -435,7 +435,7 @@ Expected outputs:
 1. **Generate icons:**
 
    ```bash
-   ino-icon generate -i icon.png -o ios-test -p ios
+   ino-icon generate -fg icon.png -o ios-test -p ios
    ```
 
 2. **Copy to Xcode project:**
@@ -470,7 +470,7 @@ Expected outputs:
 1. **Generate icons:**
 
    ```bash
-   ino-icon generate -i icon.png -o android-test -p android
+   ino-icon generate -fg icon.png -o android-test -p android
    ```
 
 2. **Copy to Android project:**
@@ -521,7 +521,7 @@ echo '{"name":"test","dependencies":{"react-native":"*"}}' > test-rn-project/pac
 
 # Test
 cd test-rn-project
-npx ino-icon-maker generate -i ../test-icon.png --install
+npx ino-icon-maker generate -fg ../test-icon.png --install
 
 # Verify
 if [ -d "ios/TestApp/Images.xcassets/AppIcon.appiconset" ]; then
@@ -561,7 +561,7 @@ echo 'name: test_app' > test-flutter-project/pubspec.yaml
 
 # Test
 cd test-flutter-project
-npx ino-icon-maker generate -i ../test-icon.png --install
+npx ino-icon-maker generate -fg ../test-icon.png --install
 
 # Verify
 if [ -d "ios/Runner/Assets.xcassets/AppIcon.appiconset" ]; then
@@ -591,7 +591,7 @@ echo "✅ All integration tests passed!"
 
 ```bash
 # Time generation
-time ino-icon generate -i test-icon.png -o output -p all
+time ino-icon generate -fg test-icon.png -o output -p all
 
 # Expected: < 3 seconds for typical icon
 ```

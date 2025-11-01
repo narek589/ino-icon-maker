@@ -242,7 +242,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
-      - run: npx ino-icon-maker generate -i icon.png --install
+      - run: npx ino-icon-maker generate -fg icon.png --install
       - run: git add . && git commit -m "Update icons" && git push
 ```
 
@@ -286,27 +286,27 @@ jobs:
 ### Scale All Icons
 
 ```bash
-ino-icon generate -i icon.png --scale 1.2  # 20% larger
-ino-icon generate -i icon.png --scale 0.8  # 20% smaller
+ino-icon generate -fg icon.png --scale 1.2  # 20% larger
+ino-icon generate -fg icon.png --scale 0.8  # 20% smaller
 ```
 
 ### Exclude Sizes
 
 ```bash
 # Android: Skip low-density
-ino-icon generate -i icon.png --exclude "ldpi"
+ino-icon generate -fg icon.png --exclude "ldpi"
 
 # Android: Skip monochrome
-ino-icon generate -i icon.png --exclude "monochrome"
+ino-icon generate -fg icon.png --exclude "monochrome"
 
 # iOS: Skip small sizes
-ino-icon generate -i icon.png --exclude "20x20,29x29"
+ino-icon generate -fg icon.png --exclude "20x20,29x29"
 ```
 
 ### Platform-Specific
 
 ```bash
-ino-icon generate -i icon.png --ios-scale 1.1 --android-scale 1.3
+ino-icon generate -fg icon.png --ios-scale 1.1 --android-scale 1.3
 ```
 
 ### Custom Config File
@@ -334,7 +334,7 @@ ino-icon generate -i icon.png --ios-scale 1.1 --android-scale 1.3
 ```
 
 ```bash
-ino-icon generate -i icon.png --custom-config custom-sizes.json
+ino-icon generate -fg icon.png --custom-config custom-sizes.json
 ```
 
 **[📖 Full Custom Sizes Documentation](./docs/guides/CUSTOM_SIZES.md)**

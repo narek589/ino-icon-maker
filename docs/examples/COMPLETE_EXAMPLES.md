@@ -19,10 +19,10 @@ Quick copy-paste examples for all use cases. Choose your workflow and get starte
 
 ```bash
 # Generate icons (quickest way)
-npx ino-icon-maker generate -i icon.png
+npx ino-icon-maker generate -fg icon.png
 
 # With auto-install to React Native/Flutter project
-npx ino-icon-maker generate -i icon.png --install
+npx ino-icon-maker generate -fg icon.png --install
 
 # Interactive mode
 npx ino-icon-maker interactive
@@ -32,13 +32,13 @@ npx ino-icon-maker interactive
 
 ```bash
 # iOS only
-ino-icon generate -i icon.png -p ios -o ./ios-icons
+ino-icon generate -fg icon.png -p ios -o ./ios-icons
 
 # Android only
-ino-icon generate -i icon.png -p android -o ./android-icons
+ino-icon generate -fg icon.png -p android -o ./android-icons
 
 # Both platforms with ZIP
-ino-icon generate -i icon.png -p all -o ./icons -z
+ino-icon generate -fg icon.png -p all -o ./icons -z
 
 # Android adaptive icons
 ino-icon generate \
@@ -49,7 +49,7 @@ ino-icon generate \
 
 # Auto-install to project
 cd /path/to/react-native-or-flutter-project
-ino-icon generate -i assets/icon.png --install
+ino-icon generate -fg assets/icon.png --install
 ```
 
 ---
@@ -163,7 +163,7 @@ const platforms = getSupportedPlatforms(); // ['ios', 'android']
 
 ```bash
 cd /path/to/react-native-project
-npx ino-icon-maker generate -i assets/icon.png --install
+npx ino-icon-maker generate -fg assets/icon.png --install
 ```
 
 ### package.json Script
@@ -171,7 +171,7 @@ npx ino-icon-maker generate -i assets/icon.png --install
 ```json
 {
 	"scripts": {
-		"icons": "ino-icon generate -i assets/icon.png --install"
+		"icons": "ino-icon generate -fg assets/icon.png --install"
 	}
 }
 ```
@@ -184,7 +184,7 @@ npm run icons
 
 ```bash
 # Generate
-npx ino-icon-maker generate -i assets/icon.png -o temp
+npx ino-icon-maker generate -fg assets/icon.png -o temp
 
 # Copy iOS
 cp -r temp/AppIcon.appiconset ios/YourApp/Images.xcassets/
@@ -231,9 +231,9 @@ await rm("./temp", { recursive: true });
 ```json
 {
 	"scripts": {
-		"icons:dev": "ino-icon generate -i assets/icon-dev.png --install",
-		"icons:staging": "ino-icon generate -i assets/icon-staging.png --install",
-		"icons:prod": "ino-icon generate -i assets/icon-prod.png --install"
+		"icons:dev": "ino-icon generate -fg assets/icon-dev.png --install",
+		"icons:staging": "ino-icon generate -fg assets/icon-staging.png --install",
+		"icons:prod": "ino-icon generate -fg assets/icon-prod.png --install"
 	}
 }
 ```
@@ -246,7 +246,7 @@ await rm("./temp", { recursive: true });
 
 ```bash
 cd /path/to/flutter-project
-npx ino-icon-maker generate -i assets/icon.png --install
+npx ino-icon-maker generate -fg assets/icon.png --install
 ```
 
 ### Makefile
@@ -255,7 +255,7 @@ npx ino-icon-maker generate -i assets/icon.png --install
 .PHONY: icons
 
 icons:
-	@npx ino-icon-maker generate -i assets/icon.png -o temp -p all
+	@npx ino-icon-maker generate -fg assets/icon.png -o temp -p all
 	@cp -r temp/AppIcon.appiconset ios/Runner/Assets.xcassets/
 	@cp -r temp/android-icons/* android/app/src/main/res/
 	@rm -rf temp
@@ -270,7 +270,7 @@ make icons
 
 ```bash
 # Generate
-npx ino-icon-maker generate -i assets/icon.png -o temp
+npx ino-icon-maker generate -fg assets/icon.png -o temp
 
 # Copy iOS
 cp -r temp/AppIcon.appiconset ios/Runner/Assets.xcassets/AppIcon.appiconset
@@ -338,7 +338,7 @@ jobs:
           node-version: "20"
 
       - name: Generate icons
-        run: npx ino-icon-maker generate -i assets/icon.png -o icons -z
+        run: npx ino-icon-maker generate -fg assets/icon.png -o icons -z
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
@@ -355,7 +355,7 @@ generate-icons:
   stage: build
   image: node:20
   script:
-    - npx ino-icon-maker generate -i assets/icon.png -o icons -z
+    - npx ino-icon-maker generate -fg assets/icon.png -o icons -z
   artifacts:
     paths:
       - icons/
@@ -384,7 +384,7 @@ jobs:
 
       - name: Generate and install
         run: |
-          npx ino-icon-maker generate -i assets/icon.png --install
+          npx ino-icon-maker generate -fg assets/icon.png --install
 
       - name: Commit changes
         run: |
@@ -405,7 +405,7 @@ RUN npm install -g ino-icon-maker
 WORKDIR /app
 COPY icon.png .
 
-RUN ino-icon generate -i icon.png -o /app/output -p all -z
+RUN ino-icon generate -fg icon.png -o /app/output -p all -z
 
 CMD ["sh"]
 ```
@@ -525,11 +525,11 @@ app.listen(3000);
 
 | Use Case       | Command/Code                                                |
 | -------------- | ----------------------------------------------------------- |
-| Quick CLI      | `npx ino-icon-maker generate -i icon.png`                   |
-| Auto-install   | `ino-icon generate -i icon.png --install`                   |
-| iOS only       | `ino-icon generate -i icon.png -p ios`                      |
-| Android only   | `ino-icon generate -i icon.png -p android`                  |
-| With ZIP       | `ino-icon generate -i icon.png -z`                          |
+| Quick CLI      | `npx ino-icon-maker generate -fg icon.png`                   |
+| Auto-install   | `ino-icon generate -fg icon.png --install`                   |
+| iOS only       | `ino-icon generate -fg icon.png -p ios`                      |
+| Android only   | `ino-icon generate -fg icon.png -p android`                  |
+| With ZIP       | `ino-icon generate -fg icon.png -z`                          |
 | Adaptive icons | `ino-icon generate -fg fg.png -bg "#FF5722" -p android`     |
 | API server     | `ino-icon serve`                                            |
 | Programmatic   | `await quickGenerate({input: 'icon.png', output: 'icons'})` |

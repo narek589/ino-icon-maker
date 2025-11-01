@@ -19,7 +19,7 @@ Complete guide for using Ino Icon Maker with React Native projects.
 
 ```bash
 # From your React Native project root
-npx ino-icon-maker generate -i assets/icon.png --install
+npx ino-icon-maker generate -fg assets/icon.png --install
 ```
 
 **What happens:**
@@ -37,8 +37,8 @@ Add to your `package.json`:
 ```json
 {
 	"scripts": {
-		"icons": "ino-icon-maker generate -i assets/icon.png --install",
-		"icons:manual": "ino-icon-maker generate -i assets/icon.png -o temp -p all && npm run icons:install && npm run icons:cleanup",
+		"icons": "ino-icon-maker generate -fg assets/icon.png --install",
+		"icons:manual": "ino-icon-maker generate -fg assets/icon.png -o temp -p all && npm run icons:install && npm run icons:cleanup",
 		"icons:install": "npm run icons:ios && npm run icons:android",
 		"icons:ios": "cp -r temp/AppIcon.appiconset ios/YourAppName/Images.xcassets/AppIcon.appiconset",
 		"icons:android": "cp -r temp/android-icons/* android/app/src/main/res/",
@@ -64,7 +64,7 @@ npm run icons
 cd /path/to/your-rn-project
 
 # Generate icons
-npx ino-icon-maker generate -i assets/icon.png -o ./temp -p all
+npx ino-icon-maker generate -fg assets/icon.png -o ./temp -p all
 ```
 
 ### Step 2: iOS Integration
@@ -235,7 +235,7 @@ npm run icons
 ```json
 {
 	"scripts": {
-		"icons": "npx ino-icon-maker generate -i assets/icon.png -o output -p all && npm run icons:copy",
+		"icons": "npx ino-icon-maker generate -fg assets/icon.png -o output -p all && npm run icons:copy",
 		"icons:copy": "cp -r output/AppIcon.appiconset ios/YourApp/Images.xcassets/ && cp -r output/android-icons/* android/app/src/main/res/"
 	}
 }
@@ -250,7 +250,7 @@ npm run icons
 {
 	"scripts": {
 		"icons": "npm run icons:generate && npm run icons:install && npm run icons:cleanup",
-		"icons:generate": "npx ino-icon-maker generate -i assets/icon.png -o temp -p all",
+		"icons:generate": "npx ino-icon-maker generate -fg assets/icon.png -o temp -p all",
 		"icons:install": "cp -r temp/AppIcon.appiconset ios/YourApp/Images.xcassets/ && cp -r temp/android-icons/* android/app/src/main/res/",
 		"icons:cleanup": "rm -rf temp"
 	}

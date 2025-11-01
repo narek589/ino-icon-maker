@@ -39,10 +39,10 @@ npm install --save-dev ino-icon-maker
 
 ```bash
 # Generate icons for both platforms
-ino-icon generate -i icon.png -o ./icons
+ino-icon generate -fg icon.png -o ./icons
 
 # Generate and auto-install to React Native/Flutter project
-ino-icon generate -i icon.png --install
+ino-icon generate -fg icon.png --install
 
 # Interactive mode (guided prompts)
 ino-icon interactive
@@ -139,7 +139,7 @@ ino-icon serve [-p <port>]
 #### Generate for All Platforms
 
 ```bash
-ino-icon generate -i icon.png -o ./icons
+ino-icon generate -fg icon.png -o ./icons
 ```
 
 **Output:**
@@ -159,19 +159,19 @@ icons/
 #### Generate for iOS Only
 
 ```bash
-ino-icon generate -i icon.png -o ./ios-icons -p ios
+ino-icon generate -fg icon.png -o ./ios-icons -p ios
 ```
 
 #### Generate for Android Only
 
 ```bash
-ino-icon generate -i icon.png -o ./android-icons -p android
+ino-icon generate -fg icon.png -o ./android-icons -p android
 ```
 
 ### With ZIP Archive
 
 ```bash
-ino-icon generate -i icon.png -o ./icons -z
+ino-icon generate -fg icon.png -o ./icons -z
 ```
 
 **Output:**
@@ -189,7 +189,7 @@ icons/
 
 ```bash
 # From your React Native project root
-ino-icon generate -i assets/icon.png --install
+ino-icon generate -fg assets/icon.png --install
 ```
 
 **What happens:**
@@ -204,7 +204,7 @@ ino-icon generate -i assets/icon.png --install
 
 ```bash
 # From your Flutter project root
-ino-icon generate -i assets/icon.png --install
+ino-icon generate -fg assets/icon.png --install
 ```
 
 **What happens:**
@@ -318,7 +318,7 @@ ino-icon serve -p 8080
 ### Force Overwrite
 
 ```bash
-ino-icon generate -i icon.png -o ./icons -f
+ino-icon generate -fg icon.png -o ./icons -f
 ```
 
 **Use case:** Regenerate icons without deleting output directory first.
@@ -327,60 +327,60 @@ ino-icon generate -i icon.png -o ./icons -f
 
 ```bash
 # JPEG
-ino-icon generate -i icon.jpg -o ./icons
+ino-icon generate -fg icon.jpg -o ./icons
 
 # PNG (recommended)
-ino-icon generate -i icon.png -o ./icons
+ino-icon generate -fg icon.png -o ./icons
 
 # WebP
-ino-icon generate -i icon.webp -o ./icons
+ino-icon generate -fg icon.webp -o ./icons
 
 # AVIF
-ino-icon generate -i icon.avif -o ./icons
+ino-icon generate -fg icon.avif -o ./icons
 
 # TIFF
-ino-icon generate -i icon.tiff -o ./icons
+ino-icon generate -fg icon.tiff -o ./icons
 ```
 
 ### Custom Output Structure
 
 ```bash
 # Output to specific directory
-ino-icon generate -i icon.png -o ./my-custom-output
+ino-icon generate -fg icon.png -o ./my-custom-output
 
 # Output to parent directory
-ino-icon generate -i icon.png -o ../icons
+ino-icon generate -fg icon.png -o ../icons
 
 # Output to absolute path
-ino-icon generate -i icon.png -o /path/to/output
+ino-icon generate -fg icon.png -o /path/to/output
 ```
 
 ### Environment-Specific Icons
 
 ```bash
 # Development icons
-ino-icon generate -i assets/icon-dev.png -o ./icons --install
+ino-icon generate -fg assets/icon-dev.png -o ./icons --install
 
 # Staging icons
-ino-icon generate -i assets/icon-staging.png -o ./icons --install
+ino-icon generate -fg assets/icon-staging.png -o ./icons --install
 
 # Production icons
-ino-icon generate -i assets/icon-prod.png -o ./icons --install
+ino-icon generate -fg assets/icon-prod.png -o ./icons --install
 ```
 
 ### Combine with Other Commands
 
 ```bash
 # Generate and verify
-ino-icon generate -i icon.png -o ./icons && ls -la icons/
+ino-icon generate -fg icon.png -o ./icons && ls -la icons/
 
 # Generate and move to specific location
-ino-icon generate -i icon.png -o ./temp && \
+ino-icon generate -fg icon.png -o ./temp && \
   cp -r temp/AppIcon.appiconset ios/YourApp/Images.xcassets/ && \
   rm -rf temp
 
 # Generate for CI/CD
-ino-icon generate -i icon.png -o ./icons -z -f
+ino-icon generate -fg icon.png -o ./icons -z -f
 ```
 
 ### Using with NPM Scripts
@@ -390,9 +390,9 @@ Add to `package.json`:
 ```json
 {
 	"scripts": {
-		"icons": "ino-icon generate -i assets/icon.png --install",
-		"icons:dev": "ino-icon generate -i assets/icon-dev.png --install",
-		"icons:prod": "ino-icon generate -i assets/icon-prod.png --install",
+		"icons": "ino-icon generate -fg assets/icon.png --install",
+		"icons:dev": "ino-icon generate -fg assets/icon-dev.png --install",
+		"icons:prod": "ino-icon generate -fg assets/icon-prod.png --install",
 		"icons:info": "ino-icon info"
 	}
 }
@@ -420,7 +420,7 @@ npm run icons:info
 npm install -g ino-icon-maker
 
 # Or use npx
-npx ino-icon-maker generate -i icon.png
+npx ino-icon-maker generate -fg icon.png
 ```
 
 ### "Input file not found"
@@ -432,10 +432,10 @@ npx ino-icon-maker generate -i icon.png
 ls -la icon.png
 
 # Use absolute path
-ino-icon generate -i /absolute/path/to/icon.png -o ./icons
+ino-icon generate -fg /absolute/path/to/icon.png -o ./icons
 
 # Use relative path from current directory
-ino-icon generate -i ./assets/icon.png -o ./icons
+ino-icon generate -fg ./assets/icon.png -o ./icons
 ```
 
 ### "Permission denied"
@@ -455,7 +455,7 @@ npm install --save-dev ino-icon-maker
 **Solution:** Use `-f` flag to force overwrite
 
 ```bash
-ino-icon generate -i icon.png -o ./icons -f
+ino-icon generate -fg icon.png -o ./icons -f
 ```
 
 ### Auto-install not detecting project

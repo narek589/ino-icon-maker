@@ -381,7 +381,7 @@ npm run dev
 npm run test:api
 
 # 4. Manual smoke test
-npx ino-icon-maker generate -i test-directory/input/icon.png -o /tmp/test-icons
+npx ino-icon-maker generate -fg test-directory/input/icon.png -o /tmp/test-icons
 
 # 5. Test on different Node versions
 nvm use 18 && npm test

@@ -79,7 +79,7 @@ jobs:
 
       - name: Generate and install icons
         run: |
-          npx ino-icon-maker generate -i assets/icon.png --install
+          npx ino-icon-maker generate -fg assets/icon.png --install
 
       - name: Commit changes
         run: |
@@ -113,7 +113,7 @@ jobs:
 
       - name: Generate icons
         run: |
-          npx ino-icon-maker generate -i assets/icon.png -o temp -p all
+          npx ino-icon-maker generate -fg assets/icon.png -o temp -p all
 
           # React Native
           cp -r temp/AppIcon.appiconset ios/YourApp/Images.xcassets/
@@ -189,7 +189,7 @@ generate-icons:
   stage: generate
   image: node:20
   script:
-    - npx ino-icon-maker generate -i assets/icon.png -o output -p all -z
+    - npx ino-icon-maker generate -fg assets/icon.png -o output -p all -z
   artifacts:
     paths:
       - output/
@@ -263,7 +263,7 @@ pipelines:
           name: Generate Icons
           script:
             - npm install -g ino-icon-maker
-            - ino-icon generate -i assets/icon.png -o output -p all -z
+            - ino-icon generate -fg assets/icon.png -o output -p all -z
           artifacts:
             - output/**
 
@@ -272,7 +272,7 @@ pipelines:
       - step:
           name: Generate App Icons
           script:
-            - npx ino-icon-maker generate -i assets/icon.png -o output -p all
+            - npx ino-icon-maker generate -fg assets/icon.png -o output -p all
           artifacts:
             - output/**
 ```
@@ -455,7 +455,7 @@ services:
     command: >
       sh -c "
         npm install -g ino-icon-maker &&
-        ino-icon generate -i /assets/icon.png -o /output -p all -z
+        ino-icon generate -fg /assets/icon.png -o /output -p all -z
       "
 ```
 
@@ -498,7 +498,7 @@ jobs:
 
       - name: Generate icons
         run: |
-          npx ino-icon-maker generate -i assets/icon.png -o temp -p all
+          npx ino-icon-maker generate -fg assets/icon.png -o temp -p all
 
           # Install iOS
           cp -r temp/AppIcon.appiconset ios/YourApp/Images.xcassets/
@@ -561,7 +561,7 @@ jobs:
       - name: Generate icons
         run: |
           npm install -g ino-icon-maker
-          ino-icon generate -i assets/icon.png -o temp -p all
+          ino-icon generate -fg assets/icon.png -o temp -p all
 
           # Install icons
           cp -r temp/AppIcon.appiconset ios/Runner/Assets.xcassets/
@@ -654,7 +654,7 @@ strategy:
     environment: [dev, staging, prod]
 steps:
   - name: Generate ${{ matrix.environment }} icons
-    run: npx ino-icon-maker generate -i assets/icon-${{ matrix.environment }}.png -o output -p all
+    run: npx ino-icon-maker generate -fg assets/icon-${{ matrix.environment }}.png -o output -p all
 ```
 
 ---

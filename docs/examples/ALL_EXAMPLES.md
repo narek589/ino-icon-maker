@@ -18,14 +18,14 @@ Comprehensive examples for every use case of Ino Icon Maker.
 ### NPX (No Installation)
 
 ```bash
-npx ino-icon-maker generate -i icon.png -p all
+npx ino-icon-maker generate -fg icon.png -p all
 ```
 
 ### Global Installation
 
 ```bash
 npm install -g ino-icon-maker
-iim generate -i icon.png -p all
+iim generate -fg icon.png -p all
 ```
 
 ### Project Dependency
@@ -37,7 +37,7 @@ npm install -D ino-icon-maker
 ```json
 {
 	"scripts": {
-		"icons": "ino-icon-maker generate -i assets/icon.png -p all"
+		"icons": "ino-icon-maker generate -fg assets/icon.png -p all"
 	}
 }
 ```
@@ -50,7 +50,7 @@ npm install -D ino-icon-maker
 
 ```bash
 # CLI
-ino-icon generate -i icon.png
+ino-icon generate -fg icon.png
 
 # HTTP
 curl -F "file=@icon.png" http://localhost:3000/generate -o icons.zip
@@ -60,7 +60,7 @@ curl -F "file=@icon.png" http://localhost:3000/generate -o icons.zip
 
 ```bash
 # CLI
-ino-icon generate -i icon.png -p ios
+ino-icon generate -fg icon.png -p ios
 
 # HTTP
 curl -F "file=@icon.png" http://localhost:3000/generate?platform=ios -o ios.zip
@@ -70,7 +70,7 @@ curl -F "file=@icon.png" http://localhost:3000/generate?platform=ios -o ios.zip
 
 ```bash
 # CLI
-ino-icon generate -i icon.png -p android
+ino-icon generate -fg icon.png -p android
 
 # HTTP
 curl -F "file=@icon.png" http://localhost:3000/generate?platform=android -o android.zip
@@ -121,13 +121,13 @@ ino-icon generate
 
 ```bash
 # Custom output directory
-ino-icon generate -i icon.png -o custom/path
+ino-icon generate -fg icon.png -o custom/path
 
 # Force overwrite
-ino-icon generate -i icon.png -f
+ino-icon generate -fg icon.png -f
 
 # Specific platform
-ino-icon generate -i icon.png -p ios
+ino-icon generate -fg icon.png -p ios
 ```
 
 ### Serve HTTP API
@@ -270,7 +270,7 @@ await generator.generate("./foreground.png", "./output", {
 ```json
 {
 	"scripts": {
-		"generate-icons": "ino-icon-maker generate -i assets/icon.png -o ./output -p all"
+		"generate-icons": "ino-icon-maker generate -fg assets/icon.png -o ./output -p all"
 	}
 }
 ```
@@ -297,7 +297,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
-      - run: npx ino-icon-maker generate -i icon.png -p all
+      - run: npx ino-icon-maker generate -fg icon.png -p all
 ```
 
 ---
@@ -309,9 +309,9 @@ jobs:
 ```json
 {
 	"scripts": {
-		"icons": "ino-icon-maker generate -i assets/icon.png -p all",
-		"icons:ios": "ino-icon-maker generate -i assets/icon.png -p ios",
-		"icons:android": "ino-icon-maker generate -i assets/icon.png -p android",
+		"icons": "ino-icon-maker generate -fg assets/icon.png -p all",
+		"icons:ios": "ino-icon-maker generate -fg assets/icon.png -p ios",
+		"icons:android": "ino-icon-maker generate -fg assets/icon.png -p android",
 		"icons:adaptive": "curl -F 'foreground=@fg.png' -F 'background=@bg.png' http://localhost:3000/generate?platform=all -o icons.zip",
 		"icons:serve": "ino-icon-maker serve -p 3000"
 	}
@@ -325,7 +325,7 @@ jobs:
 # generate-icons.sh
 
 # Generate standard icons
-ino-icon generate -i icon.png -o output -p all
+ino-icon generate -fg icon.png -o output -p all
 
 # Generate adaptive icons
 curl -F "foreground=@fg.png" \
@@ -354,7 +354,7 @@ ino-icon serve -p 8080
 
 ```bash
 # Add force flag
-ino-icon generate -i icon.png -f
+ino-icon generate -fg icon.png -f
 
 # Check directory permissions
 ls -la output/

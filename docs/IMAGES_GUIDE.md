@@ -20,7 +20,7 @@ To make the README look perfect, you need to add these preview images:
 
 1. Generate icons for both platforms:
 ```bash
-ino-icon generate -i your-icon.png -o preview-output -p all
+ino-icon generate -fg your-icon.png -o preview-output -p all
 ```
 
 2. Take screenshots of the output folders

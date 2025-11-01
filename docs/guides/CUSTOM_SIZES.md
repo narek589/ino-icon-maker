@@ -74,7 +74,7 @@ The Custom Sizes feature allows you to:
 Make all icons 20% larger:
 
 ```bash
-ino-icon generate -i icon.png -o ./output --scale 1.2
+ino-icon generate -fg icon.png -o ./output --scale 1.2
 ```
 
 #### 2. Platform-Specific Scaling
@@ -82,7 +82,7 @@ ino-icon generate -i icon.png -o ./output --scale 1.2
 Scale iOS icons by 1.1x and Android by 1.3x:
 
 ```bash
-ino-icon generate -i icon.png -o ./output --ios-scale 1.1 --android-scale 1.3
+ino-icon generate -fg icon.png -o ./output --ios-scale 1.1 --android-scale 1.3
 ```
 
 #### 3. Exclude Specific Sizes
@@ -90,13 +90,13 @@ ino-icon generate -i icon.png -o ./output --ios-scale 1.1 --android-scale 1.3
 Skip low-density and monochrome Android icons:
 
 ```bash
-ino-icon generate -i icon.png -o ./output -p android --exclude "ldpi,monochrome"
+ino-icon generate -fg icon.png -o ./output -p android --exclude "ldpi,monochrome"
 ```
 
 Exclude specific iOS sizes:
 
 ```bash
-ino-icon generate -i icon.png -o ./output -p ios --exclude "20x20@2x,29x29@3x"
+ino-icon generate -fg icon.png -o ./output -p ios --exclude "20x20@2x,29x29@3x"
 ```
 
 #### 4. Use Custom Config File
@@ -123,7 +123,7 @@ Create a JSON file (e.g., `custom-sizes.json`):
 Then use it:
 
 ```bash
-ino-icon generate -i icon.png -o ./output --custom-config custom-sizes.json
+ino-icon generate -fg icon.png -o ./output --custom-config custom-sizes.json
 ```
 
 ### Programmatic API Usage
@@ -401,10 +401,10 @@ Always test generated icons on actual devices:
 
 ```bash
 # Generate with custom sizes
-ino-icon generate -i icon.png -o ./test-output --scale 1.2
+ino-icon generate -fg icon.png -o ./test-output --scale 1.2
 
 # Install to your project
-ino-icon generate -i icon.png -o ./test-output --scale 1.2 --install
+ino-icon generate -fg icon.png -o ./test-output --scale 1.2 --install
 
 # Test on device
 ```
@@ -560,7 +560,7 @@ if (!validation.valid) {
 cat custom-sizes.json | jq .
 
 # Fix any syntax errors, then retry
-ino-icon generate -i icon.png -o ./output --custom-config custom-sizes.json
+ino-icon generate -fg icon.png -o ./output --custom-config custom-sizes.json
 ```
 
 ### Issue: "customSizes must be between 0 and 5"
