@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.3] - 2025-11-01
+
+### Fixed
+
+- **Critical**: Added missing `.js` extensions to ES module imports
+- Fixed `ERR_MODULE_NOT_FOUND` error when package installed globally
+- Fixed imports in: `DisplayHelpers.js`, `InteractiveHelpers.js`, `ProjectDetector.js`, `ios-config.js`, `android-config.js`
+- Package now works correctly with `npm install -g`
+
 ## [1.2.2] - 2025-11-01
 
 ### Changed

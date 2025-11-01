@@ -1,6 +1,6 @@
 {
 	"name": "ino-icon-maker",
-	"version": "1.2.2",
+	"version": "1.2.3",
 	"description": "🚀 Generate iOS and Android app icons with unified layer-based workflow. Supports adaptive icons, foreground/background layers, custom sizes, and 6 image formats.",
 	"main": "index.js",
 	"type": "module",
