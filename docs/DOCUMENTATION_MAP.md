@@ -11,6 +11,15 @@ Visual guide to all documentation.
 │
 ├── 📄 README.md                  # Main project readme
 │
+├── 📁 examples/                  # Runnable code examples
+│   ├── README.md                # Examples overview
+│   ├── basic-usage.js           # Simple generation
+│   ├── adaptive-icons.js        # Android adaptive
+│   ├── express-integration.js   # Express API
+│   └── build-script.js          # Build automation
+│
+├── 📄 test-api.sh               # API testing script
+│
 └── 📁 docs/
     │
     ├── 📄 README.md              # Documentation hub
@@ -18,13 +27,21 @@ Visual guide to all documentation.
     ├── 📄 CONTRIBUTING.md        # How to contribute
     ├── 📄 CODE_OF_CONDUCT.md     # Community rules
     ├── 📄 SECURITY.md            # Security policy
+    ├── 📄 DOCUMENTATION_MAP.md   # This file
     │
     ├── 📁 guides/
     │   ├── QUICK_START.md        # 2-minute setup
-    │   └── GIT_WORKFLOW.md       # Git basics
+    │   ├── TESTING.md            # Testing guide
+    │   ├── ICON_PADDING_CONFIG.md # Configure icon padding/zoom
+    │   ├── GIT_WORKFLOW.md       # Git basics
+    │   └── ADAPTIVE_ICONS.md     # Adaptive icons guide
     │
     ├── 📁 examples/
-    │   ├── ALL_EXAMPLES.md       # Code examples
+    │   ├── COMPLETE_EXAMPLES.md  # Quick reference for all use cases
+    │   ├── CLI_USAGE.md          # Complete CLI reference
+    │   ├── API_USAGE.md          # HTTP API with curl
+    │   ├── PROGRAMMATIC_USAGE.md # npm module API
+    │   ├── ALL_EXAMPLES.md       # Legacy code examples
     │   ├── REACT_NATIVE.md       # React Native setup
     │   ├── FLUTTER.md            # Flutter setup
     │   └── CI_CD.md              # Automation
@@ -63,7 +80,14 @@ Visual guide to all documentation.
 ### Getting Started
 
 - [Quick Start](./guides/QUICK_START.md) - Install and generate first icons
-- [All Examples](./examples/ALL_EXAMPLES.md) - Code snippets
+- [Complete Examples](./examples/COMPLETE_EXAMPLES.md) - Quick reference for all use cases
+
+### Usage Guides
+
+- [CLI Usage](./examples/CLI_USAGE.md) - Complete command-line reference
+- [API Usage](./examples/API_USAGE.md) - HTTP API with curl examples
+- [Programmatic Usage](./examples/PROGRAMMATIC_USAGE.md) - Use as npm module
+- [All Examples](./examples/ALL_EXAMPLES.md) - Legacy code snippets
 
 ### Framework Integration
 
@@ -71,11 +95,17 @@ Visual guide to all documentation.
 - [Flutter](./examples/FLUTTER.md) - Flutter project setup
 - [CI/CD](./examples/CI_CD.md) - GitHub Actions, GitLab CI, etc.
 
+### Specialized Topics
+
+- [Icon Padding Configuration](./guides/ICON_PADDING_CONFIG.md) - Configure foreground zoom/padding
+- [Adaptive Icons](./guides/ADAPTIVE_ICONS.md) - Android adaptive icons guide
+- [Testing](./guides/TESTING.md) - Complete testing guide
+- [Android Adaptive Icon Fix](./ANDROID_ADAPTIVE_ICON_FIX.md) - Safe zone calculation fix
+
 ### Technical
 
 - [Architecture](./architecture/ARCHITECTURE.md) - System design
 - [Refactoring](./architecture/REFACTORING_DETAILS.md) - SOLID principles
-- [Android Adaptive Icon Fix](./ANDROID_ADAPTIVE_ICON_FIX.md) - Safe zone calculation fix
 
 ### Community
 
@@ -103,6 +133,18 @@ Visual guide to all documentation.
 **How do I install?**  
 → [Quick Start](./guides/QUICK_START.md)
 
+**How do I auto-install icons to my React Native/Flutter project?**  
+→ [Complete Examples](./examples/COMPLETE_EXAMPLES.md) - Use `--install` flag
+
+**What CLI commands are available?**  
+→ [CLI Usage Guide](./examples/CLI_USAGE.md)
+
+**How do I use the HTTP API?**  
+→ [API Usage Guide](./examples/API_USAGE.md)
+
+**How do I use it as an npm module?**  
+→ [Programmatic Usage Guide](./examples/PROGRAMMATIC_USAGE.md)
+
 **How do I use with React Native?**  
 → [React Native Guide](./examples/REACT_NATIVE.md)
 
@@ -111,6 +153,12 @@ Visual guide to all documentation.
 
 **How do I automate icon generation?**  
 → [CI/CD Examples](./examples/CI_CD.md)
+
+**How do I configure icon padding/zoom?**  
+→ [Icon Padding Configuration](./guides/ICON_PADDING_CONFIG.md)
+
+**How do I test everything works?**  
+→ [Testing Guide](./guides/TESTING.md)
 
 **How do I contribute?**  
 → [Contributing Guide](./CONTRIBUTING.md)

@@ -8,6 +8,8 @@
  * @version 1.0.4
  */
 
+import { Platform } from "./lib/core/ImageProcessor.js";
+
 // Export main generator functions
 export {
 	generateIcons,
@@ -52,7 +54,7 @@ export { IconGeneratorFactory } from "./lib/IconGeneratorFactory.js";
  * @param {Object} options - Generation options
  * @param {string} [options.input] - Path to source image (JPEG, PNG, WebP) - for legacy mode or iOS
  * @param {string} options.output - Output directory
- * @param {string} [options.platform='all'] - Platform: 'ios', 'android', or 'all'
+ * @param {string} [options.platform=Platform.ALL] - Platform: Platform.IOS, Platform.ANDROID, or Platform.ALL
  * @param {boolean} [options.zip=false] - Create ZIP archive
  * @param {boolean} [options.force=false] - Overwrite existing files
  * @param {Object} [options.adaptiveIcon] - Adaptive icon configuration (Android only)
@@ -99,7 +101,7 @@ export async function quickGenerate(options) {
 	const {
 		input,
 		output,
-		platform = "all",
+		platform = Platform.ALL,
 		zip = false,
 		force = false,
 		adaptiveIcon,
@@ -123,7 +125,7 @@ export async function quickGenerate(options) {
 	} = await import("./lib/generator.js");
 
 	const platforms =
-		platform.toLowerCase() === "all"
+		platform === Platform.All
 			? getSupportedPlatforms()
 			: [platform.toLowerCase()];
 
@@ -150,14 +152,14 @@ export async function quickGenerate(options) {
 		if (adaptiveIcon) {
 			// Generate iOS with standard input
 			const iosResult = input
-				? await generateIconsForPlatform("ios", input, output, {
+				? await generateIconsForPlatform(Platform.IOS, input, output, {
 						force,
 						zip,
 				  })
 				: null;
 			// Generate Android with adaptive icons
 			const androidResult = await generateIconsForPlatform(
-				"android",
+				Platform.ANDROID,
 				input,
 				output,
 				genOptions

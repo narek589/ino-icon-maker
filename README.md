@@ -19,10 +19,10 @@
 
 🎉 **Unified Layer-Based Workflow** - Both iOS and Android now support foreground/background layers!
 
-- ✅ **iOS**: Auto-generates composite (background + centered foreground with 20% padding)
+- ✅ **iOS**: Auto-generates composite (background + centered foreground with configurable padding)
 - ✅ **Android**: Native adaptive icons with separate layers
 - ✅ **Default Background**: Uses `#111111` if not specified
-- ✅ **Auto Padding**: Foreground gets 20% safe zone automatically
+- ✅ **Configurable Padding**: Adjust iOS/Android zoom out percentage (default: iOS 90%, Android 61%)
 
 ```bash
 # One command for both platforms with layers!
@@ -57,16 +57,17 @@ curl -F "foreground=@fg.png" \
 
 ## ✨ Features
 
-| Feature                    | Description                                    |
-| -------------------------- | ---------------------------------------------- |
-| 🎯 **Dual Platform**       | iOS & Android from single source               |
-| 🎨 **Adaptive Icons**      | Android 8.0+ with foreground/background layers |
-| 🖼️ **6 Formats**           | JPEG, PNG, WebP, AVIF, TIFF                    |
-| ⚡ **Parallel Processing** | 10x faster generation                          |
-| 📦 **ZIP Export**          | Optional archive creation                      |
-| 🔥 **3 Interfaces**        | CLI, Library, HTTP API                         |
-| 🌈 **Smart Defaults**      | Auto-padding, default backgrounds              |
-| 📐 **Non-Square Support**  | Auto-centers images                            |
+| Feature                     | Description                                    |
+| --------------------------- | ---------------------------------------------- |
+| 🎯 **Dual Platform**        | iOS & Android from single source               |
+| 🎨 **Adaptive Icons**       | Android 8.0+ with foreground/background layers |
+| 🖼️ **6 Formats**            | JPEG, PNG, WebP, AVIF, TIFF                    |
+| ⚡ **Parallel Processing**  | 10x faster generation                          |
+| 📦 **ZIP Export**           | Optional archive creation                      |
+| 🔥 **3 Interfaces**         | CLI, Library, HTTP API                         |
+| 🌈 **Smart Defaults**       | Auto-padding, default backgrounds              |
+| ⚙️ **Configurable Padding** | Adjust iOS/Android zoom out percentage         |
+| 📐 **Non-Square Support**   | Auto-centers images                            |
 
 ---
 
@@ -90,6 +91,29 @@ iim generate -i icon.png
 ```bash
 npm install -D ino-icon-maker
 ```
+
+---
+
+## ⚡ Auto-Install (NEW!)
+
+Automatically detect and install icons to your React Native or Flutter project:
+
+```bash
+# From your project root
+npx ino-icon-maker generate -i assets/icon.png --install
+```
+
+**What it does:**
+
+- ✅ Detects project type (React Native or Flutter)
+- ✅ Generates icons for both platforms
+- ✅ Installs to correct locations automatically
+- ✅ Shows installation paths
+
+**Supported Projects:**
+
+- React Native (detects `package.json` with `react-native` + ios/android dirs)
+- Flutter (detects `pubspec.yaml` + ios/android dirs)
 
 ---
 
@@ -234,17 +258,31 @@ console.log(results);
 ```json
 {
 	"scripts": {
-		"icons": "ino-icon-maker generate -i assets/icon.png -p all"
+		"icons": "ino-icon-maker generate -i assets/icon.png --install"
 	}
 }
+```
+
+Or manual installation:
+
+```bash
+ino-icon generate -i assets/icon.png -o temp
+cp -r temp/AppIcon.appiconset ios/YourApp/Images.xcassets/
+cp -r temp/android-icons/* android/app/src/main/res/
+rm -rf temp
 ```
 
 ### Flutter
 
 ```bash
-ino-icon generate -i assets/icon.png -p all
-cp -r icons/AppIcon.appiconset ios/Runner/Assets.xcassets/
-cp -r icons/android-icons/* android/app/src/main/res/
+# Auto-install
+ino-icon generate -i assets/icon.png --install
+
+# Or manual
+ino-icon generate -i assets/icon.png -o temp
+cp -r temp/AppIcon.appiconset ios/Runner/Assets.xcassets/
+cp -r temp/android-icons/* android/app/src/main/res/
+rm -rf temp
 ```
 
 ### CI/CD (GitHub Actions)
@@ -330,16 +368,23 @@ Info:
 
 ## 📚 Documentation
 
-| Document                                          | Description                   |
-| ------------------------------------------------- | ----------------------------- |
-| [Quick Start](docs/guides/QUICK_START.md)         | Get started in 2 minutes      |
-| [Adaptive Icons](docs/guides/ADAPTIVE_ICONS.md)   | Complete adaptive icons guide |
-| [All Examples](docs/examples/ALL_EXAMPLES.md)     | Comprehensive examples        |
-| [React Native](docs/examples/REACT_NATIVE.md)     | React Native integration      |
-| [Flutter](docs/examples/FLUTTER.md)               | Flutter integration           |
-| [CI/CD](docs/examples/CI_CD.md)                   | Automation examples           |
-| [Architecture](docs/architecture/ARCHITECTURE.md) | Technical architecture        |
-| [Changelog](docs/CHANGELOG.md)                    | Version history               |
+| Document                                                  | Description                   |
+| --------------------------------------------------------- | ----------------------------- |
+| [Quick Start](docs/guides/QUICK_START.md)                 | Get started in 2 minutes      |
+| [Complete Examples](docs/examples/COMPLETE_EXAMPLES.md)   | Quick reference (NEW!)        |
+| [CLI Usage](docs/examples/CLI_USAGE.md)                   | Complete CLI reference (NEW!) |
+| [API Usage](docs/examples/API_USAGE.md)                   | HTTP API with curl (NEW!)     |
+| [Programmatic Usage](docs/examples/PROGRAMMATIC_USAGE.md) | npm module API (NEW!)         |
+| [All Examples](docs/examples/ALL_EXAMPLES.md)             | Legacy examples               |
+| [React Native](docs/examples/REACT_NATIVE.md)             | React Native integration      |
+| [Flutter](docs/examples/FLUTTER.md)                       | Flutter integration           |
+| [CI/CD](docs/examples/CI_CD.md)                           | Automation examples           |
+| [Adaptive Icons](docs/guides/ADAPTIVE_ICONS.md)           | Adaptive icons guide          |
+| [Icon Padding Config](docs/guides/ICON_PADDING_CONFIG.md) | Configure zoom/padding (NEW!) |
+| [Testing Guide](docs/guides/TESTING.md)                   | Testing guide (NEW!)          |
+| [Architecture](docs/architecture/ARCHITECTURE.md)         | Technical architecture        |
+| [Documentation Map](docs/DOCUMENTATION_MAP.md)            | Complete docs index (NEW!)    |
+| [Changelog](docs/CHANGELOG.md)                            | Version history               |
 
 ---
 

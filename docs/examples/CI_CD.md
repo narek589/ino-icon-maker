@@ -56,7 +56,41 @@ jobs:
           path: output/
 ```
 
-### Auto-Commit Generated Icons
+### Auto-Commit Generated Icons (with Auto-Install)
+
+```yaml
+name: Generate and Commit Icons
+
+on:
+  push:
+    paths:
+      - "assets/icon.png"
+
+jobs:
+  generate-icons:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Generate and install icons
+        run: |
+          npx ino-icon-maker generate -i assets/icon.png --install
+
+      - name: Commit changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add ios/ android/
+          git diff --quiet && git diff --staged --quiet || git commit -m "chore: update app icons [skip ci]"
+          git push
+```
+
+### Auto-Commit Generated Icons (Manual Copy)
 
 ```yaml
 name: Generate and Commit Icons

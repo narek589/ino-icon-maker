@@ -15,14 +15,30 @@ Complete guide for using Ino Icon Maker with React Native projects.
 
 ## 🚀 Quick Setup
 
-### Method 1: NPM Script (Recommended)
+### Method 1: Auto-Install (Easiest - NEW!)
+
+```bash
+# From your React Native project root
+npx ino-icon-maker generate -i assets/icon.png --install
+```
+
+**What happens:**
+
+- Automatically detects React Native project
+- Generates icons for both platforms
+- Installs iOS icons to `ios/YourApp/Images.xcassets/AppIcon.appiconset/`
+- Installs Android icons to `android/app/src/main/res/mipmap-*/`
+- Shows success message with installation paths
+
+### Method 2: NPM Script
 
 Add to your `package.json`:
 
 ```json
 {
 	"scripts": {
-		"icons": "ino-icon-maker generate -i assets/icon.png -o temp -p all && npm run icons:install && npm run icons:cleanup",
+		"icons": "ino-icon-maker generate -i assets/icon.png --install",
+		"icons:manual": "ino-icon-maker generate -i assets/icon.png -o temp -p all && npm run icons:install && npm run icons:cleanup",
 		"icons:install": "npm run icons:ios && npm run icons:android",
 		"icons:ios": "cp -r temp/AppIcon.appiconset ios/YourAppName/Images.xcassets/AppIcon.appiconset",
 		"icons:android": "cp -r temp/android-icons/* android/app/src/main/res/",

@@ -14,7 +14,22 @@ Complete guide for using Ino Icon Maker with Flutter projects.
 
 ## 🚀 Quick Setup
 
-### Method 1: Direct Command (Simplest)
+### Method 1: Auto-Install (Easiest - NEW!)
+
+```bash
+# From your Flutter project root
+npx ino-icon-maker generate -i assets/icon.png --install
+```
+
+**What happens:**
+
+- Automatically detects Flutter project
+- Generates icons for both platforms
+- Installs iOS icons to `ios/Runner/Assets.xcassets/AppIcon.appiconset/`
+- Installs Android icons to `android/app/src/main/res/mipmap-*/`
+- Shows success message with installation paths
+
+### Method 2: Direct Command
 
 ```bash
 # Navigate to your Flutter project
@@ -29,7 +44,7 @@ rm -rf temp
 echo "✅ Icons installed!"
 ```
 
-### Method 2: Makefile (Recommended)
+### Method 3: Makefile (Recommended for Manual Control)
 
 Create a `Makefile` in your project root:
 
