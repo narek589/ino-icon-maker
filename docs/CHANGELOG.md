@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.1] - 2025-11-01
+
+### Changed
+
+- **Improved README**: Professional abstract and introduction section
+- Added "Why Choose Ino Icon Maker" section highlighting key benefits
+- Added output examples section with image placeholders for iOS and Android
+- Updated "What's New" section to highlight v1.2.0 features
+- More professional and comprehensive documentation structure
+
+### Added
+
+- Image instructions in `docs/assets/README-IMAGES.md` for contributors
+
 ## [1.2.0] - 2025-11-01
 
 ### Added
