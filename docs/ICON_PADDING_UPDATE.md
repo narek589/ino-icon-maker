@@ -26,7 +26,7 @@ Added configuration constant using the Platform enum:
 ```javascript
 const ICON_PADDING_CONFIG = {
 	[Platform.IOS]: 0.9, // iOS foreground content ratio (90% = minimal padding)
-	[Platform.ANDROID]: 0.6111, // Android foreground content ratio (58% = standard safe zone)
+	[Platform.ANDROID]: 0.6111, // Android foreground content ratio (54% = standard safe zone)
 };
 ```
 
@@ -164,7 +164,7 @@ const bgLayer = await this.imageProcessor.prepareAdaptiveLayer(
 
 ### Android
 
-- **Current:** 0.6111 (58% content, 39% padding)
+- **Current:** 0.6111 (54% content, 39% padding)
 - **Previous:** Same (66/108 safe zone)
 - **Effect:** No change, maintains Android standard safe zone
 

@@ -22,7 +22,7 @@ export const Platform = Object.freeze({
 ```javascript
 const ICON_PADDING_CONFIG = {
 	[Platform.IOS]: 0.9, // iOS: 90% content, 10% padding (minimal zoom out)
-	[Platform.ANDROID]: 0.6111, // Android: 58% content, 39% padding (standard safe zone)
+	[Platform.ANDROID]: 0.6111, // Android: 54% content, 39% padding (standard safe zone)
 };
 ```
 
@@ -36,7 +36,7 @@ The value represents the **percentage of content** (foreground icon size):
 | `0.95`   | 95%     | 5%      | Minimal breathing room          |
 | `0.90`   | 90%     | 10%     | Light padding (iOS default)     |
 | `0.80`   | 80%     | 20%     | Comfortable padding             |
-| `0.6111` | 58%     | 39%     | Standard Android safe zone      |
+| `0.6111` | 54%     | 39%     | Standard Android safe zone      |
 | `0.50`   | 50%     | 50%     | Maximum zoom out                |
 
 ## 🔧 Quick Presets
@@ -111,7 +111,7 @@ const ICON_PADDING_CONFIG = {
    90% (default)           100% (no pad)
 ```
 
-### Android: 58% vs 80%
+### Android: 54% vs 80%
 
 ```
 ┌─────────────────┐     ┌─────────────────┐
@@ -121,7 +121,7 @@ const ICON_PADDING_CONFIG = {
 │    └───────┘    │     │  └───────────┘  │
 │                 │     │                 │
 └─────────────────┘     └─────────────────┘
-   58% (default)           80% (less pad)
+   54% (default)           80% (less pad)
 ```
 
 ## 🚀 How to Change
@@ -149,7 +149,7 @@ const ICON_PADDING_CONFIG = {
 ### Android Icons
 
 - Android clips icons with circular/squircle masks
-- **Default 0.6111 (58%)** ensures content stays in safe zone
+- **Default 0.6111 (54%)** ensures content stays in safe zone
 - **0.75-0.85** works well if you've tested on various launchers
 - **Below 0.61** may cause clipping on some launchers
 
