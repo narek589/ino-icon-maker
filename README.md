@@ -19,36 +19,40 @@
 
 ## 📸 What You Get
 
+<div align="center">
+
 <table>
 <tr>
 <td width="50%" align="center">
 
-### iOS (19 icons)
+<img src="./docs/assets/ios-example.png" alt="iOS Icons Preview" width="95%" style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);"/>
 
-<img src="./docs/assets/ios-example.png" alt="iOS Icons" width="100%"/>
+### 🍎 iOS (19 icons)
 
-**AppIcon.appiconset/**
+**`AppIcon.appiconset/`**
 
-- iPhone, iPad, Watch
-- App Store (1024×1024)
-- Contents.json
+✓ iPhone, iPad, Watch  
+✓ App Store (1024×1024)  
+✓ Contents.json
 
 </td>
 <td width="50%" align="center">
 
-### Android (33 icons)
+<img src="./docs/assets/android-example.png" alt="Android Icons Preview" width="95%" style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);"/>
 
-<img src="./docs/assets/android-example.png" alt="Android Icons" width="100%"/>
+### 🤖 Android (33 icons)
 
-**mipmap-\*/ folders**
+**`mipmap-*/` folders**
 
-- Adaptive icons (API 26+)
-- Legacy + Round icons
-- All densities (ldpi-xxxhdpi)
+✓ Adaptive icons (API 26+)  
+✓ Legacy + Round icons  
+✓ All densities (ldpi-xxxhdpi)
 
 </td>
 </tr>
 </table>
+
+</div>
 
 ---
 
