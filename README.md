@@ -104,21 +104,21 @@ ino-icon generate [options]
 
 **Simple unified workflow**: Use `-fg` for your icon, optionally add `-bg` for background layer.
 
-| Option                   | Description                                     | Default   |
-| ------------------------ | ----------------------------------------------- | --------- |
-| `-fg <path>`             | **Foreground/main icon** (required)             | -         |
-| `-bg <path>`             | Background layer (image or hex color `#FF5722`) | `#111111` |
-| `-m <path>`              | Monochrome layer (Android adaptive icons)       | -         |
-| `-o <dir>`                | Output directory                                              | `icons`   |
-| `-p <platform>`           | Target platform: `ios`, `android`, `all`                      | `all`     |
-| `-z`                      | Create ZIP archive                                            | `false`   |
-| `-f`                      | Force overwrite existing files                                | `false`   |
-| `--install`               | Auto-install to React Native/Flutter project                  | `false`   |
-| `--fg-scale <n>`          | Scale foreground content (e.g., `2.0` = zoom in 2x)           | `1.0`     |
-| `--fg-scale-ios <n>`      | iOS-specific foreground content scale                         | `1.0`     |
-| `--fg-scale-android <n>`  | Android-specific foreground content scale                     | `1.0`     |
-| `--exclude <sizes>`       | Exclude sizes (e.g., `ldpi,20x20@2x`)                         | -         |
-| `--custom-config <path>`  | Path to JSON file with size customization                     | -         |
+| Option                   | Description                                         | Default   |
+| ------------------------ | --------------------------------------------------- | --------- |
+| `-fg <path>`             | **Foreground/main icon** (required)                 | -         |
+| `-bg <path>`             | Background layer (image or hex color `#FF5722`)     | `#111111` |
+| `-m <path>`              | Monochrome layer (Android adaptive icons)           | -         |
+| `-o <dir>`               | Output directory                                    | `icons`   |
+| `-p <platform>`          | Target platform: `ios`, `android`, `all`            | `all`     |
+| `-z`                     | Create ZIP archive                                  | `false`   |
+| `-f`                     | Force overwrite existing files                      | `false`   |
+| `--install`              | Auto-install to React Native/Flutter project        | `false`   |
+| `--fg-scale <n>`         | Scale foreground content (e.g., `2.0` = zoom in 2x) | `1.0`     |
+| `--fg-scale-ios <n>`     | iOS-specific foreground content scale               | `1.0`     |
+| `--fg-scale-android <n>` | Android-specific foreground content scale           | `1.0`     |
+| `--exclude <sizes>`      | Exclude sizes (e.g., `ldpi,20x20@2x`)               | -         |
+| `--custom-config <path>` | Path to JSON file with size customization           | -         |
 
 **Note**: `-fg` is required. `-bg` is optional and defaults to dark background (`#111111`)
 
