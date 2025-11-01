@@ -116,7 +116,7 @@ node cli.js generate --foreground ./my-logo.png --background "#FF0000" --platfor
 Verify that:
 
 1. The foreground image is centered with transparent padding
-2. The content doesn't appear too large (it should be ~61% of the total canvas)
+2. The content doesn't appear too large (it should be ~58% of the total canvas)
 3. Important details aren't cut off when viewed in different launcher shapes
 
 ## References
