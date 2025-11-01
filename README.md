@@ -19,57 +19,50 @@
 
 ## 📸 What You Get
 
+<table>
+<tr>
+<td width="50%" valign="top">
+
 <div align="center">
 
-### 🍎 iOS (19 icons)
+### 🍎 iOS
+**19 icons**
 
-<img src="./docs/assets/ios-example.png" alt="iOS Icons Preview" width="85%" style="border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.2); margin: 20px 0;"/>
-
-<table>
-<tr>
-<td align="center" width="33%">
-📱 <strong>iPhone & iPad</strong><br/>
-All device sizes
-</td>
-<td align="center" width="33%">
-⌚ <strong>Apple Watch</strong><br/>
-watchOS icons
-</td>
-<td align="center" width="33%">
-🏪 <strong>App Store</strong><br/>
-1024×1024 icon
-</td>
-</tr>
-</table>
-
-**Output:** `AppIcon.appiconset/` with 19 icons + `Contents.json`
-
----
-
-### 🤖 Android (33 icons)
-
-<img src="./docs/assets/android-example.png" alt="Android Icons Preview" width="85%" style="border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.2); margin: 20px 0;"/>
-
-<table>
-<tr>
-<td align="center" width="33%">
-🎨 <strong>Adaptive Icons</strong><br/>
-API 26+ layers
-</td>
-<td align="center" width="33%">
-⭕ <strong>Legacy Icons</strong><br/>
-Round & square
-</td>
-<td align="center" width="33%">
-📐 <strong>All Densities</strong><br/>
-ldpi to xxxhdpi
-</td>
-</tr>
-</table>
-
-**Output:** `mipmap-*/` folders with 33 icons across all densities
+<img src="./docs/assets/ios-example.png" alt="iOS Icons Preview" width="100%"/>
 
 </div>
+
+**Output:** `AppIcon.appiconset/`
+
+| Feature | Details |
+|---------|---------|
+| 📱 Devices | iPhone, iPad, Watch |
+| 🏪 App Store | 1024×1024 icon |
+| 📄 Metadata | Contents.json |
+
+</td>
+<td width="50%" valign="top">
+
+<div align="center">
+
+### 🤖 Android
+**33 icons**
+
+<img src="./docs/assets/android-example.png" alt="Android Icons Preview" width="100%"/>
+
+</div>
+
+**Output:** `mipmap-*/` folders
+
+| Feature | Details |
+|---------|---------|
+| 🎨 Adaptive | Foreground + Background |
+| ⭕ Legacy | Round & Square icons |
+| 📐 Densities | ldpi to xxxhdpi |
+
+</td>
+</tr>
+</table>
 
 ---
 
