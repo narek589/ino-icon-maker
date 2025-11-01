@@ -26,14 +26,19 @@
 <div align="center">
 
 ### 🍎 iOS
-
 **19 icons**
 
-<img src="./docs/assets/ios-example.png" alt="iOS Icons Preview" width="100%"/>
+<br/>
+
+<img src="./docs/assets/ios-example.png" alt="iOS Icons Preview" width="100%" height="280"/>
+
+<br/>
 
 </div>
 
 **Output:** `AppIcon.appiconset/`
+
+<br/>
 
 | Feature      | Details             |
 | ------------ | ------------------- |
@@ -47,14 +52,19 @@
 <div align="center">
 
 ### 🤖 Android
-
 **33 icons**
 
-<img src="./docs/assets/android-example.png" alt="Android Icons Preview" width="100%"/>
+<br/>
+
+<img src="./docs/assets/android-example.png" alt="Android Icons Preview" width="100%" height="280"/>
+
+<br/>
 
 </div>
 
 **Output:** `mipmap-*/` folders
+
+<br/>
 
 | Feature      | Details                 |
 | ------------ | ----------------------- |
