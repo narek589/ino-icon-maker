@@ -33,13 +33,11 @@
 
 <img src="./docs/assets/ios-example.png" alt="iOS Icons Preview" width="100%" height="280"/>
 
-<br/>
-
 </div>
 
-**Output:** `AppIcon.appiconset/`
+<div style="height: 20px;"></div>
 
-<br/>
+**Output:** `AppIcon.appiconset/`
 
 | Feature      | Details             |
 | ------------ | ------------------- |
@@ -60,18 +58,11 @@
 
 <img src="./docs/assets/android-example.png" alt="Android Icons Preview" width="100%" height="280"/>
 
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-
 </div>
 
-**Output:** `mipmap-*/` folders
+<div style="height: 20px;"></div>
 
-<br/>
+**Output:** `mipmap-*/` folders
 
 | Feature      | Details                 |
 | ------------ | ----------------------- |
