@@ -67,6 +67,74 @@ ino-icon generate -i icon.png
 
 ---
 
+## 📋 CLI Options
+
+### Generate Command
+
+```bash
+ino-icon generate [options]
+```
+
+| Option | Alias | Description | Default |
+|--------|-------|-------------|---------|
+| `-i, --input <path>` | | Path to source image | Required* |
+| `-o, --out <dir>` | | Output directory | `icons` |
+| `-p, --platform <platform>` | | Target platform (`ios`, `android`, `all`) | `all` |
+| `-z, --zip` | | Create ZIP archive of generated icons | `false` |
+| `-f, --force` | | Overwrite existing output directory | `false` |
+| `-fg, --foreground <path>` | | Foreground layer for adaptive icons | - |
+| `-bg, --background <path>` | | Background layer (image or hex color like `#FF5722`) | `#111111` |
+| `-m, --monochrome <path>` | | Monochrome layer for Android adaptive icons | - |
+| `--install` | | Auto-install to React Native/Flutter project | `false` |
+| `--scale <factor>` | | Scale all icon sizes (e.g., `1.2` for 20% larger) | `1.0` |
+| `--ios-scale <factor>` | | iOS-specific scale factor | `1.0` |
+| `--android-scale <factor>` | | Android-specific scale factor | `1.0` |
+| `--exclude <sizes>` | | Exclude sizes (e.g., `ldpi,20x20@2x`) | - |
+| `--custom-config <path>` | | Path to JSON file with size customization | - |
+| `-h, --help` | | Display help information | - |
+
+*Required unless using `-fg` for adaptive icons
+
+### Other Commands
+
+```bash
+# Show platform information
+ino-icon info
+
+# List supported platforms
+ino-icon platforms
+
+# Start HTTP API server
+ino-icon serve
+```
+
+### Usage Examples
+
+```bash
+# Generate for all platforms
+ino-icon generate -i icon.png
+
+# Generate for iOS only
+ino-icon generate -i icon.png -p ios
+
+# Generate Android adaptive icons
+ino-icon generate -fg foreground.png -bg "#FF5722" -p android
+
+# Create ZIP archive
+ino-icon generate -i icon.png -z
+
+# Scale all icons 20% larger
+ino-icon generate -i icon.png --scale 1.2
+
+# Exclude specific sizes
+ino-icon generate -i icon.png --exclude "ldpi,20x20@2x"
+
+# Auto-install to React Native project
+ino-icon generate -i icon.png --install
+```
+
+---
+
 ## 🔧 Framework Setup
 
 ### React Native
