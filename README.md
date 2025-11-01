@@ -2,7 +2,7 @@
 
 # 🚀 Ino Icon Maker
 
-**Generate iOS and Android app icons with unified layer-based workflow**
+**Professional mobile app icon generator for iOS and Android**
 
 [![npm version](https://img.shields.io/npm/v/ino-icon-maker.svg)](https://www.npmjs.com/package/ino-icon-maker)
 [![npm downloads](https://img.shields.io/npm/dm/ino-icon-maker.svg)](https://www.npmjs.com/package/ino-icon-maker)
@@ -15,20 +15,61 @@
 
 ---
 
-## 🆕 What's New in v1.1.0
+## 📖 Overview
 
-🎉 **Unified Layer-Based Workflow** - Both iOS and Android now support foreground/background layers!
+**Ino Icon Maker** is a comprehensive solution for generating production-ready mobile app icons for both iOS and Android platforms. Built with performance and developer experience in mind, it automates the entire icon generation workflow—from a single source image to platform-specific icon sets with proper naming, sizing, and metadata.
 
-- ✅ **iOS**: Auto-generates composite (background + centered foreground with configurable padding)
-- ✅ **Android**: Native adaptive icons with separate layers
-- ✅ **Default Background**: Uses `#111111` if not specified
-- ✅ **Configurable Padding**: Adjust iOS/Android zoom out percentage (default: iOS 90%, Android 61%)
+Whether you're building a React Native app, Flutter project, or native iOS/Android application, Ino Icon Maker eliminates the tedious manual work of creating dozens of icon variations. It supports modern requirements including **adaptive icons** for Android 8.0+, **unified layer-based workflows** for both platforms, and **customizable sizing** for specialized use cases.
+
+### Why Choose Ino Icon Maker?
+
+- **Zero Configuration**: Works out-of-the-box with platform best practices
+- **Modern Standards**: Full support for adaptive icons, all densities, and latest guidelines
+- **Developer Friendly**: CLI, programmatic API, and HTTP server—choose your interface
+- **Production Ready**: Generates all required sizes with proper naming and metadata
+- **Extensible**: Built on SOLID principles for easy customization and extension
+
+Perfect for solo developers and teams alike, Ino Icon Maker integrates seamlessly into your development workflow and CI/CD pipelines.
+
+---
+
+## 📸 Output Examples
+
+<div align="center">
+
+### iOS Icon Set
+<img src="./docs/assets/ios-example.png" alt="iOS Icon Output" width="700"/>
+
+*Complete iOS icon set with all required sizes and Contents.json*
+
+### Android Icon Set
+<img src="./docs/assets/android-example.png" alt="Android Icon Output" width="700"/>
+
+*Android adaptive icons with foreground, background, and legacy variants*
+
+</div>
+
+---
+
+## 🆕 What's New in v1.2.0
+
+🎉 **Custom Icon Sizes** - Full control over icon generation!
+
+- ✅ **Scale Icons**: Make all icons larger or smaller with a single factor
+- ✅ **Add Custom Sizes**: Include additional sizes not in defaults
+- ✅ **Exclude Sizes**: Skip specific sizes (e.g., low-density or monochrome)
+- ✅ **Platform-Specific**: Different customization for iOS and Android
+- ✅ **Best Practices**: Default sizes remain unchanged, fully optional
 
 ```bash
-# One command for both platforms with layers!
-curl -F "foreground=@fg.png" \
-  "http://localhost:3000/generate?platform=all&backgroundColor=%23FF5722" -o icons.zip
+# Scale all icons 20% larger
+ino-icon generate -i icon.png --scale 1.2
+
+# Exclude low-density and monochrome
+ino-icon generate -i icon.png -p android --exclude "ldpi,monochrome"
 ```
+
+[📖 Custom Sizes Guide](./docs/guides/CUSTOM_SIZES.md)
 
 ---
 
