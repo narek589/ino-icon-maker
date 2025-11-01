@@ -291,16 +291,8 @@ npm run dev
 
 <div align="center">
 
-## 📄 License
-
-MIT © [Narek Hambarcumyan](https://github.com/narek589)
-
----
-
 **Built with [Sharp](https://sharp.pixelplumbing.com/), [Archiver](https://www.archiverjs.com/), [Express](https://expressjs.com/)**
 
 **[⭐ Star this project](https://github.com/narek589/ino-icon-maker)** • [🐛 Issues](https://github.com/narek589/ino-icon-maker/issues) • [💬 Discussions](https://github.com/narek589/ino-icon-maker/discussions)
-
-Made with ❤️ by [Narek Hambarcumyan](https://github.com/narek589)
 
 </div>
