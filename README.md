@@ -21,36 +21,53 @@
 
 <div align="center">
 
-<table>
-<tr>
-<td width="50%" align="center">
-
-<img src="./docs/assets/ios-example.png" alt="iOS Icons Preview" width="95%" style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);"/>
-
 ### 🍎 iOS (19 icons)
 
-**`AppIcon.appiconset/`**
+<img src="./docs/assets/ios-example.png" alt="iOS Icons Preview" width="85%" style="border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.2); margin: 20px 0;"/>
 
-✓ iPhone, iPad, Watch  
-✓ App Store (1024×1024)  
-✓ Contents.json
-
+<table>
+<tr>
+<td align="center" width="33%">
+📱 <strong>iPhone & iPad</strong><br/>
+All device sizes
 </td>
-<td width="50%" align="center">
-
-<img src="./docs/assets/android-example.png" alt="Android Icons Preview" width="95%" style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);"/>
-
-### 🤖 Android (33 icons)
-
-**`mipmap-*/` folders**
-
-✓ Adaptive icons (API 26+)  
-✓ Legacy + Round icons  
-✓ All densities (ldpi-xxxhdpi)
-
+<td align="center" width="33%">
+⌚ <strong>Apple Watch</strong><br/>
+watchOS icons
+</td>
+<td align="center" width="33%">
+🏪 <strong>App Store</strong><br/>
+1024×1024 icon
 </td>
 </tr>
 </table>
+
+**Output:** `AppIcon.appiconset/` with 19 icons + `Contents.json`
+
+---
+
+### 🤖 Android (33 icons)
+
+<img src="./docs/assets/android-example.png" alt="Android Icons Preview" width="85%" style="border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.2); margin: 20px 0;"/>
+
+<table>
+<tr>
+<td align="center" width="33%">
+🎨 <strong>Adaptive Icons</strong><br/>
+API 26+ layers
+</td>
+<td align="center" width="33%">
+⭕ <strong>Legacy Icons</strong><br/>
+Round & square
+</td>
+<td align="center" width="33%">
+📐 <strong>All Densities</strong><br/>
+ldpi to xxxhdpi
+</td>
+</tr>
+</table>
+
+**Output:** `mipmap-*/` folders with 33 icons across all densities
 
 </div>
 
