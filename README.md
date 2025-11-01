@@ -75,25 +75,24 @@ ino-icon generate -i icon.png
 ino-icon generate [options]
 ```
 
-| Option | Alias | Description | Default |
-|--------|-------|-------------|---------|
-| `-i, --input <path>` | | Path to source image | Required* |
-| `-o, --out <dir>` | | Output directory | `icons` |
-| `-p, --platform <platform>` | | Target platform (`ios`, `android`, `all`) | `all` |
-| `-z, --zip` | | Create ZIP archive of generated icons | `false` |
-| `-f, --force` | | Overwrite existing output directory | `false` |
-| `-fg, --foreground <path>` | | Foreground layer for adaptive icons | - |
-| `-bg, --background <path>` | | Background layer (image or hex color like `#FF5722`) | `#111111` |
-| `-m, --monochrome <path>` | | Monochrome layer for Android adaptive icons | - |
-| `--install` | | Auto-install to React Native/Flutter project | `false` |
-| `--scale <factor>` | | Scale all icon sizes (e.g., `1.2` for 20% larger) | `1.0` |
-| `--ios-scale <factor>` | | iOS-specific scale factor | `1.0` |
-| `--android-scale <factor>` | | Android-specific scale factor | `1.0` |
-| `--exclude <sizes>` | | Exclude sizes (e.g., `ldpi,20x20@2x`) | - |
-| `--custom-config <path>` | | Path to JSON file with size customization | - |
-| `-h, --help` | | Display help information | - |
+| Option | Description | Default |
+|--------|-------------|---------|
+| `-i <path>` | Path to source image | Required\* |
+| `-o <dir>` | Output directory | `icons` |
+| `-p <platform>` | Target platform: `ios`, `android`, `all` | `all` |
+| `-fg <path>` | Foreground layer for adaptive icons | - |
+| `-bg <path>` | Background layer (image or hex color `#FF5722`) | `#111111` |
+| `-m <path>` | Monochrome layer for Android adaptive icons | - |
+| `-z` | Create ZIP archive | `false` |
+| `-f` | Force overwrite existing files | `false` |
+| `--install` | Auto-install to React Native/Flutter project | `false` |
+| `--scale <n>` | Scale all icons (e.g., `1.2` = 20% larger) | `1.0` |
+| `--ios-scale <n>` | iOS-specific scale factor | `1.0` |
+| `--android-scale <n>` | Android-specific scale factor | `1.0` |
+| `--exclude <sizes>` | Exclude sizes: `ldpi,20x20@2x` | - |
+| `--custom-config <path>` | JSON file with size customization | - |
 
-*Required unless using `-fg` for adaptive icons
+\*Required unless using `-fg` for adaptive icons
 
 ### Other Commands
 
