@@ -41,15 +41,14 @@
 		"cli",
 		"npx"
 	],
-	"author": "Narek Hambarcumyan <n.hambarcumyan@inorain.com>",
+	"author": "ino-icon-maker contributors (Special thanks to inorain)",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/narek589/ino-icon-maker.git"
 	},
 	"bugs": {
-		"url": "https://github.com/narek589/ino-icon-maker/issues",
-		"email": "n.hambarcumyan@inorain.com"
+		"url": "https://github.com/narek589/ino-icon-maker/issues"
 	},
 	"homepage": "https://github.com/narek589/ino-icon-maker#readme",
 	"funding": {

@@ -295,4 +295,10 @@ npm run dev
 
 **[⭐ Star this project](https://github.com/narek589/ino-icon-maker)** • [🐛 Issues](https://github.com/narek589/ino-icon-maker/issues) • [💬 Discussions](https://github.com/narek589/ino-icon-maker/discussions)
 
+---
+
+## 🙏 Acknowledgments
+
+Special thanks to **[inorain](https://github.com/inorain)** for inspiration and support in building this tool.
+
 </div>
