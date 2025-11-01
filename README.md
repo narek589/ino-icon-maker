@@ -38,14 +38,16 @@ Perfect for solo developers and teams alike, Ino Icon Maker integrates seamlessl
 <div align="center">
 
 ### iOS Icon Set
+
 <img src="./docs/assets/ios-example.png" alt="iOS Icon Output" width="700"/>
 
-*Complete iOS icon set with all required sizes and Contents.json*
+_Complete iOS icon set with all required sizes and Contents.json_
 
 ### Android Icon Set
+
 <img src="./docs/assets/android-example.png" alt="Android Icon Output" width="700"/>
 
-*Android adaptive icons with foreground, background, and legacy variants*
+_Android adaptive icons with foreground, background, and legacy variants_
 
 </div>
 
