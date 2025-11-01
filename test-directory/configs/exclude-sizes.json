@@ -1,0 +1,8 @@
+{
+  "android": {
+    "excludeSizes": ["ldpi", "monochrome"]
+  },
+  "ios": {
+    "excludeSizes": ["20x20@2x"]
+  }
+}
