@@ -109,16 +109,16 @@ ino-icon generate [options]
 | `-fg <path>`             | **Foreground/main icon** (required)             | -         |
 | `-bg <path>`             | Background layer (image or hex color `#FF5722`) | `#111111` |
 | `-m <path>`              | Monochrome layer (Android adaptive icons)       | -         |
-| `-o <dir>`               | Output directory                                | `icons`   |
-| `-p <platform>`          | Target platform: `ios`, `android`, `all`        | `all`     |
-| `-z`                     | Create ZIP archive                              | `false`   |
-| `-f`                     | Force overwrite existing files                  | `false`   |
-| `--install`              | Auto-install to React Native/Flutter project    | `false`   |
-| `--scale <n>`            | Scale all icons (e.g., `1.2` = 20% larger)      | `1.0`     |
-| `--ios-scale <n>`        | iOS-specific scale factor                       | `1.0`     |
-| `--android-scale <n>`    | Android-specific scale factor                   | `1.0`     |
-| `--exclude <sizes>`      | Exclude sizes (e.g., `ldpi,20x20@2x`)           | -         |
-| `--custom-config <path>` | Path to JSON file with size customization       | -         |
+| `-o <dir>`                | Output directory                                              | `icons`   |
+| `-p <platform>`           | Target platform: `ios`, `android`, `all`                      | `all`     |
+| `-z`                      | Create ZIP archive                                            | `false`   |
+| `-f`                      | Force overwrite existing files                                | `false`   |
+| `--install`               | Auto-install to React Native/Flutter project                  | `false`   |
+| `--fg-scale <n>`          | Scale foreground content (e.g., `2.0` = zoom in 2x)           | `1.0`     |
+| `--fg-scale-ios <n>`      | iOS-specific foreground content scale                         | `1.0`     |
+| `--fg-scale-android <n>`  | Android-specific foreground content scale                     | `1.0`     |
+| `--exclude <sizes>`       | Exclude sizes (e.g., `ldpi,20x20@2x`)                         | -         |
+| `--custom-config <path>`  | Path to JSON file with size customization                     | -         |
 
 **Note**: `-fg` is required. `-bg` is optional and defaults to dark background (`#111111`)
 
@@ -156,8 +156,8 @@ ino-icon generate -fg foreground.png -bg background.png -m monochrome.png
 # Create ZIP archive
 ino-icon generate -fg icon.png -z
 
-# Scale all icons 20% larger
-ino-icon generate -fg icon.png --scale 1.2
+# Zoom in foreground content 2x (for images with too much padding)
+ino-icon generate -fg icon.png --fg-scale 2.0
 
 # Auto-install to React Native/Flutter project
 ino-icon generate -fg icon.png --install
@@ -307,12 +307,22 @@ jobs:
 
 ## ⚙️ Custom Sizes
 
-### Scale All Icons
+### Scale Foreground Content
+
+Control how large the foreground appears inside the icon (useful for Figma exports with padding):
 
 ```bash
-ino-icon generate -fg icon.png --scale 1.2  # 20% larger
-ino-icon generate -fg icon.png --scale 0.8  # 20% smaller
+# Zoom in foreground 2x (for images with too much padding from Figma)
+ino-icon generate -fg icon.png --fg-scale 2.0
+
+# Zoom out foreground (add more padding)
+ino-icon generate -fg icon.png --fg-scale 0.5
+
+# Platform-specific scaling
+ino-icon generate -fg icon.png --fg-scale-ios 1.5 --fg-scale-android 2.0
 ```
+
+**Note:** This scales the foreground content size, not the output file dimensions. File sizes remain correct (e.g., iOS 1024×1024, Android 48×48).
 
 ### Exclude Sizes
 
