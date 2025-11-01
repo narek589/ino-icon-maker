@@ -26,6 +26,7 @@
 <div align="center">
 
 ### 🍎 iOS
+
 **19 icons**
 
 <img src="./docs/assets/ios-example.png" alt="iOS Icons Preview" width="100%"/>
@@ -34,11 +35,11 @@
 
 **Output:** `AppIcon.appiconset/`
 
-| Feature | Details |
-|---------|---------|
-| 📱 Devices | iPhone, iPad, Watch |
-| 🏪 App Store | 1024×1024 icon |
-| 📄 Metadata | Contents.json |
+| Feature      | Details             |
+| ------------ | ------------------- |
+| 📱 Devices   | iPhone, iPad, Watch |
+| 🏪 App Store | 1024×1024 icon      |
+| 📄 Metadata  | Contents.json       |
 
 </td>
 <td width="50%" valign="top">
@@ -46,6 +47,7 @@
 <div align="center">
 
 ### 🤖 Android
+
 **33 icons**
 
 <img src="./docs/assets/android-example.png" alt="Android Icons Preview" width="100%"/>
@@ -54,11 +56,11 @@
 
 **Output:** `mipmap-*/` folders
 
-| Feature | Details |
-|---------|---------|
-| 🎨 Adaptive | Foreground + Background |
-| ⭕ Legacy | Round & Square icons |
-| 📐 Densities | ldpi to xxxhdpi |
+| Feature      | Details                 |
+| ------------ | ----------------------- |
+| 🎨 Adaptive  | Foreground + Background |
+| ⭕ Legacy    | Round & Square icons    |
+| 📐 Densities | ldpi to xxxhdpi         |
 
 </td>
 </tr>
