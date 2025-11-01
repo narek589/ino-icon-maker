@@ -299,6 +299,6 @@ npm run dev
 
 ## 🙏 Acknowledgments
 
-Special thanks to **[inorain](https://github.com/inorain)** for inspiration and support in building this tool.
+Special thanks to **inorain** for inspiration and support in building this tool.
 
 </div>
