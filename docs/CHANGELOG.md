@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.2] - 2025-11-01
+
+### Changed
+
+- **Restructured README**: Complete overhaul for better user experience
+- Visual-first layout with side-by-side iOS/Android output images at top
+- Removed long "Overview" section - now action-oriented
+- Added practical framework setup sections (React Native, Flutter, Node.js, HTTP, CI/CD)
+- Added clear supported sizes tables for iOS and Android
+- Added custom config examples with tables
+- Reduced from 537 lines to 307 lines (40% shorter)
+- More scannable, less text, more code examples
+
 ## [1.2.1] - 2025-11-01
 
 ### Changed
