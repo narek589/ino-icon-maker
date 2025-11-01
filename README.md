@@ -28,6 +28,7 @@
 <img src="./docs/assets/ios-example.png" alt="iOS Icons" width="100%"/>
 
 **AppIcon.appiconset/**
+
 - iPhone, iPad, Watch
 - App Store (1024×1024)
 - Contents.json
@@ -39,7 +40,8 @@
 
 <img src="./docs/assets/android-example.png" alt="Android Icons" width="100%"/>
 
-**mipmap-*/ folders**
+**mipmap-\*/ folders**
+
 - Adaptive icons (API 26+)
 - Legacy + Round icons
 - All densities (ldpi-xxxhdpi)
@@ -170,29 +172,29 @@ jobs:
 
 ### iOS Icons
 
-| Size       | Scale      | Pixels  | Usage            |
-| ---------- | ---------- | ------- | ---------------- |
-| 20×20      | @2x, @3x   | 40, 60  | Notification     |
-| 29×29      | @2x, @3x   | 58, 87  | Settings         |
-| 40×40      | @2x, @3x   | 80, 120 | Spotlight        |
-| 60×60      | @2x, @3x   | 120,180 | iPhone App       |
-| 76×76      | @2x        | 152     | iPad App         |
-| 83.5×83.5  | @2x        | 167     | iPad Pro         |
-| 1024×1024  | @1x        | 1024    | App Store        |
+| Size      | Scale    | Pixels  | Usage        |
+| --------- | -------- | ------- | ------------ |
+| 20×20     | @2x, @3x | 40, 60  | Notification |
+| 29×29     | @2x, @3x | 58, 87  | Settings     |
+| 40×40     | @2x, @3x | 80, 120 | Spotlight    |
+| 60×60     | @2x, @3x | 120,180 | iPhone App   |
+| 76×76     | @2x      | 152     | iPad App     |
+| 83.5×83.5 | @2x      | 167     | iPad Pro     |
+| 1024×1024 | @1x      | 1024    | App Store    |
 
 **Total: 19 icons**
 
 ### Android Icons
 
-| Density  | Size      | Usage                      |
-| -------- | --------- | -------------------------- |
-| ldpi     | 36×36     | Low density (120 dpi)      |
-| mdpi     | 48×48     | Medium density (160 dpi)   |
-| hdpi     | 72×72     | High density (240 dpi)     |
-| xhdpi    | 96×96     | Extra-high (320 dpi)       |
-| xxhdpi   | 144×144   | Extra-extra-high (480 dpi) |
-| xxxhdpi  | 192×192   | Extra³-high (640 dpi)      |
-| playstore| 512×512   | Google Play Store          |
+| Density   | Size    | Usage                      |
+| --------- | ------- | -------------------------- |
+| ldpi      | 36×36   | Low density (120 dpi)      |
+| mdpi      | 48×48   | Medium density (160 dpi)   |
+| hdpi      | 72×72   | High density (240 dpi)     |
+| xhdpi     | 96×96   | Extra-high (320 dpi)       |
+| xxhdpi    | 144×144 | Extra-extra-high (480 dpi) |
+| xxxhdpi   | 192×192 | Extra³-high (640 dpi)      |
+| playstore | 512×512 | Google Play Store          |
 
 **+ Adaptive icons (foreground, background, monochrome)**  
 **Total: 33 icons**
@@ -261,14 +263,14 @@ ino-icon generate -i icon.png --custom-config custom-sizes.json
 
 ## 📚 More Resources
 
-| Resource                                                   | Description                |
-| ---------------------------------------------------------- | -------------------------- |
-| [Custom Sizes Guide](./docs/guides/CUSTOM_SIZES.md)       | Scale, add, exclude sizes  |
-| [Adaptive Icons Guide](./docs/guides/ADAPTIVE_ICONS.md)   | Android adaptive icons     |
-| [Icon Padding Config](./docs/guides/ICON_PADDING_CONFIG.md) | Configure zoom/padding   |
-| [Complete Examples](./docs/examples/COMPLETE_EXAMPLES.md) | All usage examples         |
-| [Architecture Docs](./docs/architecture/ARCHITECTURE.md)  | Technical design           |
-| [Changelog](./docs/CHANGELOG.md)                          | Version history            |
+| Resource                                                    | Description               |
+| ----------------------------------------------------------- | ------------------------- |
+| [Custom Sizes Guide](./docs/guides/CUSTOM_SIZES.md)         | Scale, add, exclude sizes |
+| [Adaptive Icons Guide](./docs/guides/ADAPTIVE_ICONS.md)     | Android adaptive icons    |
+| [Icon Padding Config](./docs/guides/ICON_PADDING_CONFIG.md) | Configure zoom/padding    |
+| [Complete Examples](./docs/examples/COMPLETE_EXAMPLES.md)   | All usage examples        |
+| [Architecture Docs](./docs/architecture/ARCHITECTURE.md)    | Technical design          |
+| [Changelog](./docs/CHANGELOG.md)                            | Version history           |
 
 **[📍 Full Documentation](./docs/DOCUMENTATION_MAP.md)**
 
