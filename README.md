@@ -56,11 +56,14 @@
 
 ```bash
 # NPX (no install needed)
-npx ino-icon-maker generate -i icon.png
+npx ino-icon-maker generate -fg icon.png
 
 # Or install globally
 npm install -g ino-icon-maker
-ino-icon generate -i icon.png
+ino-icon generate -fg icon.png
+
+# With custom background
+ino-icon generate -fg icon.png -bg "#FF5722"
 ```
 
 **That's it!** Generates icons for both iOS and Android in `./icons/` directory.
@@ -69,42 +72,31 @@ ino-icon generate -i icon.png
 
 ## 📋 CLI Options
 
-### Two Generation Modes
-
-**Mode 1: Regular Icons** (most common)
-- Use `-i <image>` to generate all icons from a single image
-- Works for both iOS and Android
-- Generates all standard sizes
-
-**Mode 2: Adaptive Icons** (Android 8.0+ only)
-- Use `-fg <foreground>` + `-bg <background>` for layered icons
-- Creates adaptive icons with separate layers
-- Only for Android platform
-
 ### Generate Command
 
 ```bash
 ino-icon generate [options]
 ```
 
-| Option                   | Description                                     | Default    |
-| ------------------------ | ----------------------------------------------- | ---------- |
-| `-i <path>`              | **Regular mode**: Source image (1024×1024+)     | -          |
-| `-fg <path>`             | **Adaptive mode**: Foreground layer             | -          |
-| `-bg <path>`             | **Adaptive mode**: Background (image or color)  | `#111111`  |
-| `-m <path>`              | Monochrome layer (optional for adaptive)        | -          |
-| `-o <dir>`               | Output directory                                | `icons`    |
-| `-p <platform>`          | Target: `ios`, `android`, `all`                 | `all`      |
-| `-z`                     | Create ZIP archive                              | `false`    |
-| `-f`                     | Force overwrite existing files                  | `false`    |
-| `--install`              | Auto-install to React Native/Flutter project    | `false`    |
-| `--scale <n>`            | Scale all icons (e.g., `1.2` = 20% larger)      | `1.0`      |
-| `--ios-scale <n>`        | iOS-specific scale factor                       | `1.0`      |
-| `--android-scale <n>`    | Android-specific scale factor                   | `1.0`      |
-| `--exclude <sizes>`      | Exclude sizes: `ldpi,20x20@2x`                  | -          |
-| `--custom-config <path>` | JSON file with size customization               | -          |
+**Simple unified workflow**: Use `-fg` for your icon, optionally add `-bg` for background layer.
 
-**Note**: Either `-i` OR `-fg` is required (not both)
+| Option                   | Description                                      | Default   |
+| ------------------------ | ------------------------------------------------ | --------- |
+| `-fg <path>`             | **Foreground/main icon** (required)              | -         |
+| `-bg <path>`             | Background layer (image or hex color `#FF5722`)  | `#111111` |
+| `-m <path>`              | Monochrome layer (Android adaptive icons)        | -         |
+| `-o <dir>`               | Output directory                                 | `icons`   |
+| `-p <platform>`          | Target platform: `ios`, `android`, `all`         | `all`     |
+| `-z`                     | Create ZIP archive                               | `false`   |
+| `-f`                     | Force overwrite existing files                   | `false`   |
+| `--install`              | Auto-install to React Native/Flutter project     | `false`   |
+| `--scale <n>`            | Scale all icons (e.g., `1.2` = 20% larger)       | `1.0`     |
+| `--ios-scale <n>`        | iOS-specific scale factor                        | `1.0`     |
+| `--android-scale <n>`    | Android-specific scale factor                    | `1.0`     |
+| `--exclude <sizes>`      | Exclude sizes (e.g., `ldpi,20x20@2x`)            | -         |
+| `--custom-config <path>` | Path to JSON file with size customization        | -         |
+
+**Note**: `-fg` is required. `-bg` is optional and defaults to dark background (`#111111`)
 
 ### Other Commands
 
@@ -121,49 +113,36 @@ ino-icon serve
 
 ### Usage Examples
 
-**Regular Icons (use `-i` for single image):**
-
 ```bash
-# Generate for all platforms
-ino-icon generate -i icon.png
+# Generate for all platforms (iOS + Android)
+ino-icon generate -fg icon.png
 
 # Generate for iOS only
-ino-icon generate -i icon.png -p ios
+ino-icon generate -fg icon.png -p ios
 
-# Create ZIP archive
-ino-icon generate -i icon.png -z
+# With custom background color
+ino-icon generate -fg icon.png -bg "#FF5722"
 
-# Scale all icons 20% larger
-ino-icon generate -i icon.png --scale 1.2
-
-# Auto-install to React Native project
-ino-icon generate -i icon.png --install
-```
-
-**Adaptive Icons (use `-fg` + `-bg` for layers):**
-
-```bash
-# Android adaptive icons with foreground + background
-ino-icon generate -fg foreground.png -bg background.png -p android
-
-# With background color instead of image
-ino-icon generate -fg foreground.png -bg "#FF5722" -p android
+# With background image
+ino-icon generate -fg foreground.png -bg background.png
 
 # With all three layers (foreground, background, monochrome)
-ino-icon generate -fg foreground.png -bg background.png -m monochrome.png -p android
+ino-icon generate -fg foreground.png -bg background.png -m monochrome.png
 
-# Install adaptive icons to project
-ino-icon generate -fg foreground.png -bg "#FF5722" --install
-```
+# Create ZIP archive
+ino-icon generate -fg icon.png -z
 
-**Other Examples:**
+# Scale all icons 20% larger
+ino-icon generate -fg icon.png --scale 1.2
 
-```bash
+# Auto-install to React Native/Flutter project
+ino-icon generate -fg icon.png --install
+
 # Exclude specific sizes
-ino-icon generate -i icon.png --exclude "ldpi,20x20@2x"
+ino-icon generate -fg icon.png --exclude "ldpi,20x20@2x"
 
 # Custom config file
-ino-icon generate -i icon.png --custom-config config.json
+ino-icon generate -fg icon.png --custom-config config.json
 ```
 
 ---
@@ -175,7 +154,7 @@ ino-icon generate -i icon.png --custom-config config.json
 ```bash
 # Auto-install to project
 cd my-react-native-app
-ino-icon generate -i assets/icon.png --install
+ino-icon generate -fg assets/icon.png --install
 ```
 
 **Or add to package.json:**
@@ -183,7 +162,7 @@ ino-icon generate -i assets/icon.png --install
 ```json
 {
 	"scripts": {
-		"icons": "ino-icon generate -i assets/icon.png --install"
+		"icons": "ino-icon generate -fg assets/icon.png --install"
 	}
 }
 ```
@@ -191,7 +170,7 @@ ino-icon generate -i assets/icon.png --install
 **Manual installation:**
 
 ```bash
-ino-icon generate -i icon.png -o temp
+ino-icon generate -fg icon.png -o temp
 cp -r temp/AppIcon.appiconset ios/YourApp/Images.xcassets/
 cp -r temp/android-icons/* android/app/src/main/res/
 rm -rf temp
