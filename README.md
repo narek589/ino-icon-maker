@@ -333,19 +333,14 @@ ino-icon generate -fg icon.png --exclude "monochrome"
 ino-icon generate -fg icon.png --exclude "20x20,29x29"
 ```
 
-### Platform-Specific
-
-```bash
-ino-icon generate -fg icon.png --ios-scale 1.1 --android-scale 1.3
-```
-
 ### Custom Config File
+
+Create a config file for advanced customization:
 
 **custom-sizes.json:**
 
 ```json
 {
-	"scale": 1.2,
 	"ios": {
 		"excludeSizes": ["20x20@2x"]
 	},

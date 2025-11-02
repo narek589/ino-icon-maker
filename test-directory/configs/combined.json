@@ -1,18 +1,16 @@
 {
-  "scale": 1.1,
-  "android": {
-    "excludeSizes": ["ldpi"],
-    "addSizes": [
-      {
-        "density": "xxxxhdpi",
-        "size": 256,
-        "folder": "mipmap-xxxxhdpi",
-        "filename": "ic_launcher.png"
-      }
-    ]
-  },
-  "ios": {
-    "excludeSizes": ["20x20"],
-    "scale": 1.2
-  }
+	"android": {
+		"excludeSizes": ["ldpi"],
+		"addSizes": [
+			{
+				"density": "xxxxhdpi",
+				"size": 256,
+				"folder": "mipmap-xxxxhdpi",
+				"filename": "ic_launcher.png"
+			}
+		]
+	},
+	"ios": {
+		"excludeSizes": ["20x20"]
+	}
 }

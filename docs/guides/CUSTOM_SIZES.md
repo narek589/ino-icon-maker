@@ -2,13 +2,19 @@
 
 > **Note**: Customizing icon sizes is an advanced feature. The default sizes follow platform best practices and are recommended for most use cases.
 
+## Quick Reference
+
+| Feature              | CLI            | Config File          | Programmatic API | HTTP API         |
+| -------------------- | -------------- | -------------------- | ---------------- | ---------------- |
+| **Add custom sizes** | ❌             | ✅ `--custom-config` | ✅ `customSizes` | ✅ `customSizes` |
+| **Exclude sizes**    | ✅ `--exclude` | ✅ `--custom-config` | ✅ `customSizes` | ✅ `customSizes` |
+
 ## Overview
 
 The Custom Sizes feature allows you to:
 
-1. **Scale** all default icon sizes by a factor
-2. **Add** custom sizes not included in defaults
-3. **Exclude** specific sizes from generation
+1. **Add** custom sizes not included in defaults
+2. **Exclude** specific sizes from generation
 
 **Important**: You cannot override existing default size values to maintain platform best practices.
 
@@ -16,7 +22,6 @@ The Custom Sizes feature allows you to:
 
 ### Good Use Cases ✅
 
-- **Scaling for specific requirements**: Project requires all icons 20% larger
 - **Adding platform-specific sizes**: Custom icon size for a specific device
 - **Optimizing bundle size**: Exclude low-density icons for modern-only apps
 - **Special requirements**: Skip monochrome icons if not needed
@@ -31,9 +36,7 @@ The Custom Sizes feature allows you to:
 
 ```javascript
 {
-  scale: 1.2,                    // Global scale factor (optional)
   ios: {
-    scale: 1.1,                  // Platform-specific scale (optional)
     addSizes: [                  // Add custom sizes (optional)
       {
         size: "1024x1024",
@@ -47,7 +50,6 @@ The Custom Sizes feature allows you to:
     ]
   },
   android: {
-    scale: 1.3,                  // Platform-specific scale (optional)
     addSizes: [                  // Add custom sizes (optional)
       {
         density: "xxxxhdpi",
@@ -69,23 +71,7 @@ The Custom Sizes feature allows you to:
 
 ### CLI Usage
 
-#### 1. Scale All Icons
-
-Make all icons 20% larger:
-
-```bash
-ino-icon generate -fg icon.png -o ./output --scale 1.2
-```
-
-#### 2. Platform-Specific Scaling
-
-Scale iOS icons by 1.1x and Android by 1.3x:
-
-```bash
-ino-icon generate -fg icon.png -o ./output --ios-scale 1.1 --android-scale 1.3
-```
-
-#### 3. Exclude Specific Sizes
+#### 1. Exclude Specific Sizes
 
 Skip low-density and monochrome Android icons:
 
@@ -99,13 +85,12 @@ Exclude specific iOS sizes:
 ino-icon generate -fg icon.png -o ./output -p ios --exclude "20x20@2x,29x29@3x"
 ```
 
-#### 4. Use Custom Config File
+#### 2. Use Custom Config File
 
 Create a JSON file (e.g., `custom-sizes.json`):
 
 ```json
 {
-	"scale": 1.2,
 	"android": {
 		"excludeSizes": ["ldpi", "monochrome"],
 		"addSizes": [
@@ -128,19 +113,7 @@ ino-icon generate -fg icon.png -o ./output --custom-config custom-sizes.json
 
 ### Programmatic API Usage
 
-#### 1. Basic Scale
-
-```javascript
-import { generateIconsForPlatform } from "ino-icon-maker";
-
-await generateIconsForPlatform("ios", "./icon.png", "./output", {
-	customSizes: {
-		scale: 1.2, // 20% larger
-	},
-});
-```
-
-#### 2. Add Custom Sizes
+#### 1. Add Custom Sizes
 
 ```javascript
 import { generateIconsForPlatform } from "ino-icon-maker";
@@ -160,7 +133,7 @@ await generateIconsForPlatform("ios", "./icon.png", "./output", {
 });
 ```
 
-#### 3. Exclude Sizes
+#### 2. Exclude Sizes
 
 ```javascript
 import { generateIconsForPlatform } from "ino-icon-maker";
@@ -174,7 +147,7 @@ await generateIconsForPlatform("android", "./icon.png", "./output", {
 });
 ```
 
-#### 4. Combination
+#### 3. Combination
 
 ```javascript
 import { generateIconsForMultiplePlatforms } from "ino-icon-maker";
@@ -185,12 +158,10 @@ await generateIconsForMultiplePlatforms(
 	"./output",
 	{
 		customSizes: {
-			scale: 1.1, // Global 10% scale
 			ios: {
 				excludeSizes: ["20x20@2x"],
 			},
 			android: {
-				scale: 1.2, // Override global for Android
 				excludeSizes: ["ldpi", "monochrome"],
 			},
 		},
@@ -199,7 +170,7 @@ await generateIconsForMultiplePlatforms(
 );
 ```
 
-#### 5. Using QuickGenerate
+#### 4. Using QuickGenerate
 
 ```javascript
 import { quickGenerate } from "ino-icon-maker";
@@ -209,7 +180,6 @@ await quickGenerate({
 	output: "./output",
 	platform: "all",
 	customSizes: {
-		scale: 1.2,
 		android: {
 			excludeSizes: ["monochrome"],
 		},
@@ -225,26 +195,16 @@ await quickGenerate({
 curl -X POST http://localhost:3000/generate \
   -F "file=@icon.png" \
   -F "platform=ios" \
-  -F 'customSizes={"scale":1.2}'
+  -F 'customSizes={"ios":{"excludeSizes":["20x20@2x"]}}'
 ```
 
-#### 2. With JSON Body
-
-```bash
-curl -X POST http://localhost:3000/generate \
-  -F "file=@icon.png" \
-  -F "platform=android" \
-  -F 'customSizes={"android":{"excludeSizes":["ldpi","monochrome"]}}'
-```
-
-#### 3. Complex Configuration
+#### 2. Complex Configuration
 
 ```bash
 curl -X POST http://localhost:3000/generate \
   -F "file=@icon.png" \
   -F "platform=all" \
   -F 'customSizes={
-    "scale": 1.1,
     "ios": {
       "addSizes": [
         {
@@ -375,24 +335,6 @@ curl -X POST http://localhost:3000/generate \
 }
 ```
 
-## Scale Factors
-
-### Recommended Scale Factors
-
-- **0.8 - 1.0**: Slightly smaller icons (use cautiously)
-- **1.0**: Default (no scaling)
-- **1.1 - 1.3**: Slightly larger (most common custom range)
-- **1.5 - 2.0**: Significantly larger (use with care)
-
-### Scale Factor Warnings
-
-The tool will warn you if:
-
-- Scale factor < 0.5 (too small)
-- Scale factor > 3.0 (too large)
-
-Scale factors outside 0.5-3.0 are rejected.
-
 ## Best Practices
 
 ### 1. Test Your Custom Sizes
@@ -400,32 +342,19 @@ Scale factors outside 0.5-3.0 are rejected.
 Always test generated icons on actual devices:
 
 ```bash
+# Create custom config
+echo '{"ios": {"excludeSizes": ["20x20@2x"]}}' > custom-sizes.json
+
 # Generate with custom sizes
-ino-icon generate -fg icon.png -o ./test-output --scale 1.2
+ino-icon generate -fg icon.png -o ./test-output --custom-config custom-sizes.json
 
 # Install to your project
-ino-icon generate -fg icon.png -o ./test-output --scale 1.2 --install
+ino-icon generate -fg icon.png -o ./test-output --custom-config custom-sizes.json --install
 
 # Test on device
 ```
 
-### 2. Use Scale Sparingly
-
-Prefer default sizes when possible:
-
-```javascript
-// ❌ Bad: Arbitrary scaling without reason
-customSizes: {
-	scale: 1.23;
-}
-
-// ✅ Good: Scale for specific requirement
-customSizes: {
-	scale: 1.1;
-} // 10% larger for better visibility
-```
-
-### 3. Exclude Wisely
+### 2. Exclude Wisely
 
 Only exclude sizes you genuinely don't need:
 
@@ -441,14 +370,13 @@ android: {
 }
 ```
 
-### 4. Document Custom Configurations
+### 3. Document Custom Configurations
 
 Save custom configs as JSON files with comments (in documentation):
 
 ```javascript
 // custom-sizes.json
 {
-  "scale": 1.2,
   "android": {
     "excludeSizes": ["ldpi", "monochrome"]
   }
@@ -457,7 +385,7 @@ Save custom configs as JSON files with comments (in documentation):
 
 Add to project docs explaining why custom sizes are needed.
 
-### 5. Combine with Adaptive Icons
+### 4. Combine with Adaptive Icons
 
 Custom sizes work with adaptive icons:
 
@@ -476,21 +404,18 @@ The tool validates all custom size configurations:
 
 ### What Gets Validated
 
-1. **Scale factors**: Must be numbers between 0 and 5
-2. **Custom size format**: Required fields present
-3. **Exclusion patterns**: Must be strings
-4. **JSON syntax**: Valid JSON if using config file
+1. **Custom size format**:
+   - iOS: Requires `size`, `scale`, and `filename` fields
+   - Android: Requires `density`, `size` (number), `folder`, and `filename` fields
+2. **Exclusion patterns**: Must be array of strings
+3. **JSON syntax**: Must be valid JSON if using config file
+4. **Data types**: Customization must be an object, platform configs must be objects
 
 ### Validation Errors
 
 Common validation errors and fixes:
 
 ```javascript
-// ❌ Invalid: Scale too high
-{ scale: 10 }
-// ✅ Fix: Use reasonable scale
-{ scale: 1.5 }
-
 // ❌ Invalid: Missing required field
 {
   ios: {
@@ -533,7 +458,6 @@ const manager = new SizeConfigManager();
 
 // Validate custom configuration
 const validation = manager.validateSizeCustomization({
-	scale: 1.2,
 	ios: { excludeSizes: ["20x20@2x"] },
 });
 
@@ -542,7 +466,7 @@ if (!validation.valid) {
 } else {
 	// Use in generation
 	await generateIconsForPlatform("ios", "./icon.png", "./output", {
-		customSizes: { scale: 1.2, ios: { excludeSizes: ["20x20@2x"] } },
+		customSizes: { ios: { excludeSizes: ["20x20@2x"] } },
 	});
 }
 ```
@@ -562,12 +486,6 @@ cat custom-sizes.json | jq .
 # Fix any syntax errors, then retry
 ino-icon generate -fg icon.png -o ./output --custom-config custom-sizes.json
 ```
-
-### Issue: "customSizes must be between 0 and 5"
-
-**Cause**: Scale factor outside valid range
-
-**Fix**: Use scale factor between 0.5 and 3.0 (recommended)
 
 ### Issue: Custom size not appearing
 
@@ -595,7 +513,7 @@ ino-icon generate -fg icon.png -o ./output --custom-config custom-sizes.json
 
 ## See Also
 
-- [Icon Padding Configuration](./ICON_PADDING_CONFIG.md)
+- [Icon Padding Configuration](./ICON_PADDING_CONFIG.md) - For content scaling (`--fg-scale`)
 - [Quick Start Guide](./QUICK_START.md)
 - [CLI Usage Examples](../examples/CLI_USAGE.md)
 - [API Usage Examples](../examples/API_USAGE.md)

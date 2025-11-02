@@ -184,13 +184,8 @@ run_test "Both platforms (iOS + Android)" \
 run_test "Generate with ZIP archive" \
     iim generate -i input/icon.png -o output/test4-zip -p all -z -f
 
-# TEST 5: Scale all icons 1.2x
-run_test "Scale all icons by 1.2" \
-    iim generate -i input/icon.png -o output/test5-scale --scale 1.2 -f
-
-# TEST 6: Platform-specific scales
-run_test "iOS scale 1.1, Android scale 1.3" \
-    iim generate -i input/icon.png -o output/test6-platform-scale --ios-scale 1.1 --android-scale 1.3 -f
+# TEST 5: Removed (scale functionality removed)
+# TEST 6: Removed (scale functionality removed)
 
 # TEST 7: Exclude Android ldpi
 run_test "Exclude Android ldpi density" \
@@ -200,13 +195,8 @@ run_test "Exclude Android ldpi density" \
 run_test "Exclude ldpi and monochrome" \
     iim generate -i input/icon.png -o output/test8-exclude-multi -p android --exclude "ldpi,monochrome" -f
 
-# TEST 9: Custom config - scale up
-run_test "Custom config: scale up" \
-    iim generate -i input/icon.png -o output/test9-config-scale --custom-config configs/scale-up.json -f
-
-# TEST 10: Custom config - platform scales
-run_test "Custom config: platform-specific scales" \
-    iim generate -i input/icon.png -o output/test10-config-platforms --custom-config configs/platform-scales.json -f
+# TEST 9: Removed (scale functionality removed)
+# TEST 10: Removed (scale functionality removed)
 
 # TEST 11: Custom config - exclude sizes
 run_test "Custom config: exclude sizes" \
@@ -228,25 +218,25 @@ run_test "Android adaptive icons with background color" \
 run_test "Android adaptive icons with background image" \
     iim generate -p android -fg input/foreground.png -bg input/background.png -o output/test15-adaptive-image -f
 
-# TEST 16: Adaptive + custom scale
-run_test "Adaptive icons with custom scale" \
-    iim generate -p android -fg input/foreground.png -bg input/background.png -o output/test16-adaptive-scale --scale 1.15 -f
-
-# TEST 17: Adaptive + exclude monochrome
+# TEST 16: Adaptive + exclude monochrome (moved from TEST 17, scale test removed)
 run_test "Adaptive icons excluding monochrome" \
-    iim generate -p android -fg input/foreground.png -bg input/background.png -o output/test17-adaptive-no-mono --exclude "monochrome" -f
+    iim generate -p android -fg input/foreground.png -bg input/background.png -o output/test16-adaptive-no-mono --exclude "monochrome" -f
 
-# TEST 18: iOS only with scale
-run_test "iOS with 1.5x scale" \
-    iim generate -i input/icon.png -o output/test18-ios-scale -p ios --scale 1.5 -f
+# TEST 17: iOS with custom config exclude
+run_test "iOS: exclude small sizes" \
+    iim generate -i input/icon.png -o output/test17-ios-exclude -p ios --exclude "20x20@2x,29x29@3x" -f
 
-# TEST 19: Android with scale and exclude
-run_test "Android: scale 0.9x + exclude ldpi" \
-    iim generate -i input/icon.png -o output/test19-android-combo -p android --scale 0.9 --exclude "ldpi" -f
+# TEST 18: Android with exclude only (removed scale)
+run_test "Android: exclude ldpi" \
+    iim generate -i input/icon.png -o output/test18-android-exclude -p android --exclude "ldpi" -f
 
-# TEST 20: All platforms with ZIP and scale
-run_test "All platforms: ZIP + scale 1.1x" \
-    iim generate -i input/icon.png -o output/test20-all-zip-scale -p all -z --scale 1.1 -f
+# TEST 19: All platforms with ZIP (removed scale)
+run_test "All platforms: ZIP archive" \
+    iim generate -i input/icon.png -o output/test19-all-zip -p all -z -f
+
+# TEST 20: Combined: Custom config with exclude + addSizes
+run_test "Combined: exclude + addSizes via config" \
+    iim generate -i input/icon.png -o output/test20-combined --custom-config configs/combined.json -f
 
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"

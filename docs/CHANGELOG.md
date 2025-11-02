@@ -5,6 +5,36 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Removed
+
+- **🚨 BREAKING CHANGE**: Removed file size scaling feature (`customSizes.scale`)
+  - Removed `customSizes.scale` (global scale factor)
+  - Removed `customSizes.ios.scale` and `customSizes.android.scale` (platform-specific scaling)
+  - **Reason**: Simplifies codebase - file size scaling is rarely needed. Users should use platform defaults or add specific custom sizes instead.
+  - **What remains**: `addSizes` and `excludeSizes` functionality still fully supported
+  - **Alternative**: Use `--fg-scale` for content/padding adjustment (different feature, still available)
+
+### Migration
+
+If you were using scale factors:
+
+**Before:**
+
+```javascript
+customSizes: {
+  scale: 1.2,
+  ios: { scale: 1.1 }
+}
+```
+
+**After:**
+
+- Remove scale configuration - not supported
+- OR use `--fg-scale` if you need content scaling (zooms content, doesn't change file dimensions)
+- OR manually add specific sizes using `addSizes` if you need different file dimensions
+
 ## [1.2.4] - 2025-11-01
 
 ### Fixed
@@ -54,14 +84,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- **Custom Icon Sizes**: Users can now customize icon generation with scale factors, add custom sizes, or exclude specific sizes
-  - Scale all icons by a factor (e.g., `--scale 1.2` for 20% larger icons)
+- **Custom Icon Sizes**: Users can now customize icon generation by adding custom sizes or excluding specific sizes
+  - ~~Scale all icons by a factor~~ _(Feature removed in later version)_
   - Add custom sizes not in defaults (e.g., add "1024x1024@3x" for iOS)
   - Exclude specific sizes from generation (e.g., skip "monochrome" or "ldpi" for Android)
 - **New CLI flags**:
-  - `--scale <factor>` - Global scale factor for all icons
-  - `--ios-scale <factor>` - iOS-specific scale factor
-  - `--android-scale <factor>` - Android-specific scale factor
+  - ~~`--scale <factor>`~~ _(Removed in later version)_
+  - ~~`--ios-scale <factor>`~~ _(Removed in later version)_
+  - ~~`--android-scale <factor>`~~ _(Removed in later version)_
   - `--exclude <sizes>` - Comma-separated sizes to exclude
   - `--custom-config <path>` - Path to JSON file with full customization
 - **New SizeConfigManager class**: Core size customization logic with validation

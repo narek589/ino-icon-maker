@@ -13,7 +13,7 @@ import {
 } from "../setup.js";
 import path from "path";
 import { existsSync } from "fs";
-import { mkdir } from "fs/promises";
+import { mkdir, writeFile, unlink } from "fs/promises";
 
 const execAsync = promisify(exec);
 
@@ -126,16 +126,28 @@ describe("CLI E2E", () => {
 	});
 
 	describe("Custom Sizes", () => {
-		test("should scale icons with --scale flag", async () => {
+		test("should use custom config file for exclusions", async () => {
 			const iconPath = getTestIcon();
+			const configPath = path.join(testOutputDir, "custom-sizes.json");
+
+			// Create custom config file with exclusions
+			await writeFile(
+				configPath,
+				JSON.stringify({
+					ios: { excludeSizes: ["20x20@2x"] },
+				})
+			);
 
 			await execAsync(
-				`${CLI_CMD} generate -i "${iconPath}" -o "${testOutputDir}" -p ios -f --scale 1.2`
+				`${CLI_CMD} generate -i "${iconPath}" -o "${testOutputDir}" -p ios -f --custom-config "${configPath}"`
 			);
 
 			expect(existsSync(path.join(testOutputDir, "AppIcon.appiconset"))).toBe(
 				true
 			);
+
+			// Cleanup config file
+			await unlink(configPath).catch(() => {});
 		}, 30000);
 
 		test("should exclude sizes with --exclude flag", async () => {
