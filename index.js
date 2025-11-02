@@ -79,9 +79,8 @@ export { IconGeneratorFactory } from "./lib/IconGeneratorFactory.js";
  * @param {string} options.adaptiveIcon.background - Path to background layer image or hex color (e.g., '#FF5722')
  * @param {string} [options.adaptiveIcon.monochrome] - Path to monochrome layer image (optional)
  * @param {Object} [options.customSizes] - Custom size configuration (optional)
- * @param {number} [options.customSizes.scale] - Global scale factor for all icons
- * @param {Object} [options.customSizes.ios] - iOS-specific customization
- * @param {Object} [options.customSizes.android] - Android-specific customization
+ * @param {Object} [options.customSizes.ios] - iOS-specific customization (addSizes, excludeSizes)
+ * @param {Object} [options.customSizes.android] - Android-specific customization (addSizes, excludeSizes)
  * @returns {Promise<Object|Array>} Generation result(s)
  *
  * @example
@@ -112,7 +111,6 @@ export { IconGeneratorFactory } from "./lib/IconGeneratorFactory.js";
  *   input: './icon.png',
  *   output: './output',
  *   customSizes: {
- *     scale: 1.2,  // Make all icons 20% larger
  *     android: {
  *       excludeSizes: ['ldpi', 'monochrome']  // Skip low-density and monochrome
  *     }

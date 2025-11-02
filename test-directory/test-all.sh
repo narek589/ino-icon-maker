@@ -72,20 +72,7 @@ fi
 # Create custom config files
 echo "📝 Creating custom config files..."
 
-# Config 1: Scale up
-cat > configs/scale-up.json << 'CONF1'
-{
-  "scale": 1.2
-}
-CONF1
-
-# Config 2: Platform-specific scales
-cat > configs/platform-scales.json << 'CONF2'
-{
-  "ios": { "scale": 1.1 },
-  "android": { "scale": 1.3 }
-}
-CONF2
+# Note: scale-up.json and platform-scales.json removed - scale feature no longer supported
 
 # Config 3: Exclude sizes
 cat > configs/exclude-sizes.json << 'CONF3'
@@ -124,27 +111,7 @@ cat > configs/add-custom.json << 'CONF4'
 }
 CONF4
 
-# Config 5: Combined customization
-cat > configs/combined.json << 'CONF5'
-{
-  "scale": 1.1,
-  "android": {
-    "excludeSizes": ["ldpi"],
-    "addSizes": [
-      {
-        "density": "xxxxhdpi",
-        "size": 256,
-        "folder": "mipmap-xxxxhdpi",
-        "filename": "ic_launcher.png"
-      }
-    ]
-  },
-  "ios": {
-    "excludeSizes": ["20x20"],
-    "scale": 1.2
-  }
-}
-CONF5
+# Config 5: Combined customization (already exists, no need to recreate)
 
 echo "✅ Config files created"
 echo ""

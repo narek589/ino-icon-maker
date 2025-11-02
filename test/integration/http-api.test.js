@@ -249,7 +249,7 @@ describe("HTTP API", () => {
 
 			const iconPath = getTestIcon();
 			const customSizes = JSON.stringify({
-				scale: 1.2,
+				android: { excludeSizes: ["ldpi"] },
 			});
 
 			const fs = await import("fs/promises");

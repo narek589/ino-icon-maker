@@ -225,13 +225,12 @@ await quickGenerate({
 	zip: true,
 });
 
-// With custom sizes
+// With size exclusions
 await quickGenerate({
 	input: "./icon.png",
 	output: "./output",
 	customSizes: {
-		scale: 1.2,
-		android: { excludeSizes: ["ldpi"] },
+		android: { excludeSizes: ["ldpi", "monochrome"] },
 	},
 });
 ```
@@ -245,9 +244,9 @@ ino-icon serve -p 3000
 # Generate icons
 curl -F "file=@icon.png" http://localhost:3000/generate -o icons.zip
 
-# With custom sizes
+# With size exclusions
 curl -F "file=@icon.png" \
-  -F 'customSizes={"scale":1.2}' \
+  -F 'customSizes={"android":{"excludeSizes":["ldpi"]}}' \
   http://localhost:3000/generate -o icons.zip
 ```
 
