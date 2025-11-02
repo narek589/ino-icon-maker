@@ -225,6 +225,21 @@ await quickGenerate({
 	zip: true,
 });
 
+// With foreground content scaling (zoom in/out)
+await quickGenerate({
+	input: "./icon.png",
+	output: "./output",
+	fgScale: 2.0, // Zoom in 2x (for images with too much padding)
+});
+
+// Platform-specific foreground scaling
+await quickGenerate({
+	input: "./icon.png",
+	output: "./output",
+	fgScaleIos: 1.5,
+	fgScaleAndroid: 2.0,
+});
+
 // With size exclusions
 await quickGenerate({
 	input: "./icon.png",
@@ -243,6 +258,11 @@ ino-icon serve -p 3000
 
 # Generate icons
 curl -F "file=@icon.png" http://localhost:3000/generate -o icons.zip
+
+# With foreground content scaling
+curl -F "file=@icon.png" \
+  -F "fgScale=2.0" \
+  http://localhost:3000/generate -o icons.zip
 
 # With size exclusions
 curl -F "file=@icon.png" \
