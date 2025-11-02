@@ -23,21 +23,19 @@
 <tr>
 <td width="50%" valign="top">
 
-<div align="center">
-
 ### 🍎 iOS
 
-**19 icons**
+<div align="center">
+
+**19 icons** • `AppIcon.appiconset/`
 
 <br/>
 
-<img src="./docs/assets/ios-example.png" alt="iOS Icons Preview" width="95%" height="280"/>
+<img src="./docs/assets/ios-example.png" alt="iOS Icons Preview" width="100%"/>
 
 </div>
 
-<div style="height: 20px;"></div>
-
-**Output:** `AppIcon.appiconset/`
+<br/>
 
 | Feature      | Details             |
 | ------------ | ------------------- |
@@ -48,21 +46,19 @@
 </td>
 <td width="50%" valign="top">
 
-<div align="center">
-
 ### 🤖 Android
 
-**33 icons**
+<div align="center">
+
+**33 icons** • `mipmap-*/` folders
 
 <br/>
 
-<img src="./docs/assets/android-example.png" alt="Android Icons Preview" width="95%" height="280"/>
+<img src="./docs/assets/android-example.png" alt="Android Icons Preview" width="100%"/>
 
 </div>
 
-<div style="height: 50px;"></div>
-
-**Output:** `mipmap-*/` folders
+<br/>
 
 | Feature      | Details                 |
 | ------------ | ----------------------- |
