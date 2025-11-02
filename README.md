@@ -31,7 +31,7 @@
 
 <br/>
 
-<img src="./docs/assets/ios-example.png" alt="iOS Icons Preview" width="100%" height="280"/>
+<img src="./docs/assets/ios-example.png" alt="iOS Icons Preview" width="95%" height="280"/>
 
 </div>
 
@@ -56,11 +56,11 @@
 
 <br/>
 
-<img src="./docs/assets/android-example.png" alt="Android Icons Preview" width="100%" height="280"/>
+<img src="./docs/assets/android-example.png" alt="Android Icons Preview" width="95%" height="280"/>
 
 </div>
 
-<div style="height: 20px;"></div>
+<div style="height: 50px;"></div>
 
 **Output:** `mipmap-*/` folders
 
