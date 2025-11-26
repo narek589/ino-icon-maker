@@ -71,7 +71,7 @@ export { IconGeneratorFactory } from "./lib/IconGeneratorFactory.js";
  * @param {Object} options - Generation options
  * @param {string} [options.input] - Path to source image (JPEG, PNG, WebP) - for legacy mode or iOS
  * @param {string} options.output - Output directory
- * @param {string} [options.platform=Platform.ALL] - Platform: Platform.IOS, Platform.ANDROID, or Platform.ALL
+ * @param {string} [options.platform=Platform.All] - Platform: Platform.IOS, Platform.ANDROID, or Platform.All
  * @param {boolean} [options.zip=false] - Create ZIP archive
  * @param {boolean} [options.force=false] - Overwrite existing files
  * @param {Object} [options.adaptiveIcon] - Adaptive icon configuration (Android only)
@@ -81,6 +81,9 @@ export { IconGeneratorFactory } from "./lib/IconGeneratorFactory.js";
  * @param {Object} [options.customSizes] - Custom size configuration (optional)
  * @param {Object} [options.customSizes.ios] - iOS-specific customization (addSizes, excludeSizes)
  * @param {Object} [options.customSizes.android] - Android-specific customization (addSizes, excludeSizes)
+ * @param {number} [options.fgScale] - Scale foreground content for all platforms (e.g., 2.0 = zoom in 2x)
+ * @param {number} [options.fgScaleIos] - Scale foreground content for iOS only
+ * @param {number} [options.fgScaleAndroid] - Scale foreground content for Android only
  * @returns {Promise<Object|Array>} Generation result(s)
  *
  * @example
@@ -136,11 +139,14 @@ export async function quickGenerate(options) {
 	const {
 		input,
 		output,
-		platform = Platform.ALL,
+		platform = Platform.All,
 		zip = false,
 		force = false,
 		adaptiveIcon,
 		customSizes,
+		fgScale,
+		fgScaleIos,
+		fgScaleAndroid,
 	} = options;
 
 	// Validate that either input OR adaptiveIcon is provided
@@ -179,6 +185,17 @@ export async function quickGenerate(options) {
 	// Add custom sizes if provided
 	if (customSizes) {
 		genOptions.customSizes = customSizes;
+	}
+
+	// Add foreground scale options if provided
+	if (fgScale !== undefined) {
+		genOptions.fgScale = fgScale;
+	}
+	if (fgScaleIos !== undefined) {
+		genOptions.fgScaleIos = fgScaleIos;
+	}
+	if (fgScaleAndroid !== undefined) {
+		genOptions.fgScaleAndroid = fgScaleAndroid;
 	}
 
 	if (platforms.length === 1) {
