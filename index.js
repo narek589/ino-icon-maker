@@ -69,15 +69,21 @@ export { IconGeneratorFactory } from "./lib/IconGeneratorFactory.js";
  * Quick start function - Generate icons with minimal configuration
  *
  * @param {Object} options - Generation options
- * @param {string} [options.input] - Path to source image (JPEG, PNG, WebP) - for legacy mode or iOS
+ * @param {string} [options.input] - Path to source image (JPEG, PNG, WebP) - for single image mode
  * @param {string} options.output - Output directory
  * @param {string} [options.platform=Platform.All] - Platform: Platform.IOS, Platform.ANDROID, or Platform.All
  * @param {boolean} [options.zip=false] - Create ZIP archive
  * @param {boolean} [options.force=false] - Overwrite existing files
- * @param {Object} [options.adaptiveIcon] - Adaptive icon configuration (Android only)
+ * 
+ * @param {string} [options.foreground] - Path to foreground layer image (CLI-style, same as CLI -fg)
+ * @param {string} [options.background] - Path to background layer or hex color like '#FF5722' (CLI-style, same as CLI -bg)
+ * @param {string} [options.monochrome] - Path to monochrome layer image (CLI-style, same as CLI -m)
+ * 
+ * @param {Object} [options.adaptiveIcon] - Adaptive icon configuration (alternative to foreground/background)
  * @param {string} options.adaptiveIcon.foreground - Path to foreground layer image
  * @param {string} options.adaptiveIcon.background - Path to background layer image or hex color (e.g., '#FF5722')
  * @param {string} [options.adaptiveIcon.monochrome] - Path to monochrome layer image (optional)
+ * 
  * @param {Object} [options.customSizes] - Custom size configuration (optional)
  * @param {Object} [options.customSizes.ios] - iOS-specific customization (addSizes, excludeSizes)
  * @param {Object} [options.customSizes.android] - Android-specific customization (addSizes, excludeSizes)
@@ -89,7 +95,7 @@ export { IconGeneratorFactory } from "./lib/IconGeneratorFactory.js";
  * @example
  * import { quickGenerate } from 'ino-icon-maker';
  *
- * // Generate for both platforms (legacy mode)
+ * // Simple mode - single image for both platforms
  * await quickGenerate({
  *   input: './my-icon.png',
  *   output: './output',
@@ -97,7 +103,25 @@ export { IconGeneratorFactory } from "./lib/IconGeneratorFactory.js";
  * });
  *
  * @example
- * // Generate Android adaptive icons
+ * // CLI-style - foreground + background (works exactly like CLI)
+ * await quickGenerate({
+ *   foreground: './icon.png',
+ *   background: '#FF5722',
+ *   output: './output',
+ *   fgScale: 1.2
+ * });
+ *
+ * @example
+ * // With all three layers
+ * await quickGenerate({
+ *   foreground: './foreground.png',
+ *   background: './background.png',
+ *   monochrome: './monochrome.png',
+ *   output: './output'
+ * });
+ *
+ * @example
+ * // Alternative syntax using adaptiveIcon object
  * await quickGenerate({
  *   output: './output',
  *   platform: 'android',
@@ -147,12 +171,26 @@ export async function quickGenerate(options) {
 		fgScale,
 		fgScaleIos,
 		fgScaleAndroid,
+		// CLI-style parameters (same as CLI)
+		foreground,
+		background,
+		monochrome,
 	} = options;
 
-	// Validate that either input OR adaptiveIcon is provided
-	if (!input && !adaptiveIcon) {
+	// Build adaptiveIcon from CLI-style parameters if provided
+	let finalAdaptiveIcon = adaptiveIcon;
+	if (foreground) {
+		finalAdaptiveIcon = {
+			foreground,
+			background: background || null, // null defaults to #111111
+			monochrome,
+		};
+	}
+
+	// Validate that either input OR adaptiveIcon/foreground is provided
+	if (!input && !finalAdaptiveIcon) {
 		throw new Error(
-			"Either 'input' or 'adaptiveIcon' configuration is required"
+			"Either 'input', 'foreground', or 'adaptiveIcon' configuration is required"
 		);
 	}
 
@@ -178,8 +216,8 @@ export async function quickGenerate(options) {
 	};
 
 	// Add adaptive icon configuration if provided
-	if (adaptiveIcon) {
-		genOptions.adaptiveIcon = adaptiveIcon;
+	if (finalAdaptiveIcon) {
+		genOptions.adaptiveIcon = finalAdaptiveIcon;
 	}
 
 	// Add custom sizes if provided
@@ -207,7 +245,7 @@ export async function quickGenerate(options) {
 		);
 	} else {
 		// Handle mixed mode (iOS + Android with adaptive)
-		if (adaptiveIcon) {
+		if (finalAdaptiveIcon) {
 			// Generate iOS with standard input
 			const iosResult = input
 				? await generateIconsForPlatform(Platform.IOS, input, output, {

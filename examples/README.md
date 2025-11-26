@@ -12,9 +12,26 @@ npm install
 
 ## 📋 Available Examples
 
-### 1. Basic Usage (`basic-usage.js`)
+### 1. Simple Node.js Usage (`node-simple.js`) ⭐ **RECOMMENDED**
 
-Demonstrates the simplest way to generate icons.
+The easiest way to use ino-icon-maker - works exactly like the CLI!
+
+```bash
+node examples/node-simple.js
+```
+
+**What it does:**
+
+- Uses CLI-style parameters (`foreground`, `background`)
+- Same simple API as command line
+- Perfect for automation scripts
+- Includes foreground scaling
+
+**Output:** `output/`
+
+### 2. Basic Usage (`basic-usage.js`)
+
+Demonstrates various generation modes.
 
 ```bash
 node examples/basic-usage.js
@@ -29,7 +46,7 @@ node examples/basic-usage.js
 
 **Output:** `temp/basic-*/`
 
-### 2. Adaptive Icons (`adaptive-icons.js`)
+### 3. Adaptive Icons (`adaptive-icons.js`)
 
 Shows how to generate Android adaptive icons with layers.
 
@@ -46,7 +63,7 @@ node examples/adaptive-icons.js
 
 **Output:** `temp/adaptive-*/`
 
-### 3. Express Integration (`express-integration.js`)
+### 4. Express Integration (`express-integration.js`)
 
 Complete Express.js API server with icon generation endpoints.
 
@@ -73,7 +90,7 @@ curl -F "file=@icon.png" \
   -o android.zip
 ```
 
-### 4. Build Script (`build-script.js`)
+### 5. Build Script (`build-script.js`)
 
 Environment-specific build script for different deployment scenarios.
 
@@ -202,7 +219,8 @@ npm start
 ```
 examples/
 ├── README.md                    # This file
-├── basic-usage.js              # Simple generation examples
+├── node-simple.js              # Simple Node.js API (CLI-style) ⭐
+├── basic-usage.js              # Multiple generation modes
 ├── adaptive-icons.js           # Android adaptive icons
 ├── express-integration.js      # Express API server
 └── build-script.js             # Build automation
