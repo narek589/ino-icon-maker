@@ -29,57 +29,47 @@ async function main() {
 		// Example 1: Foreground + Background Image
 		console.log("Example 1: Foreground + Background Image");
 		await quickGenerate({
+			foreground: exampleImage,
+			background: exampleImage, // In real projects, use different image
 			output: join(__dirname, "../temp/adaptive-images"),
 			platform: Platform.ANDROID,
 			force: true,
-			adaptiveIcon: {
-				foreground: exampleImage,
-				background: exampleImage, // In real projects, use different image
-			},
 		});
 		console.log("✅ Generated adaptive icons with image background\n");
 
 		// Example 2: Foreground + Background Color
 		console.log("Example 2: Foreground + Background Color");
 		await quickGenerate({
+			foreground: exampleImage,
+			background: "#FF5722", // Material Orange
 			output: join(__dirname, "../temp/adaptive-color"),
 			platform: Platform.ANDROID,
 			force: true,
-			adaptiveIcon: {
-				foreground: exampleImage,
-				background: "#FF5722", // Material Orange
-			},
 		});
 		console.log("✅ Generated adaptive icons with color background\n");
 
 		// Example 3: With Monochrome Layer
 		console.log("Example 3: With Monochrome Layer");
 		await quickGenerate({
+			foreground: exampleImage,
+			background: "#2196F3", // Material Blue
+			monochrome: exampleImage, // In real projects, use monochrome version
 			output: join(__dirname, "../temp/adaptive-monochrome"),
 			platform: Platform.ANDROID,
 			force: true,
-			adaptiveIcon: {
-				foreground: exampleImage,
-				background: "#2196F3", // Material Blue
-				monochrome: exampleImage, // In real projects, use monochrome version
-			},
 		});
 		console.log("✅ Generated adaptive icons with monochrome layer\n");
 
-		// Example 4: iOS + Android Adaptive
-		console.log("Example 4: iOS + Android Adaptive (Mixed Mode)");
+		// Example 4: iOS + Android (both platforms)
+		console.log("Example 4: iOS + Android (both platforms)");
 		await quickGenerate({
-			input: exampleImage, // For iOS
+			foreground: exampleImage,
+			background: "#4CAF50", // Material Green
 			output: join(__dirname, "../temp/adaptive-mixed"),
-			platform: Platform.ALL,
+			platform: Platform.All,
 			force: true,
-			adaptiveIcon: {
-				// For Android
-				foreground: exampleImage,
-				background: "#4CAF50", // Material Green
-			},
 		});
-		console.log("✅ Generated iOS standard + Android adaptive icons\n");
+		console.log("✅ Generated icons for iOS and Android\n");
 
 		console.log("✅ All adaptive icon examples completed successfully!");
 		console.log("\nOutput directories:");

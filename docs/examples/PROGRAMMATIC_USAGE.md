@@ -28,7 +28,7 @@ import { quickGenerate } from "ino-icon-maker";
 
 // Generate icons for both platforms
 await quickGenerate({
-	input: "./icon.png",
+	foreground: "./icon.png",
 	output: "./icons",
 	platform: "all",
 });
@@ -42,22 +42,23 @@ await quickGenerate({
 
 #### `quickGenerate(options)`
 
-High-level function for quick icon generation.
+High-level function for quick icon generation. Works exactly like the CLI.
 
 **Parameters:**
 
 ```typescript
 {
-  input?: string;           // Source image path (required for iOS or legacy mode)
+  foreground: string;       // Icon/foreground image path (required, same as -fg)
+  background?: string;      // Background layer path or hex color like '#FF5722' (optional, defaults to '#111111')
+  monochrome?: string;      // Monochrome layer path (optional, same as -m)
   output: string;           // Output directory (required)
   platform?: string;        // 'ios', 'android', or 'all' (default: 'all')
   zip?: boolean;            // Create ZIP archive (default: false)
   force?: boolean;          // Overwrite existing files (default: false)
-  adaptiveIcon?: {          // Android adaptive icon configuration
-    foreground: string;     // Foreground layer path (required)
-    background: string;     // Background layer path or hex color (optional)
-    monochrome?: string;    // Monochrome layer path (optional)
-  };
+  fgScale?: number;         // Scale foreground content (e.g., 2.0 = zoom in 2x)
+  fgScaleIos?: number;      // iOS-specific foreground scale
+  fgScaleAndroid?: number;  // Android-specific foreground scale
+  customSizes?: object;     // Custom size configuration
 }
 ```
 
@@ -158,7 +159,7 @@ Create a ZIP archive.
 import { quickGenerate } from "ino-icon-maker";
 
 await quickGenerate({
-	input: "./assets/icon.png",
+	foreground: "./assets/icon.png",
 	output: "./output/icons",
 	platform: "all",
 });
@@ -172,7 +173,7 @@ console.log("✅ Icons generated successfully!");
 import { quickGenerate } from "ino-icon-maker";
 
 await quickGenerate({
-	input: "./assets/icon.png",
+	foreground: "./assets/icon.png",
 	output: "./output/ios-icons",
 	platform: "ios",
 });
@@ -184,7 +185,7 @@ await quickGenerate({
 import { quickGenerate } from "ino-icon-maker";
 
 await quickGenerate({
-	input: "./assets/icon.png",
+	foreground: "./assets/icon.png",
 	output: "./output/android-icons",
 	platform: "android",
 });
@@ -196,7 +197,7 @@ await quickGenerate({
 import { quickGenerate } from "ino-icon-maker";
 
 const result = await quickGenerate({
-	input: "./assets/icon.png",
+	foreground: "./assets/icon.png",
 	output: "./output/icons",
 	platform: "all",
 	zip: true,
@@ -259,7 +260,7 @@ await quickGenerate({
 import { quickGenerate } from "ino-icon-maker";
 
 await quickGenerate({
-	input: "./assets/icon.png", // For iOS
+	foreground: "./assets/icon.png", // For iOS
 	output: "./output/icons",
 	platform: "all",
 	adaptiveIcon: {
@@ -327,7 +328,7 @@ async function buildIcons() {
 	console.log(`Building ${env} icons...`);
 
 	const result = await quickGenerate({
-		input: iconPath,
+		foreground: iconPath,
 		output: "./build/icons",
 		platform: "all",
 		force: true,
@@ -369,7 +370,7 @@ app.post("/generate-icons", upload.single("icon"), async (req, res) => {
 		const tempDir = await mkdtemp(join(tmpdir(), "icons-"));
 
 		const result = await quickGenerate({
-			input: req.file.path,
+			foreground: req.file.path,
 			output: tempDir,
 			platform: platform,
 			zip: true,
@@ -400,7 +401,7 @@ import { quickGenerate } from "ino-icon-maker";
 class IconGeneratorPlugin {
 	constructor(options = {}) {
 		this.options = {
-			input: "./assets/icon.png",
+			foreground: "./assets/icon.png",
 			output: "./dist/icons",
 			platform: "all",
 			...options,
@@ -428,7 +429,7 @@ export default {
 	// ...
 	plugins: [
 		new IconGeneratorPlugin({
-			input: "./src/assets/icon.png",
+			foreground: "./src/assets/icon.png",
 			output: "./dist/icons",
 			platform: "all",
 		}),
@@ -445,7 +446,7 @@ import { quickGenerate } from "ino-icon-maker";
 
 gulp.task("icons", async () => {
 	await quickGenerate({
-		input: "./src/assets/icon.png",
+		foreground: "./src/assets/icon.png",
 		output: "./dist/icons",
 		platform: "all",
 		force: true,
@@ -454,7 +455,7 @@ gulp.task("icons", async () => {
 
 gulp.task("icons:dev", async () => {
 	await quickGenerate({
-		input: "./src/assets/icon-dev.png",
+		foreground: "./src/assets/icon-dev.png",
 		output: "./dist/icons",
 		platform: "all",
 		force: true,
@@ -463,7 +464,7 @@ gulp.task("icons:dev", async () => {
 
 gulp.task("icons:prod", async () => {
 	await quickGenerate({
-		input: "./src/assets/icon-prod.png",
+		foreground: "./src/assets/icon-prod.png",
 		output: "./dist/icons",
 		platform: "all",
 		force: true,
@@ -491,7 +492,7 @@ async function generateAppIcons() {
 
 		// Generate icons
 		await quickGenerate({
-			input: "./assets/icon.png",
+			foreground: "./assets/icon.png",
 			output: tempDir,
 			platform: "all",
 			force: true,
@@ -555,7 +556,7 @@ async function generateFlutterIcons() {
 		console.log("🎨 Generating Flutter app icons...\n");
 
 		await quickGenerate({
-			input: "./assets/icon.png",
+			foreground: "./assets/icon.png",
 			output: tempDir,
 			platform: "all",
 			force: true,
@@ -605,7 +606,7 @@ import { quickGenerate } from "ino-icon-maker";
 
 try {
 	await quickGenerate({
-		input: "./icon.png",
+		foreground: "./icon.png",
 		output: "./icons",
 		platform: "all",
 	});
@@ -639,7 +640,7 @@ if (!isValid) {
 
 // Generate icons
 await quickGenerate({
-	input: iconPath,
+	foreground: iconPath,
 	output: "./icons",
 	platform: "all",
 });
@@ -653,7 +654,7 @@ import { quickGenerate, getSupportedPlatforms } from "ino-icon-maker";
 async function generateWithFallback(platform) {
 	try {
 		await quickGenerate({
-			input: "./icon.png",
+			foreground: "./icon.png",
 			output: "./icons",
 			platform: platform,
 		});
@@ -665,7 +666,7 @@ async function generateWithFallback(platform) {
 		for (const p of platforms) {
 			try {
 				await quickGenerate({
-					input: "./icon.png",
+					foreground: "./icon.png",
 					output: `./icons/${p}`,
 					platform: p,
 				});
@@ -701,7 +702,7 @@ describe("Icon Generation", () => {
 
 	test("should generate iOS icons", async () => {
 		await quickGenerate({
-			input: "./test-icon.png",
+			foreground: "./test-icon.png",
 			output: outputDir,
 			platform: "ios",
 		});
@@ -711,7 +712,7 @@ describe("Icon Generation", () => {
 
 	test("should generate Android icons", async () => {
 		await quickGenerate({
-			input: "./test-icon.png",
+			foreground: "./test-icon.png",
 			output: outputDir,
 			platform: "android",
 		});
@@ -752,7 +753,7 @@ async function generateIcons(options: GenerateOptions): Promise<void> {
 
 // Usage
 await generateIcons({
-	input: "./icon.png",
+	foreground: "./icon.png",
 	output: "./icons",
 	platform: "all",
 	zip: true,

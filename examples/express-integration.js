@@ -59,7 +59,7 @@ app.post("/generate", upload.single("icon"), async (req, res) => {
 		// Generate icons
 		console.log("   Generating icons...");
 		const result = await quickGenerate({
-			input: req.file.path,
+			foreground: req.file.path,
 			output: tempDir,
 			platform: platform,
 			zip: createZip,

@@ -41,7 +41,7 @@ describe("Programmatic API", () => {
 			const iconPath = getTestIcon();
 
 			const result = await quickGenerate({
-				input: iconPath,
+				foreground: iconPath,
 				output: testOutputDir,
 				platform: "all",
 				force: true,
@@ -56,7 +56,7 @@ describe("Programmatic API", () => {
 			const iconPath = getTestIcon();
 
 			const result = await quickGenerate({
-				input: iconPath,
+				foreground: iconPath,
 				output: testOutputDir,
 				platform: "ios",
 				force: true,
@@ -70,7 +70,7 @@ describe("Programmatic API", () => {
 			const iconPath = getTestIcon();
 
 			const result = await quickGenerate({
-				input: iconPath,
+				foreground: iconPath,
 				output: testOutputDir,
 				platform: "android",
 				force: true,
@@ -84,7 +84,7 @@ describe("Programmatic API", () => {
 			const iconPath = getTestIcon();
 
 			const result = await quickGenerate({
-				input: iconPath,
+				foreground: iconPath,
 				output: testOutputDir,
 				platform: "ios",
 				force: true,
@@ -100,13 +100,11 @@ describe("Programmatic API", () => {
 			const backgroundPath = getTestBackground();
 
 			const result = await quickGenerate({
+				foreground: foregroundPath,
+				background: backgroundPath,
 				output: testOutputDir,
 				platform: "android",
 				force: true,
-				adaptiveIcon: {
-					foreground: foregroundPath,
-					background: backgroundPath,
-				},
 			});
 
 			expect(result.success).toBe(true);
@@ -251,7 +249,7 @@ describe("Programmatic API", () => {
 		test("should handle invalid input path gracefully", async () => {
 			await expect(
 				quickGenerate({
-					input: "non-existent.png",
+					foreground: "non-existent.png",
 					output: testOutputDir,
 					platform: "ios",
 					force: true,
@@ -264,7 +262,7 @@ describe("Programmatic API", () => {
 
 			await expect(
 				quickGenerate({
-					input: iconPath,
+					foreground: iconPath,
 					output: "", // Empty output
 					platform: "ios",
 					force: true,

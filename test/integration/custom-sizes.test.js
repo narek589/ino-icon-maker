@@ -29,7 +29,7 @@ describe("Custom Sizes", () => {
 			const iconPath = getTestIcon();
 
 			const result = await quickGenerate({
-				input: iconPath,
+				foreground: iconPath,
 				output: testOutputDir,
 				platform: "ios",
 				force: true,
@@ -47,7 +47,7 @@ describe("Custom Sizes", () => {
 			const iconPath = getTestIcon();
 
 			const result = await quickGenerate({
-				input: iconPath,
+				foreground: iconPath,
 				output: testOutputDir,
 				platform: "android",
 				force: true,
@@ -72,7 +72,7 @@ describe("Custom Sizes", () => {
 			const iconPath = getTestIcon();
 
 			const result = await quickGenerate({
-				input: iconPath,
+				foreground: iconPath,
 				output: testOutputDir,
 				platform: "android",
 				force: true,
@@ -92,7 +92,7 @@ describe("Custom Sizes", () => {
 			const iconPath = getTestIcon();
 
 			const result = await quickGenerate({
-				input: iconPath,
+				foreground: iconPath,
 				output: testOutputDir,
 				platform: "all",
 				force: true,

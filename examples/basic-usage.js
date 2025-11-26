@@ -24,9 +24,9 @@ async function main() {
 		// Example 1: Generate for all platforms
 		console.log("Example 1: Generate for all platforms");
 		await quickGenerate({
-			input: join(__dirname, "../docs/assets/ios-example.png"), // Use example image
+			foreground: join(__dirname, "../docs/assets/ios-example.png"), // Use example image
 			output: join(__dirname, "../temp/basic-all"),
-			platform: Platform.ALL,
+			platform: Platform.All,
 			force: true,
 		});
 		console.log("✅ Generated icons for all platforms\n");
@@ -34,7 +34,7 @@ async function main() {
 		// Example 2: Generate for iOS only
 		console.log("Example 2: Generate for iOS only");
 		await quickGenerate({
-			input: join(__dirname, "../docs/assets/ios-example.png"),
+			foreground: join(__dirname, "../docs/assets/ios-example.png"),
 			output: join(__dirname, "../temp/basic-ios"),
 			platform: Platform.IOS,
 			force: true,
@@ -44,7 +44,7 @@ async function main() {
 		// Example 3: Generate for Android only
 		console.log("Example 3: Generate for Android only");
 		await quickGenerate({
-			input: join(__dirname, "../docs/assets/ios-example.png"),
+			foreground: join(__dirname, "../docs/assets/ios-example.png"),
 			output: join(__dirname, "../temp/basic-android"),
 			platform: Platform.ANDROID,
 			force: true,
@@ -54,9 +54,9 @@ async function main() {
 		// Example 4: Generate with ZIP archive
 		console.log("Example 4: Generate with ZIP archive");
 		const result = await quickGenerate({
-			input: join(__dirname, "../docs/assets/ios-example.png"),
+			foreground: join(__dirname, "../docs/assets/ios-example.png"),
 			output: join(__dirname, "../temp/basic-zip"),
-			platform: Platform.ALL,
+			platform: Platform.All,
 			zip: true,
 			force: true,
 		});

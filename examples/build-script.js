@@ -81,7 +81,7 @@ async function buildIcons() {
 		const startTime = Date.now();
 
 		const result = await quickGenerate({
-			input: config.icon,
+			foreground: config.icon,
 			output: config.output,
 			platform: config.platform,
 			zip: config.zip,

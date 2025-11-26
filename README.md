@@ -218,23 +218,30 @@ rm -rf temp
 ```javascript
 import { quickGenerate } from "ino-icon-maker";
 
-// Simple usage
+// Simple usage - icon with default dark background
 await quickGenerate({
-	input: "./icon.png",
+	foreground: "./icon.png",
 	output: "./output",
 	zip: true,
 });
 
+// With custom background color
+await quickGenerate({
+	foreground: "./icon.png",
+	background: "#FF5722",
+	output: "./output",
+});
+
 // With foreground content scaling (zoom in/out)
 await quickGenerate({
-	input: "./icon.png",
+	foreground: "./icon.png",
 	output: "./output",
 	fgScale: 2.0, // Zoom in 2x (for images with too much padding)
 });
 
 // Platform-specific foreground scaling
 await quickGenerate({
-	input: "./icon.png",
+	foreground: "./icon.png",
 	output: "./output",
 	fgScaleIos: 1.5,
 	fgScaleAndroid: 2.0,
@@ -242,7 +249,7 @@ await quickGenerate({
 
 // With size exclusions
 await quickGenerate({
-	input: "./icon.png",
+	foreground: "./icon.png",
 	output: "./output",
 	customSizes: {
 		android: { excludeSizes: ["ldpi", "monochrome"] },
