@@ -32,14 +32,14 @@ async function checkServerHealth() {
 	}
 }
 
-// Helper to upload file
+// Helper to upload file using Node.js native FormData
 async function uploadFile(endpoint, filePath, additionalData = {}) {
 	const fs = await import("fs/promises");
-	const FormData = (await import("form-data")).default;
+	const fileBuffer = await fs.readFile(filePath);
+	const blob = new Blob([fileBuffer], { type: "image/png" });
 
 	const form = new FormData();
-	const fileBuffer = await fs.readFile(filePath);
-	form.append("file", fileBuffer, path.basename(filePath));
+	form.append("file", blob, path.basename(filePath));
 
 	for (const [key, value] of Object.entries(additionalData)) {
 		form.append(key, value);
@@ -48,7 +48,6 @@ async function uploadFile(endpoint, filePath, additionalData = {}) {
 	const response = await fetch(`${BASE_URL}${endpoint}`, {
 		method: "POST",
 		body: form,
-		headers: form.getHeaders(),
 		signal: AbortSignal.timeout(30000),
 	});
 
@@ -88,8 +87,9 @@ describe("HTTP API", () => {
 			expect(response.ok).toBe(true);
 
 			const data = await response.json();
-			expect(Array.isArray(data)).toBe(true);
-			expect(data.length).toBeGreaterThan(0);
+			expect(data.success).toBe(true);
+			expect(Array.isArray(data.platforms)).toBe(true);
+			expect(data.platforms.length).toBeGreaterThan(0);
 		}, 10000);
 	});
 
@@ -151,18 +151,18 @@ describe("HTTP API", () => {
 
 			const foregroundPath = getTestForeground();
 			const fs = await import("fs/promises");
-			const FormData = (await import("form-data")).default;
+
+			const foregroundBuffer = await fs.readFile(foregroundPath);
+			const foregroundBlob = new Blob([foregroundBuffer], { type: "image/png" });
 
 			const form = new FormData();
-			const foregroundBuffer = await fs.readFile(foregroundPath);
-			form.append("foreground", foregroundBuffer, "foreground.png");
+			form.append("foreground", foregroundBlob, "foreground.png");
 
 			const response = await fetch(
 				`${BASE_URL}/generate?platform=android&backgroundColor=%23FF5722`,
 				{
 					method: "POST",
 					body: form,
-					headers: form.getHeaders(),
 					signal: AbortSignal.timeout(30000),
 				}
 			);
@@ -183,19 +183,19 @@ describe("HTTP API", () => {
 			const foregroundPath = getTestForeground();
 			const backgroundPath = getTestBackground();
 			const fs = await import("fs/promises");
-			const FormData = (await import("form-data")).default;
 
-			const form = new FormData();
 			const foregroundBuffer = await fs.readFile(foregroundPath);
 			const backgroundBuffer = await fs.readFile(backgroundPath);
+			const foregroundBlob = new Blob([foregroundBuffer], { type: "image/png" });
+			const backgroundBlob = new Blob([backgroundBuffer], { type: "image/png" });
 
-			form.append("foreground", foregroundBuffer, "foreground.png");
-			form.append("background", backgroundBuffer, "background.png");
+			const form = new FormData();
+			form.append("foreground", foregroundBlob, "foreground.png");
+			form.append("background", backgroundBlob, "background.png");
 
 			const response = await fetch(`${BASE_URL}/generate?platform=android`, {
 				method: "POST",
 				body: form,
-				headers: form.getHeaders(),
 				signal: AbortSignal.timeout(30000),
 			});
 
@@ -253,17 +253,16 @@ describe("HTTP API", () => {
 			});
 
 			const fs = await import("fs/promises");
-			const FormData = (await import("form-data")).default;
+			const fileBuffer = await fs.readFile(iconPath);
+			const fileBlob = new Blob([fileBuffer], { type: "image/png" });
 
 			const form = new FormData();
-			const fileBuffer = await fs.readFile(iconPath);
-			form.append("file", fileBuffer, "icon.png");
+			form.append("file", fileBlob, "icon.png");
 			form.append("customSizes", customSizes);
 
 			const response = await fetch(`${BASE_URL}/generate?platform=ios`, {
 				method: "POST",
 				body: form,
-				headers: form.getHeaders(),
 				signal: AbortSignal.timeout(30000),
 			});
 

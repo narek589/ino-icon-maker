@@ -223,7 +223,7 @@ test_generate_adaptive_images() {
 test_error_no_file() {
     log_test "Test 8: Error Handling - No File"
     
-    response=$(curl -s "$API_URL/generate")
+    response=$(curl -s -X POST "$API_URL/generate")
     echo "$response" | format_json
     
     if echo "$response" | grep -q "error"; then
